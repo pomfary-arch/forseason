@@ -3,241 +3,297 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نظام إدارة البيانات والحديثات</title>
+  <title>منصة التحديثات التفاعلية</title>
   <style>
     :root {
-      --primary: #007bff;
-      --primary-hover: #0056b3;
-      --bg: #f4f6f8;
-      --card-bg: #ffffff;
-      --danger: #dc3545;
-      --text: #333333;
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      --surface: #ffffff;
+      --background: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: var(--background);
+      color: var(--text-main);
       margin: 0;
-      padding: 20px;
+      padding: 24px 16px;
       display: flex;
       justify-content: center;
+      min-height: 100vh;
     }
 
-    .container {
+    .app-container {
       width: 100%;
-      max-width: 700px;
+      max-width: 600px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 24px;
     }
 
+    /* كارت النموذج الرئيسي */
     .card {
-      background: var(--card-bg);
+      background: var(--surface);
+      border-radius: var(--radius);
       padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      border: 1px solid #e2e8f0;
     }
 
-    h2, h3 {
-      margin-top: 0;
-      color: #111;
+    .header-title {
+      margin: 0 0 20px 0;
+      font-size: 1.4rem;
+      font-weight: 800;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .form-group {
-      margin-bottom: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      margin-bottom: 18px;
     }
 
     label {
-      font-weight: bold;
-      font-size: 14px;
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
     }
 
     input[type="text"], textarea {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-      box-sizing: border-box;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      background: #f8fafc;
+      outline: none;
     }
 
-    .custom-file-btn {
-      background-color: var(--primary);
-      color: white;
-      padding: 12px;
-      border-radius: 8px;
+    input[type="text"]:focus, textarea:focus {
+      border-color: #6366f1;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    /* منطقة اختيار الصورة والتفاعل */
+    .upload-box {
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 20px;
       text-align: center;
       cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s;
+      background: #f8fafc;
+      position: relative;
     }
 
-    .custom-file-btn:hover {
-      background-color: var(--primary-hover);
+    .upload-box:hover {
+      border-color: #6366f1;
+      background: #eeef2f1;
     }
 
-    #fileInput {
+    #fileInput { display: none; }
+
+    .preview-box {
+      position: relative;
+      margin-top: 12px;
       display: none;
+      animation: fadeIn 0.3s ease;
     }
 
-    .preview-container {
-      display: none;
-      margin-top: 10px;
-      text-align: center;
-    }
-
-    .preview-image {
-      max-width: 100%;
-      max-height: 200px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-    }
-
-    .submit-btn {
+    .preview-box img {
       width: 100%;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .submit-btn:hover {
-      background-color: #218838;
-    }
-
-    /* تنسيق الجدول */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: right;
-      font-size: 14px;
-    }
-
-    th {
-      background-color: #f8f9fa;
-    }
-
-    .table-img {
-      width: 50px;
-      height: 50px;
+      max-height: 220px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 12px;
     }
 
-    .btn-danger {
-      background: var(--danger);
+    /* الزر التفاعلي */
+    .btn-submit {
+      width: 100%;
+      background: var(--primary-gradient);
       color: white;
       border: none;
-      padding: 6px 10px;
-      border-radius: 4px;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* عرض البطاقات الديناميكية */
+    .feed-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .post-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      animation: slideUp 0.3s cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    .post-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .post-content {
+      padding: 16px;
+    }
+
+    .post-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+    }
+
+    .post-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin: 0 0 12px 0;
+      line-height: 1.5;
+    }
+
+    .btn-delete {
+      background: #fee2e2;
+      color: #ef4444;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-delete:hover {
+      background: #fca5a5;
+      color: #991b1b;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
+  <div class="app-container">
     
-    <!-- نموذج الإضافة -->
+    <!-- كارت إضافة محتوى -->
     <div class="card">
-      <h2>إضافة تحديث جديد</h2>
-      <form id="updateForm" onsubmit="addData(event)">
-        
+      <h2 class="header-title">✨ إضافة نشر جديد</h2>
+      
+      <form id="updateForm" onsubmit="addPost(event)">
         <div class="form-group">
-          <label for="title">العنوان</label>
-          <input type="text" id="title" placeholder="أدخل العنوان..." required>
+          <label>العنوان الرئيسي</label>
+          <input type="text" id="title" placeholder="اكتب عنواناً جذاباً..." required>
         </div>
 
         <div class="form-group">
-          <label for="description">الوصف</label>
-          <textarea id="description" rows="3" placeholder="أدخل التفاصيل..." required></textarea>
+          <label>تفاصيل التحديث</label>
+          <textarea id="description" rows="3" placeholder="ما الذي تريد مشاركته اليوم؟" required></textarea>
         </div>
 
         <div class="form-group">
           <label>الصورة المرفقة</label>
-          <label for="fileInput" class="custom-file-btn">📷 اختيار صورة من المعرض</label>
-          <input type="file" id="fileInput" accept="image/*" onchange="handleImageSelect(event)">
-          
-          <div id="previewContainer" class="preview-container">
-            <img id="imagePreview" class="preview-image" src="" alt="المعاينة">
+          <label for="fileInput" class="upload-box">
+            <span id="uploadText">📷 اضغط هنا لاختيار صورة من الصور</span>
+            <input type="file" id="fileInput" accept="image/*" onchange="previewFile(event)">
+          </label>
+
+          <div id="previewBox" class="preview-box">
+            <img id="imagePreview" src="" alt="المعاينة">
           </div>
         </div>
 
-        <button type="submit" class="submit-btn">حفظ وتحديث</button>
+        <button type="submit" class="btn-submit">نشر التحديث الآن</button>
       </form>
     </div>
 
-    <!-- جدول البيانات -->
-    <div class="card">
-      <h3>قائمة التحديثات المضافة</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>الصورة</th>
-            <th>العنوان</th>
-            <th>الوصف</th>
-            <th>إجراء</th>
-          </tr>
-        </thead>
-        <tbody id="dataTable">
-          <!-- تظهر البيانات هنا عند الإضافة -->
-        </tbody>
-      </table>
+    <!-- كروت العرض الحية -->
+    <div>
+      <div class="feed-title">الشور الخلاصات الحية</div>
+      <div id="postsFeed"></div>
     </div>
 
   </div>
 
   <script>
-    let currentImageData = "";
+    let activeImageData = "";
 
-    function handleImageSelect(event) {
+    function previewFile(event) {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          currentImageData = e.target.result;
-          document.getElementById('imagePreview').src = currentImageData;
-          document.getElementById('previewContainer').style.display = 'block';
+          activeImageData = e.target.result;
+          document.getElementById('imagePreview').src = activeImageData;
+          document.getElementById('previewBox').style.display = 'block';
+          document.getElementById('uploadText').innerText = "🔄 تغيير الصورة المحددة";
         }
         reader.readAsDataURL(file);
       }
     }
 
-    function addData(event) {
+    function addPost(event) {
       event.preventDefault();
 
       const title = document.getElementById('title').value;
-      const description = document.getElementById('description').value;
-      const tableBody = document.getElementById('dataTable');
+      const desc = document.getElementById('description').value;
+      const feed = document.getElementById('postsFeed');
 
-      const newRow = document.createElement('tr');
-      newRow.innerHTML = `
-        <td>${currentImageData ? `<img src="${currentImageData}" class="table-img">` : 'لا توجد صورة'}</td>
-        <td><strong>${title}</strong></td>
-        <td>${description}</td>
-        <td><button class="btn-danger" onclick="this.closest('tr').remove()">حذف</button></td>
+      const card = document.createElement('div');
+      card.className = 'post-card';
+      
+      card.innerHTML = `
+        ${activeImageData ? `<img src="${activeImageData}" alt="الصورة">` : ''}
+        <div class="post-content">
+          <h3 class="post-title">${title}</h3>
+          <p class="post-desc">${desc}</p>
+          <button class="btn-delete" onclick="this.closest('.post-card').remove()">حذف التحديث</button>
+        </div>
       `;
 
-      tableBody.appendChild(newRow);
+      feed.prepend(card);
 
       // إعادة ضبط النموذج
       document.getElementById('updateForm').reset();
-      document.getElementById('previewContainer').style.display = 'none';
-      currentImageData = "";
+      document.getElementById('previewBox').style.display = 'none';
+      document.getElementById('uploadText').innerText = "📷 اضغط هنا لاختيار صورة من الصور";
+      activeImageData = "";
     }
   </script>
 
