@@ -4,344 +4,377 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0d1117">
-    <title>FORSEASON | فورسيزن للمقاولات العامة</title>
+    <title>FORSEASON | فورسيزن للمقاولات العامة والديكور</title>
 
-    <!-- Manifest for PWA -->
-    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22FORSEASON%22%2C%22short_name%22%3A%22FORSEASON%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230d1117%22%2C%22theme_color%22%3A%22%230d1117%22%7D">
-
-    <style>
+    <style id="dynamicStyles">
         :root {
             --bg-main: #0d1117;
-            --bg-card: rgba(22, 27, 34, 0.8);
+            --bg-card: rgba(22, 27, 34, 0.9);
             --accent-green: #238636;
             --accent-blue: #2f81f7;
+            --accent-gold: #d29922;
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
             --glass-border: rgba(255, 255, 255, 0.1);
         }
+    </style>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 80px; transition: all 0.3s ease; }
 
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            padding-bottom: 70px;
-            overflow-x: hidden;
-        }
-
-        /* Glass Header */
         .header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(13, 17, 23, 0.8);
-            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
+            display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;
         }
 
-        .header .logo {
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: var(--accent-blue);
-            letter-spacing: 1px;
-        }
-
-        .header-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
+        .header .logo { font-weight: 900; font-size: 1.3rem; color: var(--accent-blue); letter-spacing: 1px; }
+        
+        .admin-badge {
+            background: linear-gradient(135deg, rgba(210, 153, 34, 0.2), rgba(210, 153, 34, 0.05));
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
             padding: 6px 12px;
             border-radius: 20px;
+            font-weight: bold;
             font-size: 0.85rem;
             cursor: pointer;
+            display: flex; align-items: center; gap: 6px;
+            box-shadow: 0 0 10px rgba(210, 153, 34, 0.2);
         }
 
-        /* Marquee Bar */
-        .ticker {
-            background: rgba(47, 129, 247, 0.1);
-            color: var(--accent-blue);
-            padding: 6px;
-            font-size: 0.8rem;
-            text-align: center;
-            border-bottom: 1px solid var(--glass-border);
-        }
+        .ticker { background: rgba(47, 129, 247, 0.15); color: var(--accent-blue); padding: 8px; font-size: 0.85rem; text-align: center; border-bottom: 1px solid var(--glass-border); }
 
-        /* Container Sections */
-        .section {
-            padding: 20px 16px;
-        }
+        .section { padding: 16px; }
 
-        /* Hero Card */
         .hero {
             background: linear-gradient(135deg, rgba(47,129,247,0.15), rgba(35,134,54,0.15));
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 24px 16px;
-            text-align: center;
-            margin-bottom: 20px;
+            border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px 16px; text-align: center; margin-bottom: 16px;
         }
+        .hero h1 { font-size: 1.6rem; margin-bottom: 8px; }
+        .hero p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
 
-        .hero h1 {
-            font-size: 1.6rem;
-            margin-bottom: 8px;
-        }
+        .card { background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; margin-bottom: 16px; }
+        .input-field { width: 100%; padding: 10px; background: #010409; border: 1px solid var(--glass-border); color: white; border-radius: 8px; margin-bottom: 10px; font-size: 0.9rem; }
 
-        .hero p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 16px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .btn {
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
+        .btn { width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; text-align: center; text-decoration: none; display: inline-block; margin-bottom: 5px; }
         .btn-green { background: var(--accent-green); color: white; }
         .btn-blue { background: var(--accent-blue); color: white; }
+        .btn-gold { background: var(--accent-gold); color: black; }
+        .btn-danger { background: #da3633; color: white; }
 
-        /* Stats Grid */
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+        .post-card { background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+        .post-img { width: 100%; height: 180px; object-fit: cover; background: #21262d; }
+        .post-content { padding: 12px; }
 
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-        }
+        .floating-btns { position: fixed; bottom: 70px; left: 16px; right: 16px; display: flex; gap: 10px; z-index: 90; }
+        .floating-btn { flex: 1; padding: 12px; border-radius: 30px; text-align: center; font-weight: bold; color: white; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
 
-        .stat-card h3 {
-            font-size: 1.4rem;
-            color: var(--accent-blue);
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: rgba(13, 17, 23, 0.95); border-top: 1px solid var(--glass-border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
+        .nav-item { color: var(--text-muted); text-decoration: none; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; }
 
-        /* Calculator Card */
-        .calc-card {
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
+        .info-box { background: #010409; padding: 10px; border-radius: 8px; margin-top: 8px; border-right: 4px solid var(--accent-blue); font-size: 0.85rem; }
+        .step-pill { display: inline-block; background: rgba(47, 129, 247, 0.2); color: var(--accent-blue); padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; margin: 3px; border: 1px solid var(--accent-blue); }
+        .check-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.85rem; }
 
-        .calc-card h2 { font-size: 1.1rem; margin-bottom: 12px; }
+        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; margin-bottom: 8px; }
 
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            background: #010409;
-            border: 1px solid var(--glass-border);
-            color: white;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        /* Floating Actions */
-        .floating-btns {
-            position: fixed;
-            bottom: 75px;
-            left: 16px;
-            right: 16px;
-            display: flex;
-            gap: 10px;
-            z-index: 90;
-        }
-
-        .floating-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 30px;
-            text-align: center;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            backdrop-filter: blur(5px);
-        }
-
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: rgba(13, 17, 23, 0.95);
-            border-top: 1px solid var(--glass-border);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 100;
-        }
-
-        .nav-item {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.75rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .nav-item.active { color: var(--accent-blue); }
-
-        /* Modal Admin */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85);
-            z-index: 200;
-            padding: 20px;
-            overflow-y: auto;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.92); z-index: 200; padding: 20px; overflow-y: auto; }
+        .admin-section { border-bottom: 1px dashed var(--glass-border); padding-bottom: 15px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header class="header">
-        <button class="header-btn" onclick="toggleModal('adminModal')">🛡️ همام السعدون</button>
-        <div class="logo">FORSEASON</div>
-        <button class="header-btn" onclick="alert('تطبيق FORSEASON جاهز للعمل!')">📱 التطبيق</button>
+        <button class="admin-badge" onclick="openAdminModal()">
+            <span>👑</span>
+            <span>همام السعدون</span>
+        </button>
+        <div class="logo" id="siteLogo">FORSEASON</div>
     </header>
 
-    <!-- Marquee Ticker -->
-    <div class="ticker">
-        📢 عروض خاصة لمشاريع البناء والترميم لعام 2026 — جودة واحترافية عالية
-    </div>
+    <div class="ticker" id="tickerText">📢 شركة فورسيزن للمقاولات العامة — الهندسة، البناء، والديكور</div>
 
-    <!-- Main Content -->
     <div class="section">
-        
-        <!-- Hero Section -->
         <div class="hero">
-            <span style="color: var(--accent-blue); font-size: 0.8rem;">● جودة · التزام ●</span>
-            <h1>نبني المستقبل بثقة</h1>
-            <p>حلول مقاولات متكاملة من الفكرة إلى التنفيذ بأعلى المعايير الهندسية.</p>
-            <div class="btn-group">
-                <a href="https://wa.me/9640000000000" class="btn btn-green">💬 واتساب</a>
-                <a href="#calc" class="btn btn-blue">📐 حاسبة التكلفة</a>
-            </div>
+            <div id="statusIndicator" class="status-badge">🟢 متاح لاستلام مشاريع جديدة</div>
+            <h1 id="heroTitle">نبني المستقبل بثقة</h1>
+            <p id="heroDesc">حلول مقاولات متكاملة، بناء، ترميم، وتصاميم هندسية حديثة.</p>
         </div>
 
-        <!-- Statistics -->
-        <div class="stats">
-            <div class="stat-card">
-                <h3>150+</h3>
-                <p style="font-size:0.8rem; color:var(--text-muted)">مشروع منجز</p>
-            </div>
-            <div class="stat-card">
-                <h3>12+</h3>
-                <p style="font-size:0.8rem; color:var(--text-muted)">سنوات خبرة</p>
-            </div>
-        </div>
+        <!-- معرض المشاريع والمنشورات -->
+        <h2 style="margin-bottom:12px; font-size:1.2rem; color:var(--accent-gold);">🖼️ معرض المشاريع والإنجازات</h2>
+        <div id="postsContainer"></div>
 
-        <!-- Interactive Calculator -->
-        <div class="calc-card" id="calc">
-            <h2>💡 حاسبة التكلفة السريعة التفاعلية</h2>
+        <!-- 1. حاسبة البناء -->
+        <div class="card" id="calc">
+            <h3>📐 1. حاسبة البناء والتكلفة</h3>
             <select class="input-field" id="projectType">
-                <option value="400">بناء وتشييد كامل (متر2)</option>
-                <option value="250">ترميم وتأهيل (متر2)</option>
-                <option value="150">أعمال ديكور وتشطيبات (متر2)</option>
+                <option value="500000">بناء مفتاح (500,000 دينار / م2)</option>
+                <option value="250000">بناء هيكل (250,000 دينار / م2)</option>
+                <option value="150000">ترميم وتأهيل (150,000 دينار / م2)</option>
             </select>
-            <input type="number" class="input-field" id="areaInput" placeholder="المساحة التقريبية (متر مربع)" value="150">
-            <button class="btn btn-blue" style="width:100%" onclick="calculateCost()">احسب التكلفة التقديرية</button>
-            <div id="calcResult" style="margin-top:10px; font-weight:bold; text-align:center; color:var(--accent-green);"></div>
+            <input type="number" class="input-field" id="areaInput" placeholder="المساحة بالمتر المربع" value="150">
+            <button class="btn btn-green" onclick="calculateCost()">احسب التكلفة التقديرية</button>
+            <div id="calcResult" style="margin-top:12px; font-weight:bold; text-align:center; color:var(--accent-gold);"></div>
         </div>
 
+        <!-- 2. حاسبة المواد الإنشائية -->
+        <div class="card">
+            <h3>🧱 2. حاسبة المواد الإنشائية (طابوق / سمنت / رمل)</h3>
+            <input type="number" class="input-field" id="matArea" placeholder="أدخل مساحة البناء (م2)" value="100">
+            <button class="btn btn-blue" onclick="calculateMaterials()">احسب الكميات</button>
+            <div id="matResult"></div>
+        </div>
+
+        <!-- 3. حاسبة خرسانة الصب -->
+        <div class="card">
+            <h3>🏗️ 3. حاسبة صب الخرسانة الجاهزة</h3>
+            <div style="display:flex; gap:5px;">
+                <input type="number" class="input-field" id="cLength" placeholder="الطول (م)">
+                <input type="number" class="input-field" id="cWidth" placeholder="العرض (م)">
+                <input type="number" class="input-field" id="cDepth" placeholder="السمك (م) مثلاً 0.20">
+            </div>
+            <button class="btn btn-gold" onclick="calculateConcrete()">احسب حجم الخرسانة (م3)</button>
+            <div id="concreteResult" style="margin-top:10px; font-weight:bold; text-align:center;"></div>
+        </div>
+
+        <!-- 4. مفكرة الموقع -->
+        <div class="card">
+            <h3>📝 4. مفكرة الموقع والمعاينة (خاصة بك)</h3>
+            <textarea class="input-field" id="memoText" rows="3" placeholder="سجل قياسات المخطط أو الموقع هنا..."></textarea>
+            <button class="btn btn-gold" onclick="saveMemo()">حفظ الملاحظة محلياً</button>
+            <div id="memoDisplay" class="info-box" style="margin-top:10px;"></div>
+        </div>
     </div>
 
-    <!-- Floating Actions -->
     <div class="floating-btns">
-        <a href="tel:0096400000000" class="floating-btn" style="background: rgba(47, 129, 247, 0.8);">📞 اتصال سريع</a>
-        <a href="https://wa.me/9640000000000" class="floating-btn" style="background: rgba(35, 134, 54, 0.8);">💬 واتساب عائم</a>
+        <a id="callBtn" href="tel:07700000000" class="floating-btn" style="background: rgba(47, 129, 247, 0.85);">📞 اتصال مباشر</a>
+        <a id="waBtn" href="https://wa.me/9647700000000" class="floating-btn" style="background: rgba(35, 134, 54, 0.85);">💬 واتساب عائم</a>
     </div>
 
-    <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
-        <a href="#" class="nav-item active"><span>🏠</span>الرئيسية</a>
+        <a href="#" class="nav-item" style="color:var(--accent-blue)"><span>🏠</span>الرئيسية</a>
         <a href="#calc" class="nav-item"><span>📐</span>الحاسبة</a>
-        <a href="https://wa.me/9640000000000" class="nav-item"><span>📞</span>تواصل</a>
+        <a onclick="openAdminModal()" class="nav-item" style="color:var(--accent-gold)"><span>⚙️</span>الإدارة</a>
+        <a id="navWa" href="https://wa.me/9647700000000" class="nav-item"><span>💬</span>تواصل</a>
     </nav>
 
-    <!-- Admin Panel Modal -->
+    <!-- لوحة التحكم الإدارية الشاملة والكاملة -->
     <div class="modal" id="adminModal">
-        <div style="background: var(--bg-main); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
-            <h2 style="margin-bottom:15px; color: var(--accent-blue)">🛡️ لوحة إدارة — همام السعدون</h2>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">إدارة نظام FORSEASON المباشرة وحفظ البيانات.</p>
-            
-            <button class="btn btn-blue" style="width:100%; margin-bottom:10px;" onclick="exportData()">📥 تصدير نسخة احتياطية (Backup)</button>
-            <button class="btn btn-green" style="width:100%; margin-bottom:10px;" onclick="systemCheck()">🔍 فحص أداء وصحة النظام</button>
-            <button class="btn" style="width:100%; background: #da3633; color:white;" onclick="toggleModal('adminModal')">إغلاق</button>
+        <div style="background: var(--bg-main); padding: 20px; border-radius: 16px; border: 1px solid var(--accent-gold); max-width: 550px; margin: auto;">
+            <h2 style="color: var(--accent-gold); margin-bottom: 5px; text-align: center;">👑 لوحة تحكم همام السعدون المطلقة</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px; text-align: center;">تحكم كامل بالموقع، المنشورات، الألوان، والتفاصيل</p>
+
+            <!-- 1. نشر مشروع / مشاركة جديدة -->
+            <div class="admin-section">
+                <h4 style="color:var(--accent-blue); margin-bottom:8px;">➕ إضافة منشور / مشروع جديد:</h4>
+                <input type="text" class="input-field" id="postTitle" placeholder="عنوان المشروع (مثلاً: تصميم فلة كلاسيك)">
+                <input type="text" class="input-field" id="postImg" placeholder="رابط صورة المشروع (URL)">
+                <textarea class="input-field" id="postDesc" placeholder="تفاصيل المشروع ومميزاته..."></textarea>
+                <button class="btn btn-green" onclick="addPost()">🚀 نشر المشروع فوراً</button>
+            </div>
+
+            <!-- 2. التخصيص والألوان -->
+            <div class="admin-section">
+                <h4 style="color:var(--accent-gold); margin-bottom:8px;">🎨 المظهر والألوان:</h4>
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <div style="flex:1;">
+                        <label style="font-size:0.75rem;">لون الخلفية:</label>
+                        <input type="color" id="bgPicker" value="#0d1117" style="width:100%; height:35px; border:none; cursor:pointer;">
+                    </div>
+                    <div style="flex:1;">
+                        <label style="font-size:0.75rem;">اللون الرئيسي:</label>
+                        <input type="color" id="accentPicker" value="#2f81f7" style="width:100%; height:35px; border:none; cursor:pointer;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. البيانات العشوائية والعناوين -->
+            <div class="admin-section">
+                <h4 style="color:var(--accent-gold); margin-bottom:8px;">⚙️ الإعدادات العامة والتواصل:</h4>
+                <label style="font-size:0.75rem;">شريط الأخبار المتحرك:</label>
+                <input type="text" class="input-field" id="adminTicker">
+
+                <label style="font-size:0.75rem;">عنوان الهيرو الرئيسي:</label>
+                <input type="text" class="input-field" id="adminHeroTitle">
+
+                <label style="font-size:0.75rem;">رقم الواتساب:</label>
+                <input type="text" class="input-field" id="adminWa">
+
+                <label style="font-size:0.75rem;">رقم الهاتف:</label>
+                <input type="text" class="input-field" id="adminPhone">
+
+                <label style="font-size:0.75rem;">حالة العمل:</label>
+                <select class="input-field" id="adminStatus">
+                    <option value="open">🟢 متاح لاستلام مشاريع جديدة</option>
+                    <option value="busy">🔴 اعتذار مؤقت (مشغول بمشاريع)</option>
+                </select>
+            </div>
+
+            <button class="btn btn-gold" onclick="saveAdminSettings()">💾 حفظ كافة التغييرات</button>
+            <button class="btn btn-danger" onclick="closeAdminModal()">إغلاق اللوحة</button>
         </div>
     </div>
 
     <script>
-        // Calculate Cost Function
-        function calculateCost() {
-            const rate = parseFloat(document.getElementById('projectType').value);
-            const area = parseFloat(document.getElementById('areaInput').value);
-            const resultDiv = document.getElementById('calcResult');
+        const PASS = "123789";
 
-            if (area && area > 0) {
-                const total = rate * area;
-                resultDiv.innerHTML = `التكلفة التقديرية: $${total.toLocaleString()}`;
+        function loadData() {
+            const saved = localStorage.getItem('forseason_master_v1');
+            return saved ? JSON.parse(saved) : {
+                phone: "07700000000",
+                wa: "9647700000000",
+                title: "نبني المستقبل بثقة",
+                ticker: "📢 شركة فورسيزن للمقاولات العامة — الهندسة، البناء، والديكور",
+                status: "open",
+                memo: "لا توجد ملاحظات مسجلة حالياً.",
+                bgColor: "#0d1117",
+                accentColor: "#2f81f7",
+                posts: [
+                    {
+                        id: 1,
+                        title: "مشروع واجهة مودرن - بغداد",
+                        img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500",
+                        desc: "تم تنفيذ الواجهة باستخدام بديل الرخام والشرائح الخشبية مع إضاءة مخفية حديثة."
+                    }
+                ]
+            };
+        }
+
+        function renderPage() {
+            const data = loadData();
+            document.getElementById('heroTitle').innerText = data.title;
+            document.getElementById('tickerText').innerText = data.ticker;
+            document.getElementById('callBtn').href = "tel:" + data.phone;
+            document.getElementById('waBtn').href = "https://wa.me/" + data.wa;
+            document.getElementById('navWa').href = "https://wa.me/" + data.wa;
+            document.getElementById('memoDisplay').innerText = data.memo;
+
+            // تحديث الألوان الديناميكية
+            document.getElementById('dynamicStyles').innerHTML = `
+                :root {
+                    --bg-main: ${data.bgColor || '#0d1117'};
+                    --accent-blue: ${data.accentColor || '#2f81f7'};
+                    --bg-card: rgba(22, 27, 34, 0.9);
+                    --accent-green: #238636;
+                    --accent-gold: #d29922;
+                    --text-main: #f0f6fc;
+                    --text-muted: #8b949e;
+                    --glass-border: rgba(255, 255, 255, 0.1);
+                }
+            `;
+
+            // حالة العمل
+            const statusBox = document.getElementById('statusIndicator');
+            if(data.status === "busy") {
+                statusBox.innerText = "🔴 اعتذار مؤقت (مشغول بورش قائمة)";
+                statusBox.style.color = "#f85149";
+                statusBox.style.borderColor = "#f85149";
             } else {
-                resultDiv.innerHTML = 'يرجى إدخال مساحة صالحة!';
+                statusBox.innerText = "🟢 متاح لاستلام مشاريع جديدة";
+                statusBox.style.color = "var(--accent-green)";
+                statusBox.style.borderColor = "var(--accent-green)";
+            }
+
+            // عرض المنشورات
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = "";
+            data.posts.forEach(post => {
+                container.innerHTML += `
+                    <div class="post-card">
+                        <img src="${post.img}" class="post-img" alt="${post.title}" onerror="this.src='https://via.placeholder.com/400x200?text=FORSEASON'">
+                        <div class="post-content">
+                            <h3 style="color:var(--accent-gold);">${post.title}</h3>
+                            <p style="font-size:0.85rem; color:var(--text-muted); margin:8px 0;">${post.desc}</p>
+                            <button class="btn btn-danger" style="padding:6px; font-size:0.75rem; display:none;" class="admin-only-btn" id="del-${post.id}" onclick="deletePost(${post.id})">🗑️ حذف هذا المنشور</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function addPost() {
+            const title = document.getElementById('postTitle').value;
+            const img = document.getElementById('postImg').value;
+            const desc = document.getElementById('postDesc').value;
+
+            if(!title) return alert("يرجى كتابة عنوان للمنشور!");
+
+            let data = loadData();
+            data.posts.unshift({
+                id: Date.now(),
+                title: title,
+                img: img || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500",
+                desc: desc
+            });
+
+            localStorage.setItem('forseason_master_v1', JSON.stringify(data));
+            document.getElementById('postTitle').value = "";
+            document.getElementById('postImg').value = "";
+            document.getElementById('postDesc').value = "";
+            renderPage();
+            alert("✅ تم إضافة المنشور بنجاح!");
+        }
+
+        function deletePost(id) {
+            if(confirm("هل أنت تأكد من حذف هذا المنشور؟")) {
+                let data = loadData();
+                data.posts = data.posts.filter(p => p.id !== id);
+                localStorage.setItem('forseason_master_v1', JSON.stringify(data));
+                renderPage();
+                openAdminModal();
             }
         }
 
-        // Toggle Modals
-        function toggleModal(id) {
-            const modal = document.getElementById(id);
-            modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+        function calculateCost() {
+            const rate = parseFloat(document.getElementById('projectType').value);
+            const area = parseFloat(document.getElementById('areaInput').value);
+            if (area > 0) {
+                document.getElementById('calcResult').innerHTML = `التكلفة التقديرية: ${(rate * area).toLocaleString()} دينار عراقي`;
+            }
         }
 
-        // System Check
-        function systemCheck() {
-            alert('✅ جميع السيرفرات وشبكة PWA تعمل بسلاسة وبأعلى كفاءة!');
+        function calculateMaterials() {
+            const area = parseFloat(document.getElementById('matArea').value);
+            if (area > 0) {
+                const bricks = Math.round(area * 55);
+                const cement = Math.round(area * 0.4);
+                const sand = (area * 0.05).toFixed(1);
+                document.getElementById('matResult').innerHTML = `
+                    <div class="info-box">🧱 طابوق مقدر: <strong>${bricks.toLocaleString()} طابوقة</strong></div>
+                    <div class="info-box">🏗️ أسمنت مقدر: <strong>${cement} كيس</strong></div>
+                    <div class="info-box">⏳ رمل مقدر: <strong>${sand} متر مكعب</strong></div>
+                `;
+            }
         }
 
-        // Export Data
-        function exportData() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ project: "FORSEASON", status: "Active" }));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "forseason_backup.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
+        function calculateConcrete() {
+            const l = parseFloat(document.getElementById('cLength').value) || 0;
+            const w = parseFloat(document.getElementById('cWidth').value) || 0;
+            const d = parseFloat(document.getElementById('cDepth').value) || 0;
+            const vol = (l * w * d).toFixed(2);
+            document.getElementById('concreteResult').innerText = `حجم الخرسانة المطلوبة: ${vol} متر مكعب (m³)`;
         }
-    </script>
-</body>
-    </html>
-    
+
+        function saveMemo() {
+            let data = loadData();
+            const text = document.getElementById('memoText').value;
+            if(text) {
+                data.memo = text;
+                localStorage.setItem('forseason_master_v1', JSON.stringify(data));
+                renderPage();
+                alert("✅ تم حفظ الملاحظة!");
+            }
+        }
+
+        function openAdminModal() {
+            if (prompt("🔑 أدخل الرمز السري للوحة همام السعدون:") === PASS) {
+                const data = loadData();
+                document.getElementById('adminWa').value = data.wa;
+                document.getElementById('adminPhone').value = data.phone;
+                document.getElementById('adminHeroTitle').value = data.title;
+                document.getElementById('adminTicker').value = data.ticker;
+                document.getElementById('adm
