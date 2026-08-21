@@ -3,357 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FORSEASON | فورسيزن للمقاولات العامة</title>
+    <title>FORSEASON | المقاولات العامة</title>
     
-    <!-- PWA Settings & iOS Meta -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="FORSEASON">
-    <meta name="theme-color" content="#0a0e17">
-    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=180">
-
     <style id="dynamicStyles">
         :root {
-            --bg-dark: #070a0f;
-            --card-bg: rgba(18, 26, 38, 0.7);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --primary: #2563eb;
-            --primary-glow: rgba(37, 99, 235, 0.3);
+            --bg-main: #0b111e;
+            --card-bg: #131c2e;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary-blue: #2563eb;
             --accent-gold: #f59e0b;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --radius-lg: 20px;
-            --radius-md: 14px;
+            --text-main: #ffffff;
+            --text-sub: #94a3b8;
         }
     </style>
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-dark); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 85px; }
 
-        /* Header */
-        .top-header {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(7, 10, 15, 0.8); backdrop-filter: blur(15px);
-            padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .brand { font-weight: 800; font-size: 1.2rem; color: #fff; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
-        .admin-trigger {
-            background: rgba(245, 158, 11, 0.15); border: 1px solid var(--accent-gold); color: var(--accent-gold);
-            padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; cursor: pointer;
-            display: flex; align-items: center; gap: 6px; box-shadow: 0 0 12px rgba(245, 158, 11, 0.15);
-        }
+        /* Top Bar */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: var(--bg-main); }
+        .icon-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--card-bg); border: 1px solid var(--card-border); display: flex; justify-content: center; align-items: center; color: #fff; text-decoration: none; font-size: 1.1rem; }
+        .logo-box { text-align: center; }
+        .logo-title { font-weight: 800; font-size: 1.2rem; }
+        .logo-sub { font-size: 0.65rem; color: var(--primary-blue); }
 
-        /* Banner */
-        .pwa-banner {
-            background: linear-gradient(90deg, #1e3a8a, #0284c7); color: white; padding: 10px 16px;
-            font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center;
-        }
-        .pwa-btn { background: white; color: #1e3a8a; border: none; padding: 4px 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-
-        /* General Sections */
-        .page { display: none; padding: 16px; animation: fadeIn 0.3s ease-in-out; }
+        .page { display: none; padding: 0 16px; animation: fadeIn 0.2s ease; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Hero Card */
-        .hero-card {
-            position: relative; border-radius: var(--radius-lg); overflow: hidden;
-            background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(7,10,15,0.95) 100%), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800');
-            background-size: cover; background-position: center; padding: 30px 20px 20px; border: 1px solid var(--border-color); margin-bottom: 20px;
-        }
-        .hero-badge { display: inline-block; background: rgba(34, 197, 94, 0.2); border: 1px solid #22c55e; color: #4ade80; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; }
-        .hero-title { font-size: 1.6rem; font-weight: 800; line-height: 1.3; margin-bottom: 8px; }
-        .hero-desc { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; line-height: 1.5; }
-        .hero-actions { display: flex; gap: 10px; }
-
-        /* Buttons */
-        .btn { flex: 1; padding: 12px; border-radius: var(--radius-md); font-weight: 700; border: none; cursor: pointer; text-align: center; text-decoration: none; font-size: 0.85rem; display: inline-flex; justify-content: center; align-items: center; gap: 6px; }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 14px var(--primary-glow); }
-        .btn-glass { background: rgba(255, 255, 255, 0.08); color: white; border: 1px solid var(--border-color); backdrop-filter: blur(10px); }
-        .btn-gold { background: var(--accent-gold); color: #000; }
-        .btn-danger { background: #ef4444; color: white; }
+        /* Hero Banner */
+        .hero-banner { position: relative; border-radius: 20px; overflow: hidden; background: linear-gradient(180deg, rgba(11,17,30,0.2) 0%, rgba(11,17,30,0.95) 100%), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800'); background-size: cover; padding: 40px 20px 20px; border: 1px solid var(--card-border); margin-bottom: 16px; }
+        .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(37, 99, 235, 0.2); border: 1px solid var(--primary-blue); color: #60a5fa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; margin-bottom: 12px; }
+        .hero-h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; line-height: 1.3; }
+        .hero-p { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 16px; }
+        .hero-btns { display: flex; gap: 10px; }
+        
+        .btn { flex: 1; padding: 12px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; text-align: center; text-decoration: none; font-size: 0.85rem; display: flex; justify-content: center; align-items: center; gap: 6px; }
+        .btn-blue { background: var(--primary-blue); color: white; }
+        .btn-dark { background: rgba(255,255,255,0.08); color: white; border: 1px solid var(--card-border); }
 
         /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 24px; }
-        .stat-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 12px 6px; text-align: center; }
-        .stat-num { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
-        .stat-label { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px 4px; text-align: center; }
+        .stat-icon { font-size: 1.2rem; margin-bottom: 4px; }
+        .stat-val { font-weight: 800; font-size: 1rem; }
+        .stat-lbl { font-size: 0.65rem; color: var(--text-sub); }
 
-        /* Section Titles */
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-        .section-title { font-size: 1.1rem; font-weight: 700; }
-        .section-link { font-size: 0.75rem; color: var(--primary); text-decoration: none; cursor: pointer; }
+        /* Section Title */
+        .sec-head { display: flex; justify-content: space-between; align-items: center; margin: 16px 0 12px; }
+        .sec-title { font-size: 1.05rem; font-weight: 800; }
+        .sec-more { font-size: 0.75rem; color: var(--primary-blue); cursor: pointer; }
 
-        /* Cards & Grid */
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-        .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px; backdrop-filter: blur(10px); }
-        
-        /* Service Item */
-        .service-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; text-align: center; }
-        .service-icon { font-size: 1.8rem; margin-bottom: 8px; color: var(--primary); }
-        .service-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
-        .service-desc { font-size: 0.75rem; color: var(--text-muted); }
+        /* Grid Services */
+        .serv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .serv-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; text-align: center; }
+        .serv-icn { font-size: 2rem; color: var(--primary-blue); margin-bottom: 8px; }
+        .serv-ttl { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+        .serv-sub { font-size: 0.7rem; color: var(--text-sub); }
 
-        /* Project Card Horizontal & Vertical */
-        .project-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 12px; }
-        .project-img { width: 100%; height: 160px; object-fit: cover; }
-        .project-info { padding: 12px; }
+        /* Projects Card Horizontal */
+        .proj-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; margin-bottom: 12px; }
+        .proj-img { width: 100%; height: 150px; object-fit: cover; }
+        .proj-txt { padding: 12px; }
 
-        /* Form Inputs */
-        .input-field { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; border-radius: 10px; margin-bottom: 10px; font-size: 0.85rem; outline: none; }
-        .input-field:focus { border-color: var(--primary); }
+        /* Nav Bottom */
+        .nav-bottom { position: fixed; bottom: 0; left: 0; right: 0; height: 65px; background: rgba(11, 17, 30, 0.95); backdrop-filter: blur(15px); border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 99; }
+        .nav-link { color: var(--text-sub); text-decoration: none; font-size: 0.68rem; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+        .nav-link.active { color: var(--primary-blue); font-weight: 700; }
+        .nav-link .icn { font-size: 1.2rem; }
 
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; height: 65px;
-            background: rgba(7, 10, 15, 0.92); backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; z-index: 100;
-        }
-        .nav-item { color: var(--text-muted); text-decoration: none; font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; transition: all 0.2s; }
-        .nav-item.active { color: var(--primary); font-weight: 700; }
-        .nav-icon { font-size: 1.2rem; }
-
-        /* Modal Panel */
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 200; padding: 20px; overflow-y: auto; }
-        .admin-box { background: var(--bg-dark); border: 1px solid var(--accent-gold); border-radius: var(--radius-lg); padding: 20px; max-width: 500px; margin: auto; }
+        /* Admin Dashboard Modal Design Exactly as Image */
+        .admin-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 200; padding: 20px; overflow-y: auto; }
+        .adm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 14px; }
+        .adm-btn { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 14px; text-align: center; color: white; font-size: 0.8rem; cursor: pointer; }
+        .input-box { width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); color: white; border-radius: 10px; margin-bottom: 8px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
     <!-- Header -->
-    <header class="top-header">
-        <div class="brand">
-            <span style="color:var(--primary)">🏢</span>
-            <span id="siteBrand">FORSEASON</span>
+    <div class="top-bar">
+        <button class="icon-btn" onclick="openAdmin()">⚙️</button>
+        <div class="logo-box">
+            <div class="logo-title" id="brandTitle">FORSEASON</div>
+            <div class="logo-sub">للمقاولات العامة</div>
         </div>
-        <button class="admin-trigger" onclick="openAdminModal()">
-            <span>👑</span>
-            <span id="adminNameDisplay">همام السعدون</span>
-        </button>
-    </header>
-
-    <!-- PWA Install Prompt Banner -->
-    <div class="pwa-banner" id="pwaBanner" style="display:none;">
-        <span>📲 قم بتثبيت التطبيق على جهازك للوصول السريع!</span>
-        <button class="pwa-btn" onclick="installPWA()">تثبيت</button>
+        <button class="icon-btn">🔔</button>
     </div>
 
-    <!-- 1. الصفحة الرئيسية PAGE: HOME -->
-    <div id="page-home" class="page active">
-        <div class="hero-card" id="heroCard">
-            <span class="hero-badge" id="statusTag">🟢 متاح لاستلام مشاريع جديدة</span>
-            <h1 class="hero-title" id="heroTitle">نبني المستقبل بثقة وجودة عالية</h1>
-            <p class="hero-desc" id="heroDesc">خبرة طويلة في مجال المقاولات العامة، البناء، الديكور، والإنشاءات الحديثة.</p>
-            <div class="hero-actions">
-                <a id="heroCall" href="tel:07700000000" class="btn btn-primary">📞 اتصل الآن</a>
-                <a id="heroWa" href="https://wa.me/9647700000000" class="btn btn-glass">💬 تواصل واتساب</a>
+    <!-- PAGE 1: HOME -->
+    <div id="p-home" class="page active">
+        <div class="hero-banner">
+            <div class="hero-tag"><span>✔</span> <span id="tagText">فورسيزن للمقاولات</span></div>
+            <h1 class="hero-h1" id="hTitle">نبني المستقبل بثقة وجودة عالية</h1>
+            <p class="hero-p" id="hDesc">خبرة أكثر من 10 سنوات في مجال المقاولات العامة والديكور.</p>
+            <div class="hero-btns">
+                <a id="btnCall" href="tel:07700000000" class="btn btn-dark">📞 اتصل الآن</a>
+                <a id="btnWa" href="https://wa.me/9647700000000" class="btn btn-blue">💬 تواصل واتساب</a>
             </div>
         </div>
 
         <div class="stats-grid">
-            <div class="stat-box"><div class="stat-num">+15</div><div class="stat-label">مهندس متخصص</div></div>
-            <div class="stat-box"><div class="stat-num">+12</div><div class="stat-label">سنوات خبرة</div></div>
-            <div class="stat-box"><div class="stat-num">+150</div><div class="stat-label">مشروع منجز</div></div>
-            <div class="stat-box"><div class="stat-num">+80</div><div class="stat-label">عميل راضي</div></div>
+            <div class="stat-card"><div class="stat-icon">👷‍♂️</div><div class="stat-val">+15</div><div class="stat-lbl">فريق متخصص</div></div>
+            <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-val">+10</div><div class="stat-lbl">سنوات خبرة</div></div>
+            <div class="stat-card"><div class="stat-card"><div class="stat-icon">🏢</div><div class="stat-val">+150</div><div class="stat-lbl">مشروع منجز</div></div></div>
+            <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val">+80</div><div class="stat-lbl">عميل راضي</div></div>
         </div>
 
-        <div class="section-header">
-            <h3 class="section-title">أحدث مشاريعنا</h3>
-            <span class="section-link" onclick="switchTab('projects')">عرض الكل ❯</span>
+        <div class="sec-head">
+            <div class="sec-title">أحدث مشاريعنا</div>
+            <div class="sec-more" onclick="goto('projects')">عرض الكل ❯</div>
         </div>
-        <div id="homeProjects"></div>
+        <div id="homeProj"></div>
 
-        <div class="section-header" style="margin-top: 20px;">
-            <h3 class="section-title">خدماتنا الرئيسية</h3>
-            <span class="section-link" onclick="switchTab('services')">عرض الكل ❯</span>
+        <div class="sec-head">
+            <div class="sec-title">خدماتنا</div>
+            <div class="sec-more" onclick="goto('services')">عرض الكل ❯</div>
         </div>
-        <div class="grid-2" id="homeServices"></div>
+        <div class="serv-grid" id="homeServ"></div>
     </div>
 
-    <!-- 2. صفحة المشاريع PAGE: PROJECTS -->
-    <div id="page-projects" class="page">
-        <div class="section-header">
-            <h3 class="section-title">معرض المشاريع والإنجازات</h3>
-        </div>
-        <div id="allProjectsList"></div>
+    <!-- PAGE 2: PROJECTS -->
+    <div id="p-projects" class="page">
+        <div class="sec-head"><div class="sec-title">معرض المشاريع</div></div>
+        <div id="allProj"></div>
     </div>
 
-    <!-- 3. صفحة الخدمات PAGE: SERVICES -->
-    <div id="page-services" class="page">
-        <div class="section-header">
-            <h3 class="section-title">خدمات التخصصية</h3>
-        </div>
-        <div class="grid-2" id="allServicesList"></div>
+    <!-- PAGE 3: SERVICES -->
+    <div id="p-services" class="page">
+        <div class="sec-head"><div class="sec-title">خدماتنا العامة</div></div>
+        <div class="serv-grid" id="allServ"></div>
     </div>
 
-    <!-- 4. صفحة الحاسبة PAGE: CALCULATOR -->
-    <div id="page-calc" class="page">
-        <div class="section-header">
-            <h3 class="section-title">📐 حاسبة البناء والتكلفة</h3>
-        </div>
-
-        <div class="card" style="margin-bottom: 14px;">
-            <h4 style="margin-bottom:10px; font-size:0.9rem;">1. حاسبة تكلفة البناء الإجمالية</h4>
-            <select class="input-field" id="calcType">
-                <option value="500000">بناء تسليم مفتاح (500,000 د.ع / م²)</option>
+    <!-- PAGE 4: CALCULATOR -->
+    <div id="p-calc" class="page">
+        <div class="sec-head"><div class="sec-title">📐 حاسبة التكلفة المباشرة</div></div>
+        <div style="background:var(--card-bg); padding:16px; border-radius:16px; border:1px solid var(--card-border);">
+            <select class="input-box" id="cType">
+                <option value="500000">بناء هيكل ومفتاح (500,000 د.ع / م²)</option>
                 <option value="250000">بناء هيكل أسود (250,000 د.ع / م²)</option>
-                <option value="150000">ترميم وإعادة تأهيل (150,000 د.ع / م²)</option>
             </select>
-            <input type="number" class="input-field" id="calcArea" placeholder="المساحة بالمتر المربع (م²)" value="150">
-            <button class="btn btn-primary" style="width:100%;" onclick="runCalcCost()">حساب التكلفة</button>
-            <div id="calcCostRes" style="margin-top:10px; font-weight:bold; text-align:center; color:var(--accent-gold);"></div>
-        </div>
-
-        <div class="card">
-            <h4 style="margin-bottom:10px; font-size:0.9rem;">2. تقدير المواد الإنشائية الأساسية</h4>
-            <input type="number" class="input-field" id="matArea" placeholder="المساحة (م²)" value="100">
-            <button class="btn btn-glass" style="width:100%;" onclick="runCalcMat()">حساب كميات المواد</button>
-            <div id="calcMatRes" style="margin-top:10px; font-size:0.8rem;"></div>
+            <input type="number" class="input-box" id="cArea" placeholder="المساحة (م²)" value="150">
+            <button class="btn btn-blue" style="width:100%; margin-top:8px;" onclick="calcCost()">احسب التكلفة</button>
+            <div id="cResult" style="margin-top:12px; text-align:center; font-weight:bold; color:var(--accent-gold);"></div>
         </div>
     </div>
 
-    <!-- 5. صفحة تواصل معنا PAGE: CONTACT -->
-    <div id="page-contact" class="page">
-        <div class="section-header">
-            <h3 class="section-title">تواصل معنا مباشر</h3>
-        </div>
-        <div class="card" style="text-align:center; padding: 24px;">
-            <div style="font-size:3rem; margin-bottom:10px;">📞</div>
-            <h3 style="margin-bottom:8px;">نحن جاهزون للإجابة على استفساراتكم</h3>
-            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:20px;">استشارة هندسية وفنية مجانية لمشروعك المقبل</p>
-            <a id="cntCall" href="tel:07700000000" class="btn btn-primary" style="width:100%; margin-bottom:10px;">اتصال هاتف مباشر</a>
-            <a id="cntWa" href="https://wa.me/9647700000000" class="btn btn-glass" style="width:100%;">مراسلة عبر الواتساب</a>
+    <!-- PAGE 5: CONTACT -->
+    <div id="p-contact" class="page">
+        <div class="sec-head"><div class="sec-title">تواصل معنا</div></div>
+        <div style="background:var(--card-bg); padding:24px; border-radius:16px; text-align:center; border:1px solid var(--card-border);">
+            <p style="margin-bottom:16px; color:var(--text-sub);">استشارة مجانية ومباشرة مع المهندس المسؤول</p>
+            <a id="cntC" href="tel:07700000000" class="btn btn-blue" style="margin-bottom:10px;">اتصل بنا الان</a>
+            <a id="cntW" href="https://wa.me/9647700000000" class="btn btn-dark">مراسلة الواتساب</a>
         </div>
     </div>
 
     <!-- Bottom Navigation Bar -->
-    <nav class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('home')" id="nav-home">
-            <span class="nav-icon">🏠</span><span>الرئيسية</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('projects')" id="nav-projects">
-            <span class="nav-icon">📁</span><span>المشاريع</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('services')" id="nav-services">
-            <span class="nav-icon">🛠️</span><span>الخدمات</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('calc')" id="nav-calc">
-            <span class="nav-icon">📐</span><span>الحاسبة</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('contact')" id="nav-contact">
-            <span class="nav-icon">💬</span><span>تواصل</span>
-        </div>
+    <nav class="nav-bottom">
+        <div class="nav-link active" onclick="goto('home')" id="nl-home"><span class="icn">🏠</span><span>الرئيسية</span></div>
+        <div class="nav-link" onclick="goto('services')" id="nl-services"><span class="icn">🛠️</span><span>الخدمات</span></div>
+        <div class="nav-link" onclick="goto('projects')" id="nl-projects"><span class="icn">📁</span><span>المشاريع</span></div>
+        <div class="nav-link" onclick="goto('calc')" id="nl-calc"><span class="icn">📐</span><span>الحاسبة</span></div>
+        <div class="nav-link" onclick="goto('contact')" id="nl-contact"><span class="icn">💬</span><span>تواصل</span></div>
     </nav>
 
-    <!-- لوحة التحكم الإدارية الكاملة (تفتح بالرمز 123789) -->
-    <div class="modal" id="adminModal">
-        <div class="admin-box">
-            <h2 style="color:var(--accent-gold); text-align:center; margin-bottom:4px;">👑 لوحة الإدارة المطلقة</h2>
-            <p style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-bottom:16px;">تحكم كامل بكافة أجزاء وصفحات الموقع</p>
-
-            <div style="border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:12px;">
-                <h4 style="color:var(--primary); font-size:0.85rem; margin-bottom:8px;">➕ إضافة مشروع جديد:</h4>
-                <input type="text" class="input-field" id="admPTitle" placeholder="عنوان المشروع">
-                <input type="text" class="input-field" id="admPImg" placeholder="رابط صورة المشروع">
-                <input type="text" class="input-field" id="admPDesc" placeholder="وصف المشروع والموقع">
-                <button class="btn btn-primary" style="width:100%;" onclick="adminAddProject()">نشر المشروع</button>
+    <!-- ADMIN MODAL (مطابق لصور التحكم المرفقة) -->
+    <div class="admin-modal" id="admModal">
+        <div style="max-width:450px; margin:auto; background:var(--bg-main); padding:20px; border-radius:20px; border:1px solid var(--accent-gold);">
+            <h3 style="text-align:center; color:var(--accent-gold); margin-bottom:12px;">لوحة التحكم - إدارة الموقع</h3>
+            
+            <div style="margin-bottom:12px;">
+                <label style="font-size:0.75rem;">إضافة منشور جديد:</label>
+                <input type="text" class="input-box" id="aPTitle" placeholder="عنوان المشروع">
+                <input type="text" class="input-box" id="aPImg" placeholder="رابط صورة المشروع">
+                <button class="btn btn-blue" style="width:100%;" onclick="addProj()">نشر المشروع</button>
             </div>
 
-            <div style="border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:12px;">
-                <h4 style="color:var(--accent-gold); font-size:0.85rem; margin-bottom:8px;">🎨 تخصيص الألوان والواجهة:</h4>
-                <div style="display:flex; gap:10px;">
-                    <div style="flex:1;">
-                        <label style="font-size:0.7rem;">اللون الرئيسي:</label>
-                        <input type="color" id="admColorPrimary" value="#2563eb" style="width:100%; height:35px; border:none; cursor:pointer;">
-                    </div>
-                    <div style="flex:1;">
-                        <label style="font-size:0.7rem;">خلفية الموقع:</label>
-                        <input type="color" id="admColorBg" value="#070a0f" style="width:100%; height:35px; border:none; cursor:pointer;">
-                    </div>
-                </div>
+            <div style="margin-bottom:12px;">
+                <label style="font-size:0.75rem;">تعديل البيانات الرئيسية:</label>
+                <input type="text" class="input-box" id="aName" placeholder="اسم الشركة">
+                <input type="text" class="input-box" id="aTitle" placeholder="العنوان الرئيسي">
+                <input type="text" class="input-box" id="aPhone" placeholder="رقم الهاتف">
+                <input type="text" class="input-box" id="aWa" placeholder="رقم الواتساب">
             </div>
 
-            <div style="margin-bottom:16px;">
-                <h4 style="color:var(--accent-gold); font-size:0.85rem; margin-bottom:8px;">⚙️ الإعدادات العامة:</h4>
-                <input type="text" class="input-field" id="admSiteTitle" placeholder="اسم الشركة / الموقع">
-                <input type="text" class="input-field" id="admHeroTitle" placeholder="العنوان الرئيسي الهيرو">
-                <input type="text" class="input-field" id="admPhone" placeholder="رقم الهاتف للاتصال">
-                <input type="text" class="input-field" id="admWa" placeholder="رقم الواتساب (مثال: 9647700000000)">
-            </div>
-
-            <button class="btn btn-gold" style="width:100%; margin-bottom:8px;" onclick="saveAdminSettings()">💾 حفظ كافة التغيرات</button>
-            <button class="btn btn-danger" style="width:100%;" onclick="closeAdminModal()">إغلاق</button>
+            <button class="btn btn-blue" style="width:100%; background:var(--accent-gold); color:black; margin-bottom:8px;" onclick="saveAdm()">حفظ التغيرات</button>
+            <button class="btn btn-dark" style="width:100%; background:#ef4444;" onclick="closeAdmin()">إغلاق</button>
         </div>
     </div>
 
     <script>
-        const ADMIN_PASS = "123789";
+        const CODE = "123789";
 
-        // Initial Master State
-        const defaultData = {
-            brand: "FORSEASON",
-            heroTitle: "نبني المستقبل بثقة وجودة عالية",
-            heroDesc: "خبرة طويلة في مجال المقاولات العامة، البناء، الديكور، والإنشاءات الحديثة.",
+        const store = {
+            name: "FORSEASON",
+            title: "نبني المستقبل بثقة وجودة عالية",
             phone: "07700000000",
             wa: "9647700000000",
-            primaryColor: "#2563eb",
-            bgColor: "#070a0f",
-            projects: [
-                { id: 1, title: "مشروع فيلا سكنية - بغداد", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600", desc: "تنفيذ متكامل مع التصميم الداخلي والواجهات المودرن." },
-                { id: 2, title: "مجمع تجاري - النجف الأشرف", img: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=600", desc: "إنشاء هيكل وتطوير بنية تحتية." }
+            projs: [
+                { id: 1, title: "فيلا سكنية - بغداد", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600" },
+                { id: 2, title: "مجمع تجاري - النجف", img: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=600" }
             ],
-            services: [
-                { icon: "🏗️", title: "إنشاء المباني", desc: "تنفيذ الهياكل الخرسانية والبناء الكامل" },
-                { icon: "🎨", title: "تصميم وديكور", desc: "ديكورات داخلية وخارجية مودرن" },
-                { icon: "⚡", title: "أعمال كهربائية", desc: "تأسيس شبكات الكهرباء والإنارة" },
-                { icon: "🚰", title: "أعمال صحية", desc: "منظومات المياه والصرف الصحي" }
+            servs: [
+                { icn: "🏗️", title: "إنشاء المباني", sub: "جودة عالية وتنفيذ متكامل" },
+                { icn: "🎨", title: "ترميم وتأهيل", sub: "تحديث وتجديد الديكورات" },
+                { icn: "⚡", title: "أعمال كهربائية", sub: "تمديد وصيانة الشبكات" },
+                { icn: "🚰", title: "أعمال صحية", sub: "منظومات حديثة" }
             ]
         };
 
-        function getData() {
-            const store = localStorage.getItem('forseason_app_data');
-            return store ? JSON.parse(store) : defaultData;
+        function getDB() {
+            const local = localStorage.getItem('forseason_final_db');
+            return local ? JSON.parse(local) : store;
         }
 
-        function renderApp() {
-            const data = getData();
-            
-            // Header & Hero
-            document.getElementById('siteBrand').innerText = data.brand;
-            document.getElementById('heroTitle').innerText = data.heroTitle;
-            document.getElementById('heroDesc').innerText = data.heroDesc;
-            
-            // Links
-            document.getElementById('heroCall').href = "tel:" + data.phone;
-            document.getElementById('heroWa').href = "https://wa.me/" + data.wa;
-            document.getElementById('cntCall').href = "tel:" + data.phone;
-            document.getElementById('cntWa').href = "https://wa.me/" + data.wa;
-
-            // Apply Colors
-            document.getElementById('dynamicStyles').innerHTML = `
-                :root {
-                    --bg-dark: ${data.bgColor || '#070a0f'};
-                    --card-bg: rgba(18, 26, 38, 0.7);
-                    --border-color: rgba(255, 255, 255, 0.08);
-                    --primary: ${data.primaryColor || '#2563eb'};
-                    --primary-glow: rgba(37, 99, 235, 0.3);
-                    --accent-gold: #f59e0b;
-                    --text-main: #f3f4f6;
-                    --text-muted: #9ca3af;
-                    --radius-lg: 20px;
-                    --radius-md: 14px;
-                }
-            `;
+        function render() {
+            const db = getDB();
+            document.getElementById('brandTitle').innerText = db.name;
+            document.getElementById('hTitle').innerText = db.title;
+            document.getElementById('btnCall').href = "tel:" + db.phone;
+            document.getElementById('btnWa').href = "https://wa.me/" + db.wa;
+            document.getElementById('cntC').href = "tel:" + db.phone;
+            document.getElementById('cntW').href = "https://wa.me/" + db.wa;
 
             // Render Projects
-            const homeProjContainer = document.getElementById('homeProjects');
-            const allProjContainer = document.getElementById('allProjectsList');
-            homeProjContainer.innerHTML = "";
-            allProjContainer.innerHTML = "";
+            const hP = document.getElementById('homeProj');
+            const aP = document.getElementById('allProj');
+            hP.innerHTML = ""; aP.innerHTML = "";
 
-            data.projects.forEach((p, idx) => {
-                const cardHtml = `
-                    <div class="project-card">
-                        <img src
+            db.projs.forEach((p, i) => {
+                const html = `
+                    <div class="proj-card">
+                        <img src="${p.img}" class="proj-img">
+                        <div class="proj-txt">
+                            <h4>${p.title}</h4>
+                            <button style="display:none; color:red; margin-top:5px; background:none; border:none;" class="del-btn" onclick="delP(${p.id})">🗑️ حذف المنشور</button>
+                        </div>
+                    </div>
+                `;
+                if(i < 2) hP.innerHTML += html;
+                aP.innerHTML += html;
+            });
+
+            // Render Services
+            const hS = document.getElementById('homeServ');
+            const aS = document.getElementById('allServ');
+            hS.innerHTML = ""; aS.innerHTML = "";
+
+            db.servs.forEach(s => {
+                const html = `
+                    <div class="serv-card">
+                        <div class="serv-icn">${s.icn}</div>
+                        <div class="serv-ttl">${s.title}</div>
+                        <div class="serv-sub">${s.sub}</div>
+                    </div>
+                `;
+                hS.innerHTML += html;
+                aS.innerHTML += html;
+            });
+        }
+
+        function goto(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            document.getElementById(`p-${id}`).classList.add('active');
+            document.getElementById(`nl-${id}`).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function calcCost() {
+            const a = parseFloat(document.getElementById('cArea').value) || 0;
+            const t = parseFloat(document.getElementById('cType').value);
+            document.getElementById('cResult').innerText = `التكلفة التقديرية: ${(a * t).toLocaleString()} دينار عراقي`;
+        }
+
+        function openAdmin() {
+            if(prompt("أدخل رمز المدير:") === CODE) {
+                const db = getDB();
+                document.getElementById('aName').value = db.name;
+                document.getElementById('aTitle').value = db.title;
+                document.getElementById('aPhone').value = db.phone;
+                document.getElementById('aWa').value = db.wa;
+                document.querySelectorAll('.del-btn').forEach(b => b.style.display = "block");
+                document.getElementById('admModal').style.display = 'block';
+            } else {
+                alert("رمز خاطئ!");
+            }
+        }
+
+        function closeAdmin() { document.getElementById('admModal').style.display = 'none'; }
+
+        function saveAdm() {
+            let db = getDB();
+            db.name = document.getElementById('aName').value;
+            db.title = document.getElementById('aTitle').value;
+            db.phone = document.getElementById('aPhone').value;
+            db.wa = document.getElementById('aWa').value;
+            localStorage.setItem('forseason_final_db', JSON.stringify(db));
+            render();
+            closeAdmin();
+        }
+
+        function addProj() {
+            const title = document.getElementById('aPTitle').value;
+            const img = document.getElementById('aPImg').value;
+            if(!title) return;
+            let db = getDB();
+            db.projs.unshift({ id: Date.now(), title, img: img || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600" });
+            localStorage.setItem('forseason_final_db', JSON.stringify(db));
+            render();
+            document.getElementById('aPTitle').value = "";
+            document.getElementById('aPImg').value = "";
+        }
+
+        function delP(id) {
+            let db = getDB();
+            db.projs = db.projs.filter(p => p.id !== id);
+            localStorage.setItem('forseason_final_db', JSON.stringify(db));
+            render();
+        }
+
+        render();
+    </script>
+</body>
+</html>
