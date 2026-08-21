@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FORSEASON | المقاولات العامة</title>
+    <title>FORSEASON | المقاولات العامة والديكور</title>
     
     <style id="dynamicStyles">
         :root {
@@ -14,6 +14,8 @@
             --accent-gold: #f59e0b;
             --text-main: #ffffff;
             --text-sub: #94a3b8;
+            --danger-red: #ef4444;
+            --success-green: #10b981;
         }
     </style>
 
@@ -23,73 +25,83 @@
 
         /* Top Bar */
         .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: var(--bg-main); }
-        .icon-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--card-bg); border: 1px solid var(--card-border); display: flex; justify-content: center; align-items: center; color: #fff; text-decoration: none; font-size: 1.1rem; }
+        .icon-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--card-bg); border: 1px solid var(--card-border); display: flex; justify-content: center; align-items: center; color: #fff; text-decoration: none; font-size: 1.1rem; cursor: pointer; }
         .logo-box { text-align: center; }
-        .logo-title { font-weight: 800; font-size: 1.2rem; }
+        .logo-title { font-weight: 800; font-size: 1.2rem; letter-spacing: 0.5px; }
         .logo-sub { font-size: 0.65rem; color: var(--primary-blue); }
 
         .page { display: none; padding: 0 16px; animation: fadeIn 0.2s ease; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Hero Banner */
-        .hero-banner { position: relative; border-radius: 20px; overflow: hidden; background: linear-gradient(180deg, rgba(11,17,30,0.2) 0%, rgba(11,17,30,0.95) 100%), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800'); background-size: cover; padding: 40px 20px 20px; border: 1px solid var(--card-border); margin-bottom: 16px; }
-        .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(37, 99, 235, 0.2); border: 1px solid var(--primary-blue); color: #60a5fa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; margin-bottom: 12px; }
-        .hero-h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; line-height: 1.3; }
-        .hero-p { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 16px; }
+        .hero-banner { position: relative; border-radius: 20px; overflow: hidden; background: linear-gradient(180deg, rgba(11,17,30,0.3) 0%, rgba(11,17,30,0.95) 100%), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800'); background-size: cover; background-position: center; padding: 35px 20px 20px; border: 1px solid var(--card-border); margin-bottom: 16px; }
+        .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(37, 99, 235, 0.25); border: 1px solid var(--primary-blue); color: #60a5fa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; margin-bottom: 12px; backdrop-filter: blur(5px); }
+        .hero-h1 { font-size: 1.45rem; font-weight: 800; margin-bottom: 8px; line-height: 1.35; }
+        .hero-p { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 16px; line-height: 1.4; }
         .hero-btns { display: flex; gap: 10px; }
         
-        .btn { flex: 1; padding: 12px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; text-align: center; text-decoration: none; font-size: 0.85rem; display: flex; justify-content: center; align-items: center; gap: 6px; }
+        .btn { flex: 1; padding: 12px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; text-align: center; text-decoration: none; font-size: 0.85rem; display: flex; justify-content: center; align-items: center; gap: 6px; transition: all 0.2s ease; }
         .btn-blue { background: var(--primary-blue); color: white; }
+        .btn-gold { background: var(--accent-gold); color: #000; }
         .btn-dark { background: rgba(255,255,255,0.08); color: white; border: 1px solid var(--card-border); }
+        .btn-danger { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid var(--danger-red); }
 
         /* Stats Grid */
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
         .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px 4px; text-align: center; }
         .stat-icon { font-size: 1.2rem; margin-bottom: 4px; }
-        .stat-val { font-weight: 800; font-size: 1rem; }
+        .stat-val { font-weight: 800; font-size: 0.95rem; }
         .stat-lbl { font-size: 0.65rem; color: var(--text-sub); }
 
         /* Section Title */
-        .sec-head { display: flex; justify-content: space-between; align-items: center; margin: 16px 0 12px; }
-        .sec-title { font-size: 1.05rem; font-weight: 800; }
+        .sec-head { display: flex; justify-content: space-between; align-items: center; margin: 18px 0 12px; }
+        .sec-title { font-size: 1.05rem; font-weight: 800; border-right: 3px solid var(--primary-blue); padding-right: 8px; }
         .sec-more { font-size: 0.75rem; color: var(--primary-blue); cursor: pointer; }
 
         /* Grid Services */
         .serv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-        .serv-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; text-align: center; }
+        .serv-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; text-align: center; position: relative; }
         .serv-icn { font-size: 2rem; color: var(--primary-blue); margin-bottom: 8px; }
         .serv-ttl { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
-        .serv-sub { font-size: 0.7rem; color: var(--text-sub); }
+        .serv-sub { font-size: 0.7rem; color: var(--text-sub); line-height: 1.3; }
 
         /* Projects Card Horizontal */
-        .proj-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; margin-bottom: 12px; }
-        .proj-img { width: 100%; height: 150px; object-fit: cover; }
-        .proj-txt { padding: 12px; }
+        .proj-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; margin-bottom: 12px; position: relative; }
+        .proj-img { width: 100%; height: 160px; object-fit: cover; display: block; }
+        .proj-txt { padding: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .proj-ttl { font-size: 0.9rem; font-weight: 700; }
+
+        /* Map Embed Container */
+        .map-box { border-radius: 16px; overflow: hidden; border: 1px solid var(--card-border); margin-top: 14px; background: var(--card-bg); }
+        .map-frame { width: 100%; height: 200px; border: none; filter: grayscale(80%) invert(90%) contrast(120%); }
 
         /* Nav Bottom */
         .nav-bottom { position: fixed; bottom: 0; left: 0; right: 0; height: 65px; background: rgba(11, 17, 30, 0.95); backdrop-filter: blur(15px); border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 99; }
-        .nav-link { color: var(--text-sub); text-decoration: none; font-size: 0.68rem; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+        .nav-link { color: var(--text-sub); text-decoration: none; font-size: 0.68rem; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; width: 20%; }
         .nav-link.active { color: var(--primary-blue); font-weight: 700; }
         .nav-link .icn { font-size: 1.2rem; }
 
-        /* Admin Dashboard Modal Design Exactly as Image */
-        .admin-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 200; padding: 20px; overflow-y: auto; }
-        .adm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 14px; }
-        .adm-btn { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 14px; text-align: center; color: white; font-size: 0.8rem; cursor: pointer; }
-        .input-box { width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); color: white; border-radius: 10px; margin-bottom: 8px; font-size: 0.8rem; }
+        /* Admin Dashboard Modal */
+        .admin-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 200; padding: 20px 12px; overflow-y: auto; }
+        .admin-box { max-width: 460px; margin: auto; background: var(--bg-main); padding: 20px; border-radius: 20px; border: 1px solid var(--accent-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .adm-tab-title { font-size: 0.85rem; font-weight: 700; color: var(--accent-gold); margin: 14px 0 8px; border-bottom: 1px dashed rgba(245, 158, 11, 0.3); padding-bottom: 4px; }
+        .input-box { width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); color: white; border-radius: 10px; margin-bottom: 8px; font-size: 0.8rem; }
+        .input-box:focus { outline: none; border-color: var(--primary-blue); }
+        .file-upload-lbl { display: block; text-align: center; padding: 10px; background: rgba(37, 99, 235, 0.15); border: 1px dashed var(--primary-blue); color: #60a5fa; border-radius: 10px; font-size: 0.78rem; cursor: pointer; margin-bottom: 8px; }
+        .del-btn-inline { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid var(--danger-red); border-radius: 8px; padding: 4px 8px; font-size: 0.7rem; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header Bar -->
     <div class="top-bar">
-        <button class="icon-btn" onclick="openAdmin()">⚙️</button>
+        <button class="icon-btn" onclick="openAdmin()" title="لوحة التحكم">⚙️</button>
         <div class="logo-box">
             <div class="logo-title" id="brandTitle">FORSEASON</div>
-            <div class="logo-sub">للمقاولات العامة</div>
+            <div class="logo-sub" id="brandSub">للمقاولات العامة والديكور</div>
         </div>
-        <button class="icon-btn">🔔</button>
+        <button class="icon-btn" onclick="goto('contact')">💬</button>
     </div>
 
     <!-- PAGE 1: HOME -->
@@ -97,7 +109,7 @@
         <div class="hero-banner">
             <div class="hero-tag"><span>✔</span> <span id="tagText">فورسيزن للمقاولات</span></div>
             <h1 class="hero-h1" id="hTitle">نبني المستقبل بثقة وجودة عالية</h1>
-            <p class="hero-p" id="hDesc">خبرة أكثر من 10 سنوات في مجال المقاولات العامة والديكور.</p>
+            <p class="hero-p" id="hDesc">خبرة أكثر من 10 سنوات في تنفيذ المشاريع المعمارية والديكورات الحديثة.</p>
             <div class="hero-btns">
                 <a id="btnCall" href="tel:07700000000" class="btn btn-dark">📞 اتصل الآن</a>
                 <a id="btnWa" href="https://wa.me/9647700000000" class="btn btn-blue">💬 تواصل واتساب</a>
@@ -107,7 +119,7 @@
         <div class="stats-grid">
             <div class="stat-card"><div class="stat-icon">👷‍♂️</div><div class="stat-val">+15</div><div class="stat-lbl">فريق متخصص</div></div>
             <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-val">+10</div><div class="stat-lbl">سنوات خبرة</div></div>
-            <div class="stat-card"><div class="stat-card"><div class="stat-icon">🏢</div><div class="stat-val">+150</div><div class="stat-lbl">مشروع منجز</div></div></div>
+            <div class="stat-card"><div class="stat-icon">🏢</div><div class="stat-val">+150</div><div class="stat-lbl">مشروع منجز</div></div>
             <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val">+80</div><div class="stat-lbl">عميل راضي</div></div>
         </div>
 
@@ -118,7 +130,7 @@
         <div id="homeProj"></div>
 
         <div class="sec-head">
-            <div class="sec-title">خدماتنا</div>
+            <div class="sec-title">خدماتنا المميزة</div>
             <div class="sec-more" onclick="goto('services')">عرض الكل ❯</div>
         </div>
         <div class="serv-grid" id="homeServ"></div>
@@ -126,37 +138,61 @@
 
     <!-- PAGE 2: PROJECTS -->
     <div id="p-projects" class="page">
-        <div class="sec-head"><div class="sec-title">معرض المشاريع</div></div>
+        <div class="sec-head"><div class="sec-title">معرض المشاريع والمنجزات</div></div>
         <div id="allProj"></div>
     </div>
 
     <!-- PAGE 3: SERVICES -->
     <div id="p-services" class="page">
-        <div class="sec-head"><div class="sec-title">خدماتنا العامة</div></div>
+        <div class="sec-head"><div class="sec-title">خدماتنا المتاحة</div></div>
         <div class="serv-grid" id="allServ"></div>
     </div>
 
     <!-- PAGE 4: CALCULATOR -->
     <div id="p-calc" class="page">
-        <div class="sec-head"><div class="sec-title">📐 حاسبة التكلفة المباشرة</div></div>
-        <div style="background:var(--card-bg); padding:16px; border-radius:16px; border:1px solid var(--card-border);">
+        <div class="sec-head"><div class="sec-title">📐 حاسبة التكلفة المتقدمة</div></div>
+        <div style="background:var(--card-bg); padding:18px; border-radius:18px; border:1px solid var(--card-border);">
+            <label style="font-size:0.75rem; color:var(--text-sub); display:block; margin-bottom:4px;">نوع البناء والتجهيز:</label>
             <select class="input-box" id="cType">
-                <option value="500000">بناء هيكل ومفتاح (500,000 د.ع / م²)</option>
-                <option value="250000">بناء هيكل أسود (250,000 د.ع / م²)</option>
+                <option value="250000">بناء هيكل أسود فقط (250,000 د.ع / م²)</option>
+                <option value="450000">تشطيب عادي / مفتاح (450,000 د.ع / م²)</option>
+                <option value="600000">تشطيب ديلوكس ممتاز (600,000 د.ع / م²)</option>
+                <option value="850000">تشطيب سوبر ديلوكس VIP (850,000 د.ع / م²)</option>
             </select>
-            <input type="number" class="input-box" id="cArea" placeholder="المساحة (م²)" value="150">
-            <button class="btn btn-blue" style="width:100%; margin-top:8px;" onclick="calcCost()">احسب التكلفة</button>
-            <div id="cResult" style="margin-top:12px; text-align:center; font-weight:bold; color:var(--accent-gold);"></div>
+
+            <label style="font-size:0.75rem; color:var(--text-sub); display:block; margin-bottom:4px;">عدد الطوابق:</label>
+            <select class="input-box" id="cFloors">
+                <option value="1">طابق واحد (1)</option>
+                <option value="2" selected>طابقين (2)</option>
+                <option value="3">ثلاث طوابق (3)</option>
+                <option value="4">أربعة طوابق (4)</option>
+            </select>
+
+            <label style="font-size:0.75rem; color:var(--text-sub); display:block; margin-bottom:4px;">مساحة الأرض (م²):</label>
+            <input type="number" class="input-box" id="cArea" placeholder="مثال: 150" value="150">
+
+            <button class="btn btn-blue" style="width:100%; margin-top:8px;" onclick="calcCost()">حساب التكلفة التقديرية</button>
+            
+            <div id="cResult" style="margin-top:16px; padding:12px; background:rgba(245, 158, 11, 0.1); border:1px solid var(--accent-gold); border-radius:12px; text-align:center; display:none;">
+                <div style="font-size:0.75rem; color:var(--text-sub);">المساحة الكلية للبناء: <span id="cTotalArea" style="color:#fff; font-weight:bold;"></span> م²</div>
+                <div style="font-size:1.1rem; font-weight:800; color:var(--accent-gold); margin-top:4px;" id="cPriceVal"></div>
+                <div style="font-size:0.65rem; color:var(--text-sub); margin-top:4px;">* الأسعار تقريبية وتعتمد على المخططات التفصيلية ونوع المواد.</div>
+            </div>
         </div>
     </div>
 
-    <!-- PAGE 5: CONTACT -->
+    <!-- PAGE 5: CONTACT & LOCATION -->
     <div id="p-contact" class="page">
-        <div class="sec-head"><div class="sec-title">تواصل معنا</div></div>
-        <div style="background:var(--card-bg); padding:24px; border-radius:16px; text-align:center; border:1px solid var(--card-border);">
-            <p style="margin-bottom:16px; color:var(--text-sub);">استشارة مجانية ومباشرة مع المهندس المسؤول</p>
-            <a id="cntC" href="tel:07700000000" class="btn btn-blue" style="margin-bottom:10px;">اتصل بنا الان</a>
-            <a id="cntW" href="https://wa.me/9647700000000" class="btn btn-dark">مراسلة الواتساب</a>
+        <div class="sec-head"><div class="sec-title">تواصل معنا وموقعنا</div></div>
+        <div style="background:var(--card-bg); padding:20px; border-radius:18px; text-align:center; border:1px solid var(--card-border);">
+            <p style="margin-bottom:16px; color:var(--text-sub); font-size:0.85rem;">استشارة مجانية ومباشرة مع المهندس المسؤول</p>
+            <a id="cntC" href="tel:07700000000" class="btn btn-blue" style="margin-bottom:10px;">📞 اتصل بنا الآن</a>
+            <a id="cntW" href="https://wa.me/9647700000000" class="btn btn-gold" style="margin-bottom:12px;">💬 مراسلة عبر الواتساب</a>
+            <a id="cntMapBtn" href="https://maps.google.com" target="_blank" class="btn btn-dark">📍 فتح الموقع في خرائط Google</a>
+
+            <div class="map-box">
+                <iframe id="mapIframe" class="map-frame" src="https://maps.google.com/maps?q=Baghdad,Iraq&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+            </div>
         </div>
     </div>
 
@@ -166,57 +202,81 @@
         <div class="nav-link" onclick="goto('services')" id="nl-services"><span class="icn">🛠️</span><span>الخدمات</span></div>
         <div class="nav-link" onclick="goto('projects')" id="nl-projects"><span class="icn">📁</span><span>المشاريع</span></div>
         <div class="nav-link" onclick="goto('calc')" id="nl-calc"><span class="icn">📐</span><span>الحاسبة</span></div>
-        <div class="nav-link" onclick="goto('contact')" id="nl-contact"><span class="icn">💬</span><span>تواصل</span></div>
+        <div class="nav-link" onclick="goto('contact')" id="nl-contact"><span class="icn">📍</span><span>الموقع</span></div>
     </nav>
 
-    <!-- ADMIN MODAL (مطابق لصور التحكم المرفقة) -->
+    <!-- ADMIN MODAL CONTROL PANEL -->
     <div class="admin-modal" id="admModal">
-        <div style="max-width:450px; margin:auto; background:var(--bg-main); padding:20px; border-radius:20px; border:1px solid var(--accent-gold);">
-            <h3 style="text-align:center; color:var(--accent-gold); margin-bottom:12px;">لوحة التحكم - إدارة الموقع</h3>
+        <div class="admin-box">
+            <h3 style="text-align:center; color:var(--accent-gold); margin-bottom:12px;">لوحة التحكم الشاملة</h3>
             
-            <div style="margin-bottom:12px;">
-                <label style="font-size:0.75rem;">إضافة منشور جديد:</label>
-                <input type="text" class="input-box" id="aPTitle" placeholder="عنوان المشروع">
-                <input type="text" class="input-box" id="aPImg" placeholder="رابط صورة المشروع">
-                <button class="btn btn-blue" style="width:100%;" onclick="addProj()">نشر المشروع</button>
-            </div>
+            <!-- SECTION 1: ADD PROJECT -->
+            <div class="adm-tab-title">1. إضافة مشروع جديد</div>
+            <input type="text" class="input-box" id="aPTitle" placeholder="عنوان المشروع (مثال: فيلا سكنية)">
+            <label class="file-upload-lbl" for="aPFile">📁 اختر صورة للمشروع من الهاتف</label>
+            <input type="file" id="aPFile" accept="image/*" style="display:none;" onchange="previewImg(this, 'pImgPrev')">
+            <div id="pImgPrev" style="font-size:0.7rem; color:var(--success-green); margin-bottom:6px;"></div>
+            <input type="text" class="input-box" id="aPImgUrl" placeholder="أو ضع رابط صورة مباشر (اختياري)">
+            <button class="btn btn-blue" style="width:100%; margin-bottom:10px;" onclick="addProj()">نشر المشروع</button>
 
-            <div style="margin-bottom:12px;">
-                <label style="font-size:0.75rem;">تعديل البيانات الرئيسية:</label>
-                <input type="text" class="input-box" id="aName" placeholder="اسم الشركة">
-                <input type="text" class="input-box" id="aTitle" placeholder="العنوان الرئيسي">
-                <input type="text" class="input-box" id="aPhone" placeholder="رقم الهاتف">
-                <input type="text" class="input-box" id="aWa" placeholder="رقم الواتساب">
-            </div>
+            <!-- SECTION 2: ADD SERVICE -->
+            <div class="adm-tab-title">2. إضافة خدمة جديدة</div>
+            <input type="text" class="input-box" id="aSCode" placeholder="رمز إيموجي (مثال: 🏗️ أو 🎨)">
+            <input type="text" class="input-box" id="aSTitle" placeholder="عنوان الخدمة">
+            <input type="text" class="input-box" id="aSSub" placeholder="وصف قصير للخدمة">
+            <button class="btn btn-blue" style="width:100%; margin-bottom:10px;" onclick="addServ()">إضافة الخدمة</button>
 
-            <button class="btn btn-blue" style="width:100%; background:var(--accent-gold); color:black; margin-bottom:8px;" onclick="saveAdm()">حفظ التغيرات</button>
-            <button class="btn btn-dark" style="width:100%; background:#ef4444;" onclick="closeAdmin()">إغلاق</button>
+            <!-- SECTION 3: COMPANY INFO & MAP -->
+            <div class="adm-tab-title">3. البيانات العامة والموقع</div>
+            <input type="text" class="input-box" id="aName" placeholder="اسم الشركة / المكتب">
+            <input type="text" class="input-box" id="aTitle" placeholder="العنوان التجاري الرئيسي">
+            <input type="text" class="input-box" id="aPhone" placeholder="رقم الهاتف">
+            <input type="text" class="input-box" id="aWa" placeholder="رقم الواتساب (مثال: 9647700000000)">
+            <input type="text" class="input-box" id="aMap" placeholder="رابط موقع Google Maps أو الإحداثيات">
+
+            <button class="btn btn-gold" style="width:100%; margin-top:8px; margin-bottom:8px;" onclick="saveAdm()">حفظ جميع التغيرات</button>
+            <button class="btn btn-danger" style="width:100%;" onclick="closeAdmin()">إغلاق اللوحة</button>
         </div>
     </div>
 
     <script>
         const CODE = "123789";
+        let tempProjImg = "";
 
         const store = {
             name: "FORSEASON",
             title: "نبني المستقبل بثقة وجودة عالية",
             phone: "07700000000",
             wa: "9647700000000",
+            mapUrl: "https://maps.google.com/maps?q=Baghdad,Iraq&t=&z=13&ie=UTF8&iwloc=&output=embed",
             projs: [
                 { id: 1, title: "فيلا سكنية - بغداد", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600" },
                 { id: 2, title: "مجمع تجاري - النجف", img: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=600" }
             ],
             servs: [
-                { icn: "🏗️", title: "إنشاء المباني", sub: "جودة عالية وتنفيذ متكامل" },
-                { icn: "🎨", title: "ترميم وتأهيل", sub: "تحديث وتجديد الديكورات" },
-                { icn: "⚡", title: "أعمال كهربائية", sub: "تمديد وصيانة الشبكات" },
-                { icn: "🚰", title: "أعمال صحية", sub: "منظومات حديثة" }
+                { id: 101, icn: "🏗️", title: "إنشاء المباني", sub: "جودة عالية وتنفيذ متكامل" },
+                { id: 102, icn: "🎨", title: "ترميم وتأهيل", sub: "تحديث وتجديد الديكورات" },
+                { id: 103, icn: "⚡", title: "أعمال كهربائية", sub: "تمديد وصيانة الشبكات" },
+                { id: 104, icn: "🚰", title: "أعمال صحية", sub: "منظومات حديثة وذكية" }
             ]
         };
 
+        let isAdminLoggedIn = false;
+
         function getDB() {
-            const local = localStorage.getItem('forseason_final_db');
+            const local = localStorage.getItem('forseason_v2_db');
             return local ? JSON.parse(local) : store;
+        }
+
+        function previewImg(input, targetId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempProjImg = e.target.result;
+                    document.getElementById(targetId).innerText = "✓ تم اختيار الصورة بنجاح";
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
 
         function render() {
@@ -227,6 +287,11 @@
             document.getElementById('btnWa').href = "https://wa.me/" + db.wa;
             document.getElementById('cntC').href = "tel:" + db.phone;
             document.getElementById('cntW').href = "https://wa.me/" + db.wa;
+            
+            if(db.mapUrl) {
+                document.getElementById('mapIframe').src = db.mapUrl;
+                document.getElementById('cntMapBtn').href = db.mapUrl.includes("embed") ? "https://maps.google.com" : db.mapUrl;
+            }
 
             // Render Projects
             const hP = document.getElementById('homeProj');
@@ -234,12 +299,13 @@
             hP.innerHTML = ""; aP.innerHTML = "";
 
             db.projs.forEach((p, i) => {
+                const delBtnHtml = isAdminLoggedIn ? `<button class="del-btn-inline" onclick="delP(${p.id})">🗑️ حذف</button>` : '';
                 const html = `
                     <div class="proj-card">
                         <img src="${p.img}" class="proj-img">
                         <div class="proj-txt">
-                            <h4>${p.title}</h4>
-                            <button style="display:none; color:red; margin-top:5px; background:none; border:none;" class="del-btn" onclick="delP(${p.id})">🗑️ حذف المنشور</button>
+                            <span class="proj-ttl">${p.title}</span>
+                            ${delBtnHtml}
                         </div>
                     </div>
                 `;
@@ -249,83 +315,4 @@
 
             // Render Services
             const hS = document.getElementById('homeServ');
-            const aS = document.getElementById('allServ');
-            hS.innerHTML = ""; aS.innerHTML = "";
-
-            db.servs.forEach(s => {
-                const html = `
-                    <div class="serv-card">
-                        <div class="serv-icn">${s.icn}</div>
-                        <div class="serv-ttl">${s.title}</div>
-                        <div class="serv-sub">${s.sub}</div>
-                    </div>
-                `;
-                hS.innerHTML += html;
-                aS.innerHTML += html;
-            });
-        }
-
-        function goto(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-            document.getElementById(`p-${id}`).classList.add('active');
-            document.getElementById(`nl-${id}`).classList.add('active');
-            window.scrollTo(0,0);
-        }
-
-        function calcCost() {
-            const a = parseFloat(document.getElementById('cArea').value) || 0;
-            const t = parseFloat(document.getElementById('cType').value);
-            document.getElementById('cResult').innerText = `التكلفة التقديرية: ${(a * t).toLocaleString()} دينار عراقي`;
-        }
-
-        function openAdmin() {
-            if(prompt("أدخل رمز المدير:") === CODE) {
-                const db = getDB();
-                document.getElementById('aName').value = db.name;
-                document.getElementById('aTitle').value = db.title;
-                document.getElementById('aPhone').value = db.phone;
-                document.getElementById('aWa').value = db.wa;
-                document.querySelectorAll('.del-btn').forEach(b => b.style.display = "block");
-                document.getElementById('admModal').style.display = 'block';
-            } else {
-                alert("رمز خاطئ!");
-            }
-        }
-
-        function closeAdmin() { document.getElementById('admModal').style.display = 'none'; }
-
-        function saveAdm() {
-            let db = getDB();
-            db.name = document.getElementById('aName').value;
-            db.title = document.getElementById('aTitle').value;
-            db.phone = document.getElementById('aPhone').value;
-            db.wa = document.getElementById('aWa').value;
-            localStorage.setItem('forseason_final_db', JSON.stringify(db));
-            render();
-            closeAdmin();
-        }
-
-        function addProj() {
-            const title = document.getElementById('aPTitle').value;
-            const img = document.getElementById('aPImg').value;
-            if(!title) return;
-            let db = getDB();
-            db.projs.unshift({ id: Date.now(), title, img: img || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600" });
-            localStorage.setItem('forseason_final_db', JSON.stringify(db));
-            render();
-            document.getElementById('aPTitle').value = "";
-            document.getElementById('aPImg').value = "";
-        }
-
-        function delP(id) {
-            let db = getDB();
-            db.projs = db.projs.filter(p => p.id !== id);
-            localStorage.setItem('forseason_final_db', JSON.stringify(db));
-            render();
-        }
-
-        render();
-    </script>
-</body>
-</html>
+            const aS = document.getElemen
