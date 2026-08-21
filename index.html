@@ -1,301 +1,319 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منصة التحديثات التفاعلية</title>
-  <style>
-    :root {
-      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-      --surface: #ffffff;
-      --background: #f8fafc;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --radius: 16px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FORSEASON | المقاولات العامة والديكور</title>
+    
+    <style id="dynamicStyles">
+        :root {
+            --bg-main: #0b111e;
+            --card-bg: #131c2e;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary-blue: #2563eb;
+            --accent-gold: #f59e0b;
+            --text-main: #ffffff;
+            --text-sub: #94a3b8;
+            --danger-red: #ef4444;
+            --success-green: #10b981;
+        }
+    </style>
 
-    * {
-      box-sizing: border-box;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 85px; }
 
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background-color: var(--background);
-      color: var(--text-main);
-      margin: 0;
-      padding: 24px 16px;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
+        /* Top Bar */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: var(--bg-main); }
+        .icon-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--card-bg); border: 1px solid var(--card-border); display: flex; justify-content: center; align-items: center; color: #fff; text-decoration: none; font-size: 1.1rem; cursor: pointer; }
+        .logo-box { text-align: center; }
+        .logo-title { font-weight: 800; font-size: 1.2rem; letter-spacing: 0.5px; }
+        .logo-sub { font-size: 0.65rem; color: var(--primary-blue); }
 
-    .app-container {
-      width: 100%;
-      max-width: 600px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
+        .page { display: none; padding: 0 16px; animation: fadeIn 0.2s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* كارت النموذج الرئيسي */
-    .card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-      border: 1px solid #e2e8f0;
-    }
+        /* Hero Banner */
+        .hero-banner { position: relative; border-radius: 20px; overflow: hidden; background: linear-gradient(180deg, rgba(11,17,30,0.3) 0%, rgba(11,17,30,0.95) 100%), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800'); background-size: cover; background-position: center; padding: 35px 20px 20px; border: 1px solid var(--card-border); margin-bottom: 16px; }
+        .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(37, 99, 235, 0.25); border: 1px solid var(--primary-blue); color: #60a5fa; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; margin-bottom: 12px; backdrop-filter: blur(5px); }
+        .hero-h1 { font-size: 1.45rem; font-weight: 800; margin-bottom: 8px; line-height: 1.35; }
+        .hero-p { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 16px; line-height: 1.4; }
+        .hero-btns { display: flex; gap: 10px; }
+        
+        .btn { flex: 1; padding: 12px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; text-align: center; text-decoration: none; font-size: 0.85rem; display: flex; justify-content: center; align-items: center; gap: 6px; transition: all 0.2s ease; }
+        .btn-blue { background: var(--primary-blue); color: white; }
+        .btn-gold { background: var(--accent-gold); color: #000; }
+        .btn-dark { background: rgba(255,255,255,0.08); color: white; border: 1px solid var(--card-border); }
+        .btn-danger { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid var(--danger-red); }
 
-    .header-title {
-      margin: 0 0 20px 0;
-      font-size: 1.4rem;
-      font-weight: 800;
-      background: var(--primary-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px 4px; text-align: center; }
+        .stat-icon { font-size: 1.2rem; margin-bottom: 4px; }
+        .stat-val { font-weight: 800; font-size: 0.95rem; }
+        .stat-lbl { font-size: 0.65rem; color: var(--text-sub); }
 
-    .form-group {
-      margin-bottom: 18px;
-    }
+        /* Section Title */
+        .sec-head { display: flex; justify-content: space-between; align-items: center; margin: 18px 0 12px; }
+        .sec-title { font-size: 1.05rem; font-weight: 800; border-right: 3px solid var(--primary-blue); padding-right: 8px; }
+        .sec-more { font-size: 0.75rem; color: var(--primary-blue); cursor: pointer; }
 
-    label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
+        /* Grid Services */
+        .serv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .serv-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; text-align: center; position: relative; }
+        .serv-icn { font-size: 2rem; color: var(--primary-blue); margin-bottom: 8px; }
+        .serv-ttl { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+        .serv-sub { font-size: 0.7rem; color: var(--text-sub); line-height: 1.3; }
 
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      background: #f8fafc;
-      outline: none;
-    }
+        /* Projects Card Horizontal */
+        .proj-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; margin-bottom: 12px; position: relative; }
+        .proj-img { width: 100%; height: 160px; object-fit: cover; display: block; }
+        .proj-txt { padding: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .proj-ttl { font-size: 0.9rem; font-weight: 700; }
 
-    input[type="text"]:focus, textarea:focus {
-      border-color: #6366f1;
-      background: #ffffff;
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    }
+        /* Map Embed Container */
+        .map-box { border-radius: 16px; overflow: hidden; border: 1px solid var(--card-border); margin-top: 14px; background: var(--card-bg); }
+        .map-frame { width: 100%; height: 200px; border: none; filter: grayscale(80%) invert(90%) contrast(120%); }
 
-    /* منطقة اختيار الصورة والتفاعل */
-    .upload-box {
-      border: 2px dashed #cbd5e1;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      background: #f8fafc;
-      position: relative;
-    }
+        /* Nav Bottom */
+        .nav-bottom { position: fixed; bottom: 0; left: 0; right: 0; height: 65px; background: rgba(11, 17, 30, 0.95); backdrop-filter: blur(15px); border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 99; }
+        .nav-link { color: var(--text-sub); text-decoration: none; font-size: 0.68rem; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; width: 20%; }
+        .nav-link.active { color: var(--primary-blue); font-weight: 700; }
+        .nav-link .icn { font-size: 1.2rem; }
 
-    .upload-box:hover {
-      border-color: #6366f1;
-      background: #eeef2f1;
-    }
-
-    #fileInput { display: none; }
-
-    .preview-box {
-      position: relative;
-      margin-top: 12px;
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .preview-box img {
-      width: 100%;
-      max-height: 220px;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-
-    /* الزر التفاعلي */
-    .btn-submit {
-      width: 100%;
-      background: var(--primary-gradient);
-      color: white;
-      border: none;
-      padding: 14px;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    }
-
-    .btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-    }
-
-    .btn-submit:active {
-      transform: translateY(0);
-    }
-
-    /* عرض البطاقات الديناميكية */
-    .feed-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-
-    .post-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      animation: slideUp 0.3s cubic-bezier(0, 0, 0.2, 1);
-    }
-
-    .post-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .post-content {
-      padding: 16px;
-    }
-
-    .post-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin: 0 0 8px 0;
-    }
-
-    .post-desc {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin: 0 0 12px 0;
-      line-height: 1.5;
-    }
-
-    .btn-delete {
-      background: #fee2e2;
-      color: #ef4444;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-delete:hover {
-      background: #fca5a5;
-      color: #991b1b;
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-  </style>
+        /* Admin Dashboard Modal */
+        .admin-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 200; padding: 20px 12px; overflow-y: auto; }
+        .admin-box { max-width: 460px; margin: auto; background: var(--bg-main); padding: 20px; border-radius: 20px; border: 1px solid var(--accent-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .adm-tab-title { font-size: 0.85rem; font-weight: 700; color: var(--accent-gold); margin: 14px 0 8px; border-bottom: 1px dashed rgba(245, 158, 11, 0.3); padding-bottom: 4px; }
+        .input-box { width: 100%; padding: 10px 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); color: white; border-radius: 10px; margin-bottom: 8px; font-size: 0.8rem; }
+        .input-box:focus { outline: none; border-color: var(--primary-blue); }
+        .file-upload-lbl { display: block; text-align: center; padding: 10px; background: rgba(37, 99, 235, 0.15); border: 1px dashed var(--primary-blue); color: #60a5fa; border-radius: 10px; font-size: 0.78rem; cursor: pointer; margin-bottom: 8px; }
+        .del-btn-inline { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid var(--danger-red); border-radius: 8px; padding: 4px 8px; font-size: 0.7rem; cursor: pointer; }
+    </style>
 </head>
 <body>
 
-  <div class="app-container">
-    
-    <!-- كارت إضافة محتوى -->
-    <div class="card">
-      <h2 class="header-title">✨ إضافة نشر جديد</h2>
-      
-      <form id="updateForm" onsubmit="addPost(event)">
-        <div class="form-group">
-          <label>العنوان الرئيسي</label>
-          <input type="text" id="title" placeholder="اكتب عنواناً جذاباً..." required>
+    <!-- Header Bar -->
+    <div class="top-bar">
+        <button class="icon-btn" onclick="openAdmin()" title="لوحة التحكم">⚙️</button>
+        <div class="logo-box">
+            <div class="logo-title" id="brandTitle">FORSEASON</div>
+            <div class="logo-sub" id="brandSub">للمقاولات العامة والديكور</div>
         </div>
-
-        <div class="form-group">
-          <label>تفاصيل التحديث</label>
-          <textarea id="description" rows="3" placeholder="ما الذي تريد مشاركته اليوم؟" required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>الصورة المرفقة</label>
-          <label for="fileInput" class="upload-box">
-            <span id="uploadText">📷 اضغط هنا لاختيار صورة من الصور</span>
-            <input type="file" id="fileInput" accept="image/*" onchange="previewFile(event)">
-          </label>
-
-          <div id="previewBox" class="preview-box">
-            <img id="imagePreview" src="" alt="المعاينة">
-          </div>
-        </div>
-
-        <button type="submit" class="btn-submit">نشر التحديث الآن</button>
-      </form>
+        <button class="icon-btn" onclick="goto('contact')">💬</button>
     </div>
 
-    <!-- كروت العرض الحية -->
-    <div>
-      <div class="feed-title">الشور الخلاصات الحية</div>
-      <div id="postsFeed"></div>
+    <!-- PAGE 1: HOME -->
+    <div id="p-home" class="page active">
+        <div class="hero-banner">
+            <div class="hero-tag"><span>✔</span> <span id="tagText">فورسيزن للمقاولات</span></div>
+            <h1 class="hero-h1" id="hTitle">نبني المستقبل بثقة وجودة عالية</h1>
+            <p class="hero-p" id="hDesc">خبرة أكثر من 10 سنوات في تنفيذ المشاريع المعمارية والديكورات الحديثة.</p>
+            <div class="hero-btns">
+                <a id="btnCall" href="tel:07700000000" class="btn btn-dark">📞 اتصل الآن</a>
+                <a id="btnWa" href="https://wa.me/9647700000000" class="btn btn-blue">💬 تواصل واتساب</a>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon">👷‍♂️</div><div class="stat-val">+15</div><div class="stat-lbl">فريق متخصص</div></div>
+            <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-val">+10</div><div class="stat-lbl">سنوات خبرة</div></div>
+            <div class="stat-card"><div class="stat-icon">🏢</div><div class="stat-val">+150</div><div class="stat-lbl">مشروع منجز</div></div>
+            <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val">+80</div><div class="stat-lbl">عميل راضي</div></div>
+        </div>
+
+        <div class="sec-head">
+            <div class="sec-title">أحدث مشاريعنا</div>
+            <div class="sec-more" onclick="goto('projects')">عرض الكل ❯</div>
+        </div>
+        <div id="homeProj"></div>
+
+        <div class="sec-head">
+            <div class="sec-title">خدماتنا المميزة</div>
+            <div class="sec-more" onclick="goto('services')">عرض الكل ❯</div>
+        </div>
+        <div class="serv-grid" id="homeServ"></div>
     </div>
 
-  </div>
+    <!-- PAGE 2: PROJECTS -->
+    <div id="p-projects" class="page">
+        <div class="sec-head"><div class="sec-title">معرض المشاريع والمنجزات</div></div>
+        <div id="allProj"></div>
+    </div>
 
-  <script>
-    let activeImageData = "";
+    <!-- PAGE 3: SERVICES -->
+    <div id="p-services" class="page">
+        <div class="sec-head"><div class="sec-title">خدماتنا المتاحة</div></div>
+        <div class="serv-grid" id="allServ"></div>
+    </div>
 
-    function previewFile(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          activeImageData = e.target.result;
-          document.getElementById('imagePreview').src = activeImageData;
-          document.getElementById('previewBox').style.display = 'block';
-          document.getElementById('uploadText').innerText = "🔄 تغيير الصورة المحددة";
+    <!-- PAGE 4: CALCULATOR -->
+    <div id="p-calc" class="page">
+        <div class="sec-head"><div class="sec-title">📐 حاسبة التكلفة المتقدمة</div></div>
+        <div style="background:var(--card-bg); padding:18px; border-radius:18px; border:1px solid var(--card-border);">
+            <label style="font-size:0.75rem; color:var(--text-sub); display:block; margin-bottom:4px;">نوع البناء والتجهيز:</label>
+            <select class="input-box" id="cType">
+                <option value="250000">بناء هيكل أسود فقط (250,000 د.ع / م²)</option>
+                <option value="450000">تشطيب عادي / مفتاح (450,000 د.ع / م²)</option>
+                <option value="600000">تشطيب ديلوكس ممتاز (600,000 د.ع / م²)</option>
+                <option value="850000">تشطيب سوبر ديلوكس VIP (850,000 د.ع / م²)</option>
+            </select>
+
+            <label style="font-size:0.75rem; color:var(--text-sub); display:block; margin-bottom:4px;">عدد الطوابق:</label>
+            <select class="input-box" id="cFloors">
+                <option value="1">طابق واحد (1)</option>
+                <option value="2" selected>طابقين (2)</option>
+                <option value="3">ثلاث طوابق (3)</option>
+                <option value="4">أربعة طوابق (4)</option>
+            </select>
+
+            <label style="font-size:0.75rem; color:var(--text-sub); display:block; margin-bottom:4px;">مساحة الأرض (م²):</label>
+            <input type="number" class="input-box" id="cArea" placeholder="مثال: 150" value="150">
+
+            <button class="btn btn-blue" style="width:100%; margin-top:8px;" onclick="calcCost()">حساب التكلفة التقديرية</button>
+            
+            <div id="cResult" style="margin-top:16px; padding:12px; background:rgba(245, 158, 11, 0.1); border:1px solid var(--accent-gold); border-radius:12px; text-align:center; display:none;">
+                <div style="font-size:0.75rem; color:var(--text-sub);">المساحة الكلية للبناء: <span id="cTotalArea" style="color:#fff; font-weight:bold;"></span> م²</div>
+                <div style="font-size:1.1rem; font-weight:800; color:var(--accent-gold); margin-top:4px;" id="cPriceVal"></div>
+                <div style="font-size:0.65rem; color:var(--text-sub); margin-top:4px;">* الأسعار تقريبية وتعتمد على المخططات التفصيلية ونوع المواد.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: CONTACT & LOCATION -->
+    <div id="p-contact" class="page">
+        <div class="sec-head"><div class="sec-title">تواصل معنا وموقعنا</div></div>
+        <div style="background:var(--card-bg); padding:20px; border-radius:18px; text-align:center; border:1px solid var(--card-border);">
+            <p style="margin-bottom:16px; color:var(--text-sub); font-size:0.85rem;">استشارة مجانية ومباشرة مع المهندس المسؤول</p>
+            <a id="cntC" href="tel:07700000000" class="btn btn-blue" style="margin-bottom:10px;">📞 اتصل بنا الآن</a>
+            <a id="cntW" href="https://wa.me/9647700000000" class="btn btn-gold" style="margin-bottom:12px;">💬 مراسلة عبر الواتساب</a>
+            <a id="cntMapBtn" href="https://maps.google.com" target="_blank" class="btn btn-dark">📍 فتح الموقع في خرائط Google</a>
+
+            <div class="map-box">
+                <iframe id="mapIframe" class="map-frame" src="https://maps.google.com/maps?q=Baghdad,Iraq&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="nav-bottom">
+        <div class="nav-link active" onclick="goto('home')" id="nl-home"><span class="icn">🏠</span><span>الرئيسية</span></div>
+        <div class="nav-link" onclick="goto('services')" id="nl-services"><span class="icn">🛠️</span><span>الخدمات</span></div>
+        <div class="nav-link" onclick="goto('projects')" id="nl-projects"><span class="icn">📁</span><span>المشاريع</span></div>
+        <div class="nav-link" onclick="goto('calc')" id="nl-calc"><span class="icn">📐</span><span>الحاسبة</span></div>
+        <div class="nav-link" onclick="goto('contact')" id="nl-contact"><span class="icn">📍</span><span>الموقع</span></div>
+    </nav>
+
+    <!-- ADMIN MODAL CONTROL PANEL -->
+    <div class="admin-modal" id="admModal">
+        <div class="admin-box">
+            <h3 style="text-align:center; color:var(--accent-gold); margin-bottom:12px;">لوحة التحكم الشاملة</h3>
+            
+            <!-- SECTION 1: ADD PROJECT -->
+            <div class="adm-tab-title">1. إضافة مشروع جديد</div>
+            <input type="text" class="input-box" id="aPTitle" placeholder="عنوان المشروع (مثال: فيلا سكنية)">
+            <label class="file-upload-lbl" for="aPFile">📁 اختر صورة للمشروع من الهاتف</label>
+            <input type="file" id="aPFile" accept="image/*" style="display:none;" onchange="previewImg(this, 'pImgPrev')">
+            <div id="pImgPrev" style="font-size:0.7rem; color:var(--success-green); margin-bottom:6px;"></div>
+            <input type="text" class="input-box" id="aPImgUrl" placeholder="أو ضع رابط صورة مباشر (اختياري)">
+            <button class="btn btn-blue" style="width:100%; margin-bottom:10px;" onclick="addProj()">نشر المشروع</button>
+
+            <!-- SECTION 2: ADD SERVICE -->
+            <div class="adm-tab-title">2. إضافة خدمة جديدة</div>
+            <input type="text" class="input-box" id="aSCode" placeholder="رمز إيموجي (مثال: 🏗️ أو 🎨)">
+            <input type="text" class="input-box" id="aSTitle" placeholder="عنوان الخدمة">
+            <input type="text" class="input-box" id="aSSub" placeholder="وصف قصير للخدمة">
+            <button class="btn btn-blue" style="width:100%; margin-bottom:10px;" onclick="addServ()">إضافة الخدمة</button>
+
+            <!-- SECTION 3: COMPANY INFO & MAP -->
+            <div class="adm-tab-title">3. البيانات العامة والموقع</div>
+            <input type="text" class="input-box" id="aName" placeholder="اسم الشركة / المكتب">
+            <input type="text" class="input-box" id="aTitle" placeholder="العنوان التجاري الرئيسي">
+            <input type="text" class="input-box" id="aPhone" placeholder="رقم الهاتف">
+            <input type="text" class="input-box" id="aWa" placeholder="رقم الواتساب (مثال: 9647700000000)">
+            <input type="text" class="input-box" id="aMap" placeholder="رابط موقع Google Maps أو الإحداثيات">
+
+            <button class="btn btn-gold" style="width:100%; margin-top:8px; margin-bottom:8px;" onclick="saveAdm()">حفظ جميع التغيرات</button>
+            <button class="btn btn-danger" style="width:100%;" onclick="closeAdmin()">إغلاق اللوحة</button>
+        </div>
+    </div>
+
+    <script>
+        const CODE = "123789";
+        let tempProjImg = "";
+
+        const store = {
+            name: "FORSEASON",
+            title: "نبني المستقبل بثقة وجودة عالية",
+            phone: "07700000000",
+            wa: "9647700000000",
+            mapUrl: "https://maps.google.com/maps?q=Baghdad,Iraq&t=&z=13&ie=UTF8&iwloc=&output=embed",
+            projs: [
+                { id: 1, title: "فيلا سكنية - بغداد", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600" },
+                { id: 2, title: "مجمع تجاري - النجف", img: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=600" }
+            ],
+            servs: [
+                { id: 101, icn: "🏗️", title: "إنشاء المباني", sub: "جودة عالية وتنفيذ متكامل" },
+                { id: 102, icn: "🎨", title: "ترميم وتأهيل", sub: "تحديث وتجديد الديكورات" },
+                { id: 103, icn: "⚡", title: "أعمال كهربائية", sub: "تمديد وصيانة الشبكات" },
+                { id: 104, icn: "🚰", title: "أعمال صحية", sub: "منظومات حديثة وذكية" }
+            ]
+        };
+
+        let isAdminLoggedIn = false;
+
+        function getDB() {
+            const local = localStorage.getItem('forseason_v2_db');
+            return local ? JSON.parse(local) : store;
         }
-        reader.readAsDataURL(file);
-      }
-    }
 
-    function addPost(event) {
-      event.preventDefault();
+        function saveDB(data) {
+            localStorage.setItem('forseason_v2_db', JSON.stringify(data));
+            render();
+        }
 
-      const title = document.getElementById('title').value;
-      const desc = document.getElementById('description').value;
-      const feed = document.getElementById('postsFeed');
+        function previewImg(input, targetId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempProjImg = e.target.result;
+                    document.getElementById(targetId).innerText = "✓ تم اختيار الصورة بنجاح من جهازك";
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
-      const card = document.createElement('div');
-      card.className = 'post-card';
+        function render() {
+            const db = getDB();
+            document.getElementById('brandTitle').innerText = db.name;
+            document.getElementById('hTitle').innerText = db.title;
+            document.getElementById('btnCall').href = "tel:" + db.phone;
+            document.getElementById('btnWa').href = "https://wa.me/" + db.wa;
+            document.getElementById('cntC').href = "tel:" + db.phone;
+            document.getElementById('cntW').href = "https://wa.me/" + db.wa;
+            
+            if(db.mapUrl) {
+                document.getElementById('mapIframe').src = db.mapUrl;
+                document.getElementById('cntMapBtn').href = db.mapUrl.includes("embed") ? "https://maps.google.com" : db.mapUrl;
+            }
+
+            // Render Projects
+            const hP = document.getElementById('homeProj');
+            const aP = document.getElementById('allProj');
+            hP.innerHTML = ""; aP.innerHTML = "";
+
+            db.projs.forEach((p, i) => {
+                const delBtnHtml = isAdminLoggedIn ? `<button class="del-btn-inline" onclick="delP(${p.id})">🗑️ حذف</button>` : '';
+                const html = `
+                    <div class="proj-card">
+                        <img src="${p.img}" class="proj-img">
+                        <div class="proj-txt">
+                            <span class="proj-ttl">${p.title}</span>
+                            ${delBtnHtml}
+                        </div>
+                    </div>
+                `;
+                if(i < 2) hP.innerHTML += html;
+                aP.innerHTML += html;
       
-      card.innerHTML = `
-        ${activeImageData ? `<img src="${activeImageData}" alt="الصورة">` : ''}
-        <div class="post-content">
-          <h3 class="post-title">${title}</h3>
-          <p class="post-desc">${desc}</p>
-          <button class="btn-delete" onclick="this.closest('.post-card').remove()">حذف التحديث</button>
-        </div>
-      `;
-
-      feed.prepend(card);
-
-      // إعادة ضبط النموذج
-      document.getElementById('updateForm').reset();
-      document.getElementById('previewBox').style.display = 'none';
-      document.getElementById('uploadText').innerText = "📷 اضغط هنا لاختيار صورة من الصور";
-      activeImageData = "";
-    }
-  </script>
-
-</body>
-</html>
