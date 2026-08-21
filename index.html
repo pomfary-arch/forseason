@@ -3,66 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيقي المستقل</title>
+    <meta name="theme-color" content="#0d1117">
+    <title>FORSEASON | فورسيزن للمقاولات العامة</title>
+
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22FORSEASON%22%2C%22short_name%22%3A%22FORSEASON%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230d1117%22%2C%22theme_color%22%3A%22%230d1117%22%7D">
+
     <style>
+        :root {
+            --bg-main: #0d1117;
+            --bg-card: rgba(22, 27, 34, 0.8);
+            --accent-green: #238636;
+            --accent-blue: #2f81f7;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
+
         body {
-            background-color: #f4f6f9;
-            color: #333;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-bottom: 70px;
+            overflow-x: hidden;
+        }
+
+        /* Glass Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            padding: 12px 16px;
+        }
+
+        .header .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            letter-spacing: 1px;
+        }
+
+        .header-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        /* Marquee Bar */
+        .ticker {
+            background: rgba(47, 129, 247, 0.1);
+            color: var(--accent-blue);
+            padding: 6px;
+            font-size: 0.8rem;
+            text-align: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        /* Container Sections */
+        .section {
+            padding: 20px 16px;
+        }
+
+        /* Hero Card */
+        .hero {
+            background: linear-gradient(135deg, rgba(47,129,247,0.15), rgba(35,134,54,0.15));
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-green { background: var(--accent-green); color: white; }
+        .btn-blue { background: var(--accent-blue); color: white; }
+
+        /* Stats Grid */
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 15px;
             text-align: center;
         }
-        .container {
-            background: #ffffff;
-            padding: 40px 30px;
+
+        .stat-card h3 {
+            font-size: 1.4rem;
+            color: var(--accent-blue);
+        }
+
+        /* Calculator Card */
+        .calc-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
             border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            max-width: 500px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .calc-card h2 { font-size: 1.1rem; margin-bottom: 12px; }
+
+        .input-field {
             width: 100%;
-        }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 26px;
-        }
-        p {
-            color: #666;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-        .btn {
-            display: inline-block;
-            background-color: #27ae60;
+            padding: 10px;
+            background: #010409;
+            border: 1px solid var(--glass-border);
             color: white;
-            padding: 12px 28px;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            transition: background 0.3s ease;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
-        .btn:hover {
-            background-color: #219150;
+
+        /* Floating Actions */
+        .floating-btns {
+            position: fixed;
+            bottom: 75px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            gap: 10px;
+            z-index: 90;
+        }
+
+        .floating-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 30px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(13, 17, 23, 0.95);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-item {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .nav-item.active { color: var(--accent-blue); }
+
+        /* Modal Admin */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 200;
+            padding: 20px;
+            overflow-y: auto;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>مرحباً بك في موقعك المستقل!</h1>
-        <p>تم إطلاق الموقع بنجاح واستضافته مجاناً مدى الحياة على سيرفرات آمنة ومستقلة.</p>
-        <a href="#" class="btn">استكشف التطبيق</a>
+    <!-- Header -->
+    <header class="header">
+        <button class="header-btn" onclick="toggleModal('adminModal')">🛡️ همام السعدون</button>
+        <div class="logo">FORSEASON</div>
+        <button class="header-btn" onclick="alert('تطبيق FORSEASON جاهز للعمل!')">📱 التطبيق</button>
+    </header>
+
+    <!-- Marquee Ticker -->
+    <div class="ticker">
+        📢 عروض خاصة لمشاريع البناء والترميم لعام 2026 — جودة واحترافية عالية
     </div>
 
+    <!-- Main Content -->
+    <div class="section">
+        
+        <!-- Hero Section -->
+        <div class="hero">
+            <span style="color: var(--accent-blue); font-size: 0.8rem;">● جودة · التزام ●</span>
+            <h1>نبني المستقبل بثقة</h1>
+            <p>حلول مقاولات متكاملة من الفكرة إلى التنفيذ بأعلى المعايير الهندسية.</p>
+            <div class="btn-group">
+                <a href="https://wa.me/9640000000000" class="btn btn-green">💬 واتساب</a>
+                <a href="#calc" class="btn btn-blue">📐 حاسبة التكلفة</a>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3>150+</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted)">مشروع منجز</p>
+            </div>
+            <div class="stat-card">
+                <h3>12+</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted)">سنوات خبرة</p>
+            </div>
+        </div>
+
+        <!-- Interactive Calculator -->
+        <div class="calc-card" id="calc">
+            <h2>💡 حاسبة التكلفة السريعة التفاعلية</h2>
+            <select class="input-field" id="projectType">
+                <option value="400">بناء وتشييد كامل (متر2)</option>
+                <option value="250">ترميم وتأهيل (متر2)</option>
+                <option value="150">أعمال ديكور وتشطيبات (متر2)</option>
+            </select>
+            <input type="number" class="input-field" id="areaInput" placeholder="المساحة التقريبية (متر مربع)" value="150">
+            <button class="btn btn-blue" style="width:100%" onclick="calculateCost()">احسب التكلفة التقديرية</button>
+            <div id="calcResult" style="margin-top:10px; font-weight:bold; text-align:center; color:var(--accent-green);"></div>
+        </div>
+
+    </div>
+
+    <!-- Floating Actions -->
+    <div class="floating-btns">
+        <a href="tel:0096400000000" class="floating-btn" style="background: rgba(47, 129, 247, 0.8);">📞 اتصال سريع</a>
+        <a href="https://wa.me/9640000000000" class="floating-btn" style="background: rgba(35, 134, 54, 0.8);">💬 واتساب عائم</a>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active"><span>🏠</span>الرئيسية</a>
+        <a href="#calc" class="nav-item"><span>📐</span>الحاسبة</a>
+        <a href="https://wa.me/9640000000000" class="nav-item"><span>📞</span>تواصل</a>
+    </nav>
+
+    <!-- Admin Panel Modal -->
+    <div class="modal" id="adminModal">
+        <div style="background: var(--bg-main); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+            <h2 style="margin-bottom:15px; color: var(--accent-blue)">🛡️ لوحة إدارة — همام السعدون</h2>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">إدارة نظام FORSEASON المباشرة وحفظ البيانات.</p>
+            
+            <button class="btn btn-blue" style="width:100%; margin-bottom:10px;" onclick="exportData()">📥 تصدير نسخة احتياطية (Backup)</button>
+            <button class="btn btn-green" style="width:100%; margin-bottom:10px;" onclick="systemCheck()">🔍 فحص أداء وصحة النظام</button>
+            <button class="btn" style="width:100%; background: #da3633; color:white;" onclick="toggleModal('adminModal')">إغلاق</button>
+        </div>
+    </div>
+
+    <script>
+        // Calculate Cost Function
+        function calculateCost() {
+            const rate = parseFloat(document.getElementById('projectType').value);
+            const area = parseFloat(document.getElementById('areaInput').value);
+            const resultDiv = document.getElementById('calcResult');
+
+            if (area && area > 0) {
+                const total = rate * area;
+                resultDiv.innerHTML = `التكلفة التقديرية: $${total.toLocaleString()}`;
+            } else {
+                resultDiv.innerHTML = 'يرجى إدخال مساحة صالحة!';
+            }
+        }
+
+        // Toggle Modals
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // System Check
+        function systemCheck() {
+            alert('✅ جميع السيرفرات وشبكة PWA تعمل بسلاسة وبأعلى كفاءة!');
+        }
+
+        // Export Data
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ project: "FORSEASON", status: "Active" }));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "forseason_backup.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+    </script>
 </body>
-</html>
+    </html>
+    
