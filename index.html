@@ -3,36 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FORSEASON - شركة المقاولات والديكور</title>
+    <title>FORSEASON | منصة المقاولات والديكور العراقية الذكية</title>
     
-    <!-- External Libraries -->
+    <!-- External Libraries & Fonts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- PWA Web App Meta Tags -->
+    <meta name="theme-color" content="#0b0f17">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
         :root {
-            --bg-main: #0f172a;
-            --card-bg: #1e293b;
+            --bg-main: #0b0f17;
+            --bg-card: rgba(21, 28, 40, 0.75);
+            --bg-card-hover: rgba(30, 41, 59, 0.85);
+            --border-card: rgba(212, 175, 55, 0.2);
+            --border-glow: rgba(212, 175, 55, 0.6);
+            
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
-            --accent-gold: #f59e0b;
-            --accent-gold-hover: #d97706;
-            --btn-blue: #2563eb;
-            --btn-blue-hover: #1d4ed8;
-            --btn-dark: #334155;
-            --success-green: #10b981;
-            --danger-red: #ef4444;
-            --card-border: #334155;
-            --shadow-color: rgba(0,0,0,0.4);
+            
+            --gold-primary: #d4af37;
+            --gold-gradient: linear-gradient(135deg, #f59e0b 0%, #d4af37 50%, #9a7b1c 100%);
+            --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            --green-gradient: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            
+            --accent-red: #ef4444;
+            --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            --glass-blur: blur(16px);
         }
 
         .light-theme {
-            --bg-main: #f1f5f9;
-            --card-bg: #ffffff;
+            --bg-main: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card-hover: rgba(241, 245, 249, 0.95);
+            --border-card: rgba(212, 175, 55, 0.3);
             --text-main: #0f172a;
-            --text-sub: #64748b;
-            --card-border: #e2e8f0;
-            --shadow-color: rgba(0,0,0,0.08);
+            --text-sub: #475569;
+            --shadow-glass: 0 8px 30px rgba(0,0,0,0.08);
         }
 
         * {
@@ -46,945 +56,636 @@
         body {
             background-color: var(--bg-main);
             color: var(--text-main);
-            padding-bottom: 75px;
+            padding-bottom: 90px;
             direction: rtl;
-            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
-        /* HEADER & NAVBAR */
+        /* SCROLLBAR & PROGRESS BAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-primary); border-radius: 4px; }
+
+        .top-progress {
+            position: fixed; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--gold-gradient); z-index: 1001; width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* HEADER GLASSMORPHISM */
         .app-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--card-border);
-            padding: 12px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px var(--shadow-color);
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(11, 15, 23, 0.8);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border-card);
+            padding: 12px 18px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: var(--shadow-glass);
         }
 
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .brand-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
         .brand-icon {
-            width: 38px;
-            height: 38px;
-            background: var(--accent-gold);
-            color: #000;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1.2rem;
+            width: 42px; height: 42px;
+            background: var(--gold-gradient);
+            color: #000; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 1.3rem;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            transform: rotate(-3deg);
+            transition: transform 0.3s ease;
         }
+        .brand-icon:hover { transform: rotate(0deg) scale(1.05); }
+        .brand-title { font-size: 1.25rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .brand-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--accent-gold);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
-        }
-
+        .header-actions { display: flex; gap: 8px; }
         .icon-btn {
-            background: var(--bg-main);
-            border: 1px solid var(--card-border);
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
             color: var(--text-main);
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1rem;
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.1rem; transition: 0.3s ease;
+            backdrop-filter: var(--glass-blur);
         }
+        .icon-btn:hover { border-color: var(--gold-primary); transform: translateY(-2px); }
 
-        /* NEWS TICKER */
-        .news-ticker {
-            background: var(--accent-gold);
-            color: #000;
-            padding: 6px 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            box-shadow: 0 1px 4px var(--shadow-color);
+        /* LIVE MARKET TICKER */
+        .ticker-wrapper {
+            background: linear-gradient(90deg, #151c28, #0f172a, #151c28);
+            border-bottom: 1px solid var(--border-card);
+            padding: 8px 0; overflow: hidden; white-space: nowrap; font-size: 0.8rem; font-weight: 700;
         }
+        .ticker-inner { display: inline-block; animation: ticker 25s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
-        .ticker-content {
-            display: inline-block;
-            animation: ticker 18s linear infinite;
-        }
-
-        @keyframes ticker {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* PAGE SYSTEM */
+        /* PAGES & ANIMATIONS */
         .page {
-            display: none;
-            padding: 16px;
-            max-width: 768px;
-            margin: 0 auto;
+            display: none; padding: 20px 16px; max-width: 850px; margin: 0 auto;
+            opacity: 0; transform: translateY(15px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        .page.active { display: block; opacity: 1; transform: translateY(0); }
 
-        .page.active {
-            display: block;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* CARDS & UI ELEMENTS */
+        /* LUXURY CARDS & GLASS UI */
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 12px var(--shadow-color);
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-card);
+            border-radius: 18px; padding: 20px; margin-bottom: 20px;
+            box-shadow: var(--shadow-glass);
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
         }
+        .card:hover { border-color: var(--border-glow); transform: translateY(-3px); }
 
-        .sec-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
+        .sec-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .sec-title { font-size: 1.1rem; font-weight: 800; color: var(--gold-primary); display: flex; align-items: center; gap: 8px; }
 
-        .sec-title {
-            font-size: 1rem;
-            font-weight: 800;
-            color: var(--accent-gold);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
+        /* BUTTONS */
         .btn {
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: 0.2s;
-            text-decoration: none;
+            border: none; padding: 12px 20px; border-radius: 12px;
+            font-weight: 800; font-size: 0.9rem; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.3s ease; text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
+        .btn-gold { background: var(--gold-gradient); color: #000; }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
+        .btn-blue { background: var(--blue-gradient); color: #fff; }
+        .btn-green { background: var(--green-gradient); color: #fff; }
+        .btn-dark { background: rgba(255,255,255,0.08); color: var(--text-main); border: 1px solid var(--border-card); }
+        .btn-sm { padding: 8px 14px; font-size: 0.8rem; border-radius: 8px; }
 
-        .btn-gold { background: var(--accent-gold); color: #000; }
-        .btn-gold:hover { background: var(--accent-gold-hover); }
-
-        .btn-blue { background: var(--btn-blue); color: #fff; }
-        .btn-blue:hover { background: var(--btn-blue-hover); }
-
-        .btn-dark { background: var(--btn-dark); color: #fff; }
-        .btn-success { background: var(--success-green); color: #fff; }
-        .btn-danger { background: var(--danger-red); color: #fff; }
-        .btn-sm { padding: 6px 10px; font-size: 0.75rem; }
-
-        .input-box {
-            width: 100%;
-            padding: 10px;
-            background: var(--bg-main);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            color: var(--text-main);
-            margin-bottom: 10px;
-            font-size: 0.85rem;
-            outline: none;
+        /* FORM INPUTS */
+        .input-box, select.input-box {
+            width: 100%; padding: 12px 14px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-card); border-radius: 10px;
+            color: var(--text-main); margin-bottom: 12px; font-size: 0.9rem;
+            outline: none; transition: 0.3s;
         }
+        .input-box:focus { border-color: var(--gold-primary); box-shadow: 0 0 10px rgba(212,175,55,0.3); }
 
-        .input-box:focus {
-            border-color: var(--accent-gold);
-        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 
-        /* GRID LAYOUTS */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-
-        /* HERO & PROMOTION */
+        /* HERO BANNER */
         .hero-banner {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid var(--accent-gold);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 16px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(15,23,42,0.8) 100%);
+            border: 1px solid var(--gold-primary);
+            border-radius: 22px; padding: 28px 20px; text-align: center; margin-bottom: 22px;
+            position: relative; backdrop-filter: var(--glass-blur);
         }
+        .hero-title { font-size: 1.4rem; font-weight: 900; color: var(--gold-primary); margin-bottom: 10px; }
+        .hero-sub { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 18px; line-height: 1.6; }
 
-        .hero-title {
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            margin-bottom: 8px;
-        }
-
-        .hero-sub {
-            font-size: 0.8rem;
-            color: var(--text-sub);
-            margin-bottom: 14px;
-        }
-
-        /* PROJECT CARDS */
-        .proj-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-
-        .proj-img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            cursor: pointer;
-        }
-
-        .proj-txt {
-            padding: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .proj-ttl {
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-
-        /* SERVICES CARDS */
-        .serv-card {
-            background: var(--bg-main);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-        }
-
-        .serv-icn {
-            font-size: 1.8rem;
-            margin-bottom: 6px;
-        }
-
-        .serv-ttl {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .serv-sub {
-            font-size: 0.68rem;
-            color: var(--text-sub);
-            margin-top: 2px;
-        }
-
-        /* BOTTOM NAV BAR */
+        /* BOTTOM NAVIGATION BAR (PWA STYLE) */
         .nav-bottom {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: var(--card-bg);
-            border-top: 1px solid var(--card-border);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 100;
-            box-shadow: 0 -2px 10px var(--shadow-color);
+            position: fixed; bottom: 0; left: 0; right: 0; height: 70px;
+            background: rgba(11, 15, 23, 0.88);
+            backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+            border-top: 1px solid var(--border-card);
+            display: flex; justify-content: space-around; align-items: center;
+            z-index: 1000; box-shadow: 0 -5px 25px rgba(0,0,0,0.5);
         }
-
         .nav-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            color: var(--text-sub);
-            font-size: 0.65rem;
-            font-weight: 700;
-            cursor: pointer;
-            width: 20%;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            color: var(--text-sub); font-size: 0.7rem; font-weight: 700;
+            cursor: pointer; width: 18%; transition: 0.3s; position: relative;
+        }
+        .nav-link .icn { font-size: 1.3rem; transition: transform 0.3s ease; }
+        .nav-link.active { color: var(--gold-primary); }
+        .nav-link.active .icn { transform: translateY(-4px) scale(1.15); }
+        .nav-link.active::after {
+            content: ''; position: absolute; bottom: -8px; width: 16px; height: 3px;
+            background: var(--gold-primary); border-radius: 10px; box-shadow: 0 0 8px var(--gold-primary);
         }
 
-        .nav-link.active {
-            color: var(--accent-gold);
+        /* FLOATING ACTION BUTTON (FAB) */
+        .fab-wrapper {
+            position: fixed; bottom: 85px; left: 20px; z-index: 999;
+        }
+        .fab-main {
+            width: 52px; height: 52px; border-radius: 50%;
+            background: var(--gold-gradient); color: #000;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; box-shadow: 0 4px 20px rgba(212,175,55,0.5);
+            cursor: pointer; transition: 0.3s;
+        }
+        .fab-options {
+            position: absolute; bottom: 62px; left: 0; display: none;
+            flex-direction: column; gap: 10px;
+        }
+        .fab-options.show { display: flex; }
+        .fab-opt {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--bg-card); border: 1px solid var(--border-card);
+            color: var(--text-main); display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; text-decoration: none; box-shadow: var(--shadow-glass);
         }
 
-        .nav-link .icn {
-            font-size: 1.1rem;
-        }
-
-        /* MODALS & OVERLAYS */
+        /* MODALS */
         .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            padding: 16px;
-            overflow-y: auto;
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            z-index: 2000; padding: 20px; overflow-y: auto; backdrop-filter: blur(8px);
         }
-
         .modal-box {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 16px;
-            max-width: 500px;
-            margin: 30px auto;
+            background: var(--bg-main); border: 1px solid var(--border-card);
+            border-radius: 20px; padding: 22px; max-width: 550px; margin: 40px auto;
+            box-shadow: var(--shadow-glass);
         }
 
-        /* FILTER CHIPS */
-        .filter-chips {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
+        /* GRAPH VISUALIZER */
+        .chart-box {
+            display: flex; height: 22px; border-radius: 8px; overflow: hidden; margin: 15px 0; background: rgba(255,255,255,0.05);
         }
+        .chart-seg { height: 100%; transition: width 0.6s ease; }
 
-        .f-chip {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-sub);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-
-        .f-chip.active {
-            background: var(--accent-gold);
-            color: #000;
-            font-weight: bold;
-            border-color: var(--accent-gold);
-        }
+        /* SLIDER COMPARISON */
+        .slider-box { width: 100%; margin: 15px 0; }
+        .slider-box input { width: 100%; accent-color: var(--gold-primary); }
     </style>
 </head>
 <body>
+    <div class="top-progress" id="topProgress"></div>
         <!-- HEADER -->
     <header class="app-header">
-        <div class="brand-logo">
+        <div class="brand-logo" onclick="switchTab('home')">
             <div class="brand-icon">4S</div>
-            <div class="brand-title" id="brandTitle">FORSEASON</div>
+            <div>
+                <div class="brand-title">FORSEASON</div>
+                <div style="font-size: 0.65rem; color: var(--text-sub);">المقاولات والديكور العراقية</div>
+            </div>
         </div>
         <div class="header-actions">
-            <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">🌓</button>
-            <button class="icon-btn" onclick="shareApp()" title="مشاركة المنصة">🔗</button>
-            <button class="icon-btn" onclick="toggleChatbot()" title="المساعد الآلي">🤖</button>
-            <button class="icon-btn" onclick="openAdmin()" title="لوحة التحكم">⚙️</button>
+            <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">🌙</button>
+            <button class="icon-btn" onclick="openPwaInstaller()" title="تثبيت التطبيق">📲</button>
         </div>
     </header>
 
-    <!-- NEWS TICKER -->
-    <div class="news-ticker">
-        <div class="ticker-content" id="tickerText">📢 مرحباً بكم في منصة FORSEASON للمقاولات - تخفيضات خاصة وشاملة لهذا الشهر!</div>
+    <!-- LIVE MARKET TICKER -->
+    <div class="ticker-wrapper">
+        <div class="ticker-inner">
+            <span>🏗️ أسعار البورصة العراقية اليوم: </span>
+            <span style="color: #10b981; margin: 0 10px;">طن أحدث حديد: 790,000 د.ع 🟢</span>
+            <span style="color: #ef4444; margin: 0 10px;">سمنت مقاوم (طن): 115,000 د.ع 🔴</span>
+            <span style="color: #10b981; margin: 0 10px;">حصى وطابوق (حملة): 320,000 د.ع 🟢</span>
+            <span style="color: #3b82f6; margin: 0 10px;">سعر الدولار التقديري: 151,500 د.ع 🔵</span>
+        </div>
     </div>
 
-    <!-- PAGE 1: HOME -->
-    <div id="p-home" class="page active">
-        <div class="hero-banner">
-            <div class="hero-title" id="hTitle">نبني المستقبل بثقة وجودة عالية</div>
-            <div class="hero-sub">شركة متخصصة في أعمال البناء، التشطيب والديكورات الحديثة بأعلى المعايير الهندسيّة.</div>
-            <div style="display: flex; gap: 8px; justify-content: center;">
-                <a id="btnCall" href="tel:07700000000" class="btn btn-gold btn-sm">📞 اتصل الآن</a>
-                <a id="btnWa" href="https://wa.me/9647700000000" class="btn btn-blue btn-sm">💬 واتساب</a>
-            </div>
-        </div>
-
-        <!-- QUICK SERVICES -->
-        <div class="sec-head">
-            <div class="sec-title">🛠️ خدماتنا الرئيسية</div>
-            <button class="btn btn-dark btn-sm" onclick="goto('services')">عرض الكل</button>
-        </div>
-        <div class="grid-2" style="margin-bottom: 16px;">
-            <div class="serv-card" onclick="goto('calc')">
-                <div class="serv-icn">📐</div>
-                <div class="serv-ttl">حاسبة البناء</div>
-                <div class="serv-sub">تخمين التكلفة المبدئية</div>
-            </div>
-            <div class="serv-card" onclick="goto('matcalc')">
-                <div class="serv-icn">🧱</div>
-                <div class="serv-ttl">كميات المواد</div>
-                <div class="serv-sub">حساب الطابوق والسمنت</div>
-            </div>
-            <div class="serv-card" onclick="goto('prices')">
-                <div class="serv-icn">📊</div>
-                <div class="serv-ttl">بورصة المواد</div>
-                <div class="serv-sub">أسعار السوق اليومية</div>
-            </div>
-            <div class="serv-card" onclick="goto('track')">
-                <div class="serv-icn">🔍</div>
-                <div class="serv-ttl">تتبع مشروعك</div>
-                <div class="serv-sub">متابعة نسبة الإنجاز</div>
-            </div>
-        </div>
-
-        <!-- RECENT PROJECTS -->
-        <div class="sec-head">
-            <div class="sec-title">🏆 أحدث أعمالنا</div>
-            <button class="btn btn-dark btn-sm" onclick="goto('projects')">المعرض</button>
-        </div>
-        <div id="homeProj"></div>
-
-        <!-- TESTIMONIALS -->
-        <div class="sec-head" style="margin-top: 16px;">
-            <div class="sec-title">⭐ آراء العملاء</div>
-        </div>
-        <div id="testiGrid" style="display: flex; flex-direction: column; gap: 8px;"></div>
-    </div>
-
-    <!-- PAGE 2: SERVICES -->
-    <div id="p-services" class="page">
-        <div class="sec-head">
-            <div class="sec-title">🛠️ جميع الخدمات والتخصصات</div>
-        </div>
-        <div id="allServ" class="grid-2" style="gap: 12px;"></div>
-    </div>
-
-    <!-- PAGE 3: PROJECTS GALLERY -->
-    <div id="p-projects" class="page">
-        <div class="sec-head">
-            <div class="sec-title">📁 معرض المشاريع والأعمال</div>
-        </div>
-        <div class="filter-chips">
-            <div class="f-chip active" onclick="filterProjs('all', this)">الكل</div>
-            <div class="f-chip" onclick="filterProjs('فلل', this)">فلل ومنازل</div>
-            <div class="f-chip" onclick="filterProjs('تجاري', this)">تجاري</div>
-            <div class="f-chip" onclick="filterProjs('ديكور', this)">ديكورات</div>
-        </div>
-        <div id="allProj"></div>
-    </div>
-
-    <!-- PAGE 4: ESTIMATION CALCULATOR & PDF EXPORT -->
-    <div id="p-calc" class="page">
-        <div class="sec-head"><div class="sec-title">📐 حاسبة التكلفة والتخمين الشامل</div></div>
-        <div class="card">
-            <label>نوع البناء والتجهيز:</label>
-            <select class="input-box" id="cType">
-                <option value="250000">بناء هيكل أسود (250,000 د.ع / م²)</option>
-                <option value="450000">تشطيب عادي (450,000 د.ع / م²)</option>
-                <option value="600000" selected>تشطيب ديلوكس (600,000 د.ع / م²)</option>
-                <option value="850000">تشطيب VIP (850,000 د.ع / م²)</option>
-            </select>
-
-            <label>عدد الطوابق:</label>
-            <select class="input-box" id="cFloors">
-                <option value="1">طابق واحد (1)</option>
-                <option value="2" selected>طابقين (2)</option>
-                <option value="3">3 طوابق</option>
-                <option value="4">4 طوابق</option>
-            </select>
-
-            <label>مساحة الأرض (م²):</label>
-            <input type="number" class="input-box" id="cArea" placeholder="مثال: 150" value="150">
-
-            <label>إضافات اختيارية متقدمة:</label>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; font-size:0.75rem;">
-                <label><input type="checkbox" id="cPool"> مسبح خاص (+15,000,000)</label>
-                <label><input type="checkbox" id="cGarden"> حدائق كلاسيك (+5,000,000)</label>
-                <label><input type="checkbox" id="cElevator"> مصعد كهربائي (+12,000,000)</label>
-                <label><input type="checkbox" id="cSolar"> منظومة طاقة شمسية (+8,000,000)</label>
-                <label><input type="checkbox" id="cInsulation"> عزل حراري ومائي (+4,000,000)</label>
-            </div>
-
-            <button class="btn btn-blue" style="width:100%;" onclick="calcCost()">حساب التكلفة التقديرية</button>
-
-            <div id="cResult" style="margin-top:16px; padding:14px; background:rgba(245, 158, 11, 0.1); border:1px solid var(--accent-gold); border-radius:12px; text-align:center; display:none;">
-                <div id="pdfExportArea">
-                    <h3 style="color:var(--accent-gold); margin-bottom:6px; font-size:0.95rem;">📋 كشف تخمين بناء مبدئي</h3>
-                    <div style="font-size:0.75rem; color:var(--text-sub);">المساحة الإجمالية للبناء: <span id="cTotalArea" style="font-weight:bold; color:var(--text-main);"></span> م²</div>
-                    <div style="font-size:1.1rem; font-weight:800; color:var(--accent-gold); margin:8px 0;" id="cPriceVal"></div>
-                    <p style="font-size:0.65rem; color:var(--text-sub);">السعر تقديري ويخضع للمعايير الفنية والمخططات النهائية.</p>
-                </div>
-                <div style="display:flex; gap:8px; margin-top:10px;">
-                    <button class="btn btn-gold" style="flex:1;" onclick="sendCalcToWa()">💬 إرسال للمهندس</button>
-                    <button class="btn btn-dark" style="flex:1;" onclick="exportPDF()">📄 تنزيل PDF</button>
+    <!-- MAIN APP CONTENT -->
+    <main>
+        <!-- PAGE 1: HOME PAGE -->
+        <section id="home" class="page active">
+            <div class="hero-banner">
+                <div class="hero-title">منصة البناء والتخمين الذكية 🏛️</div>
+                <div class="hero-sub">احسب تكلفة بناء دارك حسب أسعار المحافظات العراقية، احصل على توزيع معماري ذكي، وتابع مشروعك لحظة بلحظة.</div>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="btn btn-gold" onclick="switchTab('calc')">⚡ بدء التخمين الفوري</button>
+                    <button class="btn btn-dark" onclick="switchTab('plans')">📐 مقترح الخرائط</button>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- PAGE 5: MATERIALS CALCULATOR (QUANTITIES) -->
-    <div id="p-matcalc" class="page">
-        <div class="sec-head"><div class="sec-title">🧱 حاسبة كميات المواد الأولية</div></div>
-        <div class="card">
-            <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:12px;">احسب الكميات التقريبية للمواد الأساسية التي يحتاجها بناؤك:</p>
-            <label>مساحة مسطح البناء الكلي (م²):</label>
-            <input type="number" class="input-box" id="mcArea" placeholder="مثال: 300" value="300">
+            <!-- COMPARISON SLIDER -->
+            <div class="card">
+                <div class="sec-head">
+                    <div class="sec-title"><span>⚖️</span> مقارنة درجات التشطيب</div>
+                    <span id="sliderQualityTag" class="btn btn-sm btn-gold">بناء أسود + تقطيع</span>
+                </div>
+                <div class="slider-box">
+                    <input type="range" id="qualityRange" min="1" max="3" value="1" oninput="updateQualityCompare(this.value)">
+                </div>
+                <div id="qualityCompareText" style="font-size: 0.85rem; color: var(--text-sub); line-height: 1.6; min-height: 50px;">
+                    يشمل هيكل الصب والتفتيش، الطابوق المقاوم، التأسيسات الأولية للماء والكهرباء بدون السيراميك والأرضيات.
+                </div>
+            </div>
 
-            <button class="btn btn-blue" style="width:100%;" onclick="calcMaterials()">حساب المواد المطلوبة</button>
-
-            <div id="mcResult" style="margin-top:14px; display:none;">
+            <!-- PROJECTS SHOWCASE -->
+            <div class="card">
+                <div class="sec-head">
+                    <div class="sec-title"><span>🏗️</span> أعمالنا المنجزة حالياً</div>
+                </div>
                 <div class="grid-2">
-                    <div class="serv-card"><div class="serv-icn">🧱</div><div class="serv-ttl" id="mcBrick">0</div><div class="serv-sub">طابوقة تقريباً</div></div>
-                    <div class="serv-card"><div class="serv-icn">🏗️</div><div class="serv-ttl" id="mcCement">0</div><div class="serv-sub">كيس سمنت</div></div>
-                    <div class="serv-card"><div class="serv-icn">⚖️</div><div class="serv-ttl" id="mcSteel">0</div><div class="serv-sub">طن حديد تسليح</div></div>
-                    <div class="serv-card"><div class="serv-icn">🚚</div><div class="serv-ttl" id="mcSand">0</div><div class="serv-sub">م³ رمل وحصى</div></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE 6: LIVE MATERIAL PRICES (DAILY MARKET) -->
-    <div id="p-prices" class="page">
-        <div class="sec-head"><div class="sec-title">📊 بورصة وأسعار مواد البناء اليومية</div></div>
-        <div class="card">
-            <p style="font-size:0.72rem; color:var(--text-sub); margin-bottom:10px;">تحديث يومي لأسعار السوق المحلي في العراق:</p>
-            <div id="pricesList" style="display:flex; flex-direction:column; gap:8px;"></div>
-        </div>
-    </div>
-
-    <!-- PAGE 7: PROJECT TRACKER -->
-    <div id="p-track" class="page">
-        <div class="sec-head"><div class="sec-title">🔍 متابعة نسبة إنجاز المشروع</div></div>
-        <div class="card">
-            <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:10px;">أدخل كود المتابعة الخاص بمشروعك لمشاهدة التفاصيل المباشرة:</p>
-            <input type="text" class="input-box" id="trackCode" placeholder="أدخل كود المشروع (مثال: PRJ-101)">
-            <button class="btn btn-gold" style="width:100%;" onclick="trackProject()">بحث ومتابعة</button>
-
-            <div id="trackResult" style="margin-top:14px; display:none;">
-                <div style="font-size:0.85rem; font-weight:700; color:var(--accent-gold);" id="trName">مشروع فيلا المنصور</div>
-                <div style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;" id="trStage">المرحلة الحالية: صب سقف الطابق الأول</div>
-                <div style="background:var(--bg-main); border-radius:10px; height:14px; width:100%; margin:10px 0; overflow:hidden;">
-                    <div id="trBar" style="background:var(--success-green); height:100%; width:0%; transition:1s;"></div>
-                </div>
-                <div style="font-size:0.75rem; text-align:center; font-weight:bold;" id="trPercent">0% مكتمل</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE 8: CONSULTATION & BOOKING -->
-    <div id="p-contact" class="page">
-        <div class="sec-head"><div class="sec-title">📍 تواصل معنا وحجز معاينة</div></div>
-        <div class="card">
-            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
-                <a id="cntC" href="tel:07700000000" class="btn btn-blue">📞 اتصل بنا الآن</a>
-                <a id="cntW" href="https://wa.me/9647700000000" class="btn btn-gold">💬 مراسلة عبر الواتساب</a>
-                <a id="cntMapBtn" href="https://maps.google.com" target="_blank" class="btn btn-dark">📍 فتح خرائط Google</a>
-            </div>
-
-            <div class="sec-head"><div class="sec-title">طلب استشارة أو معاينة موقعية</div></div>
-            <input type="text" class="input-box" id="reqName" placeholder="الاسم الكامل">
-            <input type="text" class="input-box" id="reqPhone" placeholder="رقم الهاتف">
-            <input type="text" class="input-box" id="reqCity" placeholder="المحافظة / المنطقة">
-            <textarea class="input-box" id="reqMsg" placeholder="تفاصيل الطلب أو مساحة الأرض..." style="height:70px;"></textarea>
-            <button class="btn btn-success" style="width:100%;" onclick="sendConsultation()">إرسال الطلب للمهندس مباشرة</button>
-        </div>
-    </div>
-
-    <!-- BOTTOM NAVIGATION BAR -->
-    <nav class="nav-bottom">
-        <div class="nav-link active" onclick="goto('home')" id="nl-home"><span class="icn">🏠</span><span>الرئيسية</span></div>
-        <div class="nav-link" onclick="goto('services')" id="nl-services"><span class="icn">🛠️</span><span>الخدمات</span></div>
-        <div class="nav-link" onclick="goto('projects')" id="nl-projects"><span class="icn">📁</span><span>المشاريع</span></div>
-        <div class="nav-link" onclick="goto('calc')" id="nl-calc"><span class="icn">📐</span><span>الحاسبة</span></div>
-        <div class="nav-link" onclick="goto('contact')" id="nl-contact"><span class="icn">📍</span><span>التواصل</span></div>
-    </nav>
-
-    <!-- LIGHTBOX MODAL -->
-    <div class="modal" id="lbModal" onclick="this.style.display='none'">
-        <img src="" id="lbImg" style="width:100%; height:auto; max-height:80vh; object-fit:contain; border-radius:12px; margin-top:10vh;">
-    </div>
-
-    <!-- CHATBOT POPUP MODAL -->
-    <div class="modal" id="chatModal">
-        <div class="modal-box">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <span style="font-weight:700; color:var(--accent-gold);">🤖 المساعد الهندي الآلي</span>
-                <button class="btn btn-danger btn-sm" onclick="toggleChatbot()">✕</button>
-            </div>
-            <div id="chatHistory" style="height:220px; overflow-y:auto; background:var(--bg-main); padding:10px; border-radius:10px; margin-bottom:10px; font-size:0.75rem; display:flex; flex-direction:column; gap:8px;">
-                <div style="background:var(--card-bg); padding:6px 10px; border-radius:8px; align-self:flex-start;">أهلاً بك! أنا المساعد الذكي لشركة FORSEASON. كيف يمكنني مساعدتك اليوم؟</div>
-            </div>
-            <div style="display:flex; gap:6px;">
-                <input type="text" class="input-box" id="chatInput" placeholder="اسأل عن الأسعار، التصاميم..." style="margin:0;">
-                <button class="btn btn-gold btn-sm" onclick="sendChatMsg()">إرسال</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- FULL ADMIN CONTROL PANEL MODAL -->
-    <div class="modal" id="admModal">
-        <div class="modal-box">
-            <h3 style="text-align:center; color:var(--accent-gold); margin-bottom:14px;">⚙️ لوحة التحكم الشاملة</h3>
-
-            <div style="border-bottom:1px solid var(--card-border); padding-bottom:10px; margin-bottom:10px;">
-                <label style="font-weight:700; color:var(--accent-gold);">1. إضافة مشروع جديد</label>
-                <input type="text" class="input-box" id="aPTitle" placeholder="عنوان المشروع">
-                <select class="input-box" id="aPCat">
-                    <option value="فلل">فلل ومنازل</option>
-                    <option value="تجاري">مجمعات تجارية</option>
-                    <option value="ديكور">ديكورات داخلية</option>
-                </select>
-                <input type="text" class="input-box" id="aPImgUrl" placeholder="رابط صورة المشروع">
-                <button class="btn btn-blue btn-sm" style="width:100%;" onclick="addProj()">نشر المشروع</button>
-            </div>
-
-            <div style="border-bottom:1px solid var(--card-border); padding-bottom:10px; margin-bottom:10px;">
-                <label style="font-weight:700; color:var(--accent-gold);">2. إضافة تقييم / رأي زبون</label>
-                <input type="text" class="input-box" id="aTName" placeholder="اسم الزبون">
-                <input type="text" class="input-box" id="aTText" placeholder="نص التقييم والتجربة">
-                <button class="btn btn-blue btn-sm" style="width:100%;" onclick="addTesti()">إضافة التقييم</button>
-            </div>
-
-            <div style="border-bottom:1px solid var(--card-border); padding-bottom:10px; margin-bottom:10px;">
-                <label style="font-weight:700; color:var(--accent-gold);">3. شريط الأخبار والبيانات العامة</label>
-                <input type="text" class="input-box" id="aTicker" placeholder="نص شريط الأخبار">
-                <input type="text" class="input-box" id="aName" placeholder="اسم الشركة">
-                <input type="text" class="input-box" id="aPhone" placeholder="رقم الهاتف">
-                <input type="text" class="input-box" id="aWa" placeholder="رقم الواتساب (96477...)">
-            </div>
-
-            <div style="display:flex; flex-direction:column; gap:6px;">
-                <button class="btn btn-gold" onclick="saveAdm()">حفظ جميع التغييرات</button>
-                <button class="btn btn-dark" onclick="exportDataBackup()">📥 تحميل نسخة احتياطية للبيانات</button>
-                <button class="btn btn-danger" onclick="closeAdmin()">إغلاق اللوحة</button>
-            </div>
-        </div>
+                    <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 10px; text-align: center;">
+                        <div style="font-weight: 800; font-size: 0.9rem;">فيلا المنصور - بغداد</div>
+                        <div style="font-size: 0.75rem; color: var(--gold-primary); margin-top: 4px;">نسبة الإنجاز: 85%</div>
+                        <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-top: 8px; overflow: hidden;">
+                            <div style="width: 85%; height: 100%; background: var(--green-gradient);"></div>
                         </div>
-        <!-- JAVASCRIPT LOGIC -->
-    <script>
-        const CODE = "123789";
-        let calcSummaryText = "";
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 10px; text-align: center;">
+                        <div style="font-weight: 800; font-size: 0.9rem;">مجمع الجابري - النجف</div>
+                        <div style="font-size: 0.75rem; color: var(--gold-primary); margin-top: 4px;">نسبة الإنجاز: 40%</div>
+                        <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-top: 8px; overflow: hidden;">
+                            <div style="width: 40%; height: 100%; background: var(--gold-gradient);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        const defaultStore = {
-            name: "FORSEASON",
-            title: "نبني المستقبل بثقة وجودة عالية",
-            phone: "07700000000",
-            wa: "9647700000000",
-            ticker: "📢 مرحباً بكم في منصة FORSEASON للمقاولات - تخفيضات خاصة وشاملة لهذا الشهر!",
-            projs: [
-                { id: 1, title: "فيلا سكنية - بغداد المنصور", cat: "فلل", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600" },
-                { id: 2, title: "مجمع تجاري - النجف", cat: "تجاري", img: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=600" }
-            ],
-            servs: [
-                { id: 101, icn: "🏗️", title: "إنشاء المباني", sub: "جودة عالية وتنفيذ متكامل" },
-                { id: 102, icn: "🎨", title: "ترميم وتأهيل", sub: "تحديث وتجديد الديكورات" },
-                { id: 103, icn: "⚡", title: "أعمال كهربائية", sub: "تمديد وصيانة الشبكات" },
-                { id: 104, icn: "🚰", title: "أعمال صحية", sub: "منظومات حديثة وذكية" }
-            ],
-            testis: [
-                { id: 1, name: "أبو أحمد الزبيدي", text: "دقة عالية في المواعيد وجودة ممتازة في التشطيب." },
-                { id: 2, name: "م. علي الحسيني", text: "تصاميم راقية جداً وتلبي الطموح بكل احترافية." }
-            ],
-            prices: [
-                { item: "طن حديد تسليح (أوكراني/تركيا)", price: "850,000 د.ع" },
-                { item: "طن سمنت مقاوم (مقاوم للرطوبة)", price: "115,000 د.ع" },
-                { item: "ألف طابوقة مصمتة ميكانيكية", price: "180,000 د.ع" },
-                { item: "متر مكعب حصى / رمل مغسول", price: "25,000 د.ع" }
-            ]
+        <!-- PAGE 2: ADVANCED CALCULATOR -->
+        <section id="calc" class="page">
+            <div class="card">
+                <div class="sec-head">
+                    <div class="sec-title"><span>🧮</span> الحاسبة العراقية الشاملة</div>
+                </div>
+
+                <label style="font-size: 0.8rem; color: var(--text-sub); display: block; margin-bottom: 4px;">نوع شكل الأرض:</label>
+                <select id="calcType" class="input-box" onchange="toggleCalcInputs()">
+                    <option value="regular">أرض منتظمة (مستطيلة / مربعة)</option>
+                    <option value="irregular">أرض غير منتظمة (زوايا مائلة / ضيقة)</option>
+                </select>
+
+                <!-- Inputs Area -->
+                <div id="regularInputs" class="grid-2">
+                    <input type="number" id="landWidth" class="input-box" placeholder="الواجهة (م)" value="10">
+                    <input type="number" id="landDepth" class="input-box" placeholder="النزال (م)" value="20">
+                </div>
+
+                <div id="irregularInputs" class="grid-2" style="display: none;">
+                    <input type="number" id="frontW" class="input-box" placeholder="الواجهة الامامية (م)">
+                    <input type="number" id="backW" class="input-box" placeholder="الواجهة الخلفية (م)">
+                    <input type="number" id="sideL" class="input-box" placeholder="النزال الأيمن (م)">
+                    <input type="number" id="sideR" class="input-box" placeholder="النزال الأيسر (م)">
+                </div>
+
+                <div class="grid-2">
+                    <div>
+                        <label style="font-size: 0.8rem; color: var(--text-sub);">عدد الطوابق:</label>
+                        <select id="floors" class="input-box">
+                            <option value="1">طابق واحد</option>
+                            <option value="2" selected>طابقين</option>
+                            <option value="3">3 طوابق</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; color: var(--text-sub);">المحافظة (مؤشر التكلفة):</label>
+                        <select id="province" class="input-box">
+                            <option value="1.0">بغداد والوسط</option>
+                            <option value="1.08">البصرة والجنوب (+8%)</option>
+                            <option value="1.05">أربيل وإقليم كوردستان (+5%)</option>
+                            <option value="0.95">باقي المحافظات (-5%)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label style="font-size: 0.8rem; color: var(--text-sub);">مستوى التشطيب والبناء:</label>
+                <select id="buildQuality" class="input-box">
+                    <option value="280000">بناء هيكل أسود (280 ألف / م²)</option>
+                    <option value="480000" selected>تشطيب عادي / تجاري (480 ألف / م²)</option>
+                    <option value="650000">تشطيب ديلوكس فاخر (650 ألف / م²)</option>
+                    <option value="850000">VIP سوبر ديلوكس ذكي (850 ألف / م²)</option>
+                </select>
+
+                <button class="btn btn-gold" style="width: 100%;" onclick="calculateCost()">📊 احتساب التكلفة والتقرير</button>
+            </div>
+
+            <!-- RESULT DISPLAY -->
+            <div id="calcResultBox" class="card" style="display: none;">
+                <div class="sec-head">
+                    <div class="sec-title"><span>🧾</span> التقرير المالي المباشر</div>
+                    <button class="btn btn-sm btn-dark" onclick="downloadPDF()">📥 تنزيل PDF</button>
+                </div>
+
+                <div style="text-align: center; margin: 15px 0;">
+                    <div style="font-size: 0.85rem; color: var(--text-sub);">التكلفة التقديرية الكلية</div>
+                    <div id="totalCostDisplay" style="font-size: 1.8rem; font-weight: 900; color: var(--gold-primary);">0 د.ع</div>
+                    <div id="areaDisplay" style="font-size: 0.8rem; color: var(--text-sub); margin-top: 4px;">المساحة البنائية الكلية: 0 م²</div>
+                </div>
+
+                <!-- INFOGRAPHIC COST BREAKDOWN CHART -->
+                <div style="font-size: 0.85rem; font-weight: 700; margin-top: 15px;">التوزيع التقريبي للميزانية:</div>
+                <div class="chart-box">
+                    <div id="segSteel" class="chart-seg" style="background: #ef4444; width: 35%;" title="مواد وصبيات"></div>
+                    <div id="segLabor" class="chart-seg" style="background: #3b82f6; width: 30%;" title="أجور عمل وعمالة"></div>
+                    <div id="segFinish" class="chart-seg" style="background: #10b981; width: 25%;" title="إنهاءات وديكور"></div>
+                    <div id="segManage" class="chart-seg" style="background: #d4af37; width: 10%;" title="إدارة وإشراف"></div>
+                </div>
+                <div class="grid-2" style="font-size: 0.75rem; color: var(--text-sub);">
+                    <div>🔴 المواد الأولية: <b id="costSteelText">0</b></div>
+                    <div>🔵 أجور العمل: <b id="costLaborText">0</b></div>
+                    <div>🟢 الإنهاءات والإنارة: <b id="costFinishText">0</b></div>
+                    <div>🟡 الإشراف الهندسي: <b id="costManageText">0</b></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: SMART FLOOR PLAN SUGGESTER -->
+        <section id="plans" class="page">
+            <div class="card">
+                <div class="sec-head">
+                    <div class="sec-title"><span>📐</span> المولد الذكي للتقسيم المعماري</div>
+                </div>
+                <div class="grid-2">
+                    <input type="number" id="planArea" class="input-box" placeholder="مساحة الأرض (م²)" value="150">
+                    <select id="planFronts" class="input-box">
+                        <option value="1">واجهة واحدة</option>
+                        <option value="2">واجهتين (ركن)</option>
+                    </select>
+                </div>
+                <button class="btn btn-blue" style="width: 100%;" onclick="generateFloorPlan()">✨ توليد مقترح التوزيع</button>
+            </div>
+
+            <div id="planResultCard" class="card" style="display: none;">
+                <div class="sec-head">
+                    <div class="sec-title"><span>🏠</span> التوزيع المعماري الموصى به</div>
+                </div>
+                <div id="planList" style="line-height: 2; font-size: 0.9rem;"></div>
+            </div>
+        </section>
+
+        <!-- PAGE 4: PROJECT TRACKING -->
+        <section id="track" class="page">
+            <div class="card">
+                <div class="sec-head">
+                    <div class="sec-title"><span>📲</span> متابعة المشروع أونلاين</div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 12px;">أدخل كود المشروع المخصص لك لمتابعة مراحل البناء والصور والتكلفة المستهلكة:</p>
+                <input type="text" id="projectCodeInput" class="input-box" placeholder="مثال: FS-2026-88">
+                <button class="btn btn-green" style="width: 100%;" onclick="trackProject()">🔍 عرض ملف المشروع</button>
+            </div>
+
+            <div id="trackResultBox" class="card" style="display: none;">
+                <div style="font-weight: 800; color: var(--gold-primary); font-size: 1.1rem;" id="projClientName">مشروع فيلا الأستاذ أحمد</div>
+                <div style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px;">الموقع: بغداد - الجادرية</div>
+                
+                <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 6px;">جدول مراحل التقدم:</div>
+                <ul style="list-style: none; font-size: 0.85rem; line-height: 2;">
+                    <li>✅ صب الأساس والحفر (منجز)</li>
+                    <li>✅ بناء الهيكل والطابوق (منجز)</li>
+                    <li>🔄 التأسيسات الكهربائية والسباكة (قيد التنفيذ - 70%)</li>
+                    <li>⏳ اللبخ والسيراميك (قادم)</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- FLOATING ACTION BUTTON (FAB) -->
+    <div class="fab-wrapper">
+        <div class="fab-options" id="fabOptions">
+            <a href="https://wa.me/9640000000000" class="fab-opt" title="واتساب">💬</a>
+            <a href="tel:07800000000" class="fab-opt" title="اتصال">📞</a>
+            <div class="fab-opt" onclick="switchTab('calc')" title="حاسبة">🧮</div>
+        </div>
+        <div class="fab-main" onclick="toggleFab()">⚡</div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION (PWA UI) -->
+    <nav class="nav-bottom">
+        <div class="nav-link active" onclick="switchTab('home')">
+            <span class="icn">🏠</span>
+            <span>الرئيسية</span>
+        </div>
+        <div class="nav-link" onclick="switchTab('calc')">
+            <span class="icn">🧮</span>
+            <span>الحاسبة</span>
+        </div>
+        <div class="nav-link" onclick="switchTab('plans')">
+            <span class="icn">📐</span>
+            <span>الخرائط</span>
+        </div>
+        <div class="nav-link" onclick="switchTab('track')">
+            <span class="icn">📊</span>
+            <span>المتابعة</span>
+        </div>
+                        </nav>
+        <!-- JAVASCRIPT ENGINE & INTERACTIVE LOGIC -->
+    <script>
+        // UPDATE SCROLL PROGRESS BAR
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const bar = document.getElementById("topProgress");
+            if(bar) bar.style.width = scrolled + "%";
         };
 
-        let isAdminLoggedIn = false;
-
-        function getDB() {
-            const local = localStorage.getItem('forseason_v4_db');
-            return local ? JSON.parse(local) : defaultStore;
-        }
-
-        function saveDB(data) {
-            localStorage.setItem('forseason_v4_db', JSON.stringify(data));
-            render();
-        }
-
-        function toggleTheme() { document.body.classList.toggle('light-theme'); }
-
-        function shareApp() {
-            if (navigator.share) {
-                navigator.share({ title: 'FORSEASON', url: window.location.href });
-            } else {
-                alert("تم نسخ رابط المنصة بنجاح!");
-            }
-        }
-
-        function goto(pageId) {
+        // NAVIGATION TAB SWITCHER
+        function switchTab(tabId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
 
-            const targetPage = document.getElementById('p-' + pageId);
-            if(targetPage) targetPage.classList.add('active');
-
-            const targetNav = document.getElementById('nl-' + pageId);
-            if(targetNav) targetNav.classList.add('active');
-
-            window.scrollTo(0,0);
-        }
-
-        function render() {
-            const db = getDB();
-            document.getElementById('brandTitle').innerText = db.name;
-            document.getElementById('hTitle').innerText = db.title;
-            document.getElementById('tickerText').innerText = db.ticker;
-            document.getElementById('btnCall').href = "tel:" + db.phone;
-            document.getElementById('btnWa').href = "https://wa.me/" + db.wa;
-            document.getElementById('cntC').href = "tel:" + db.phone;
-            document.getElementById('cntW').href = "https://wa.me/" + db.wa;
-
-            // Render Projects
-            const hP = document.getElementById('homeProj');
-            const aP = document.getElementById('allProj');
-            hP.innerHTML = ""; aP.innerHTML = "";
-
-            db.projs.forEach((p, i) => {
-                const delBtn = isAdminLoggedIn ? `<button class="btn btn-danger btn-sm" onclick="delP(${p.id})">حذف</button>` : '';
-                const html = `
-                    <div class="proj-card" data-cat="${p.cat}">
-                        <img src="${p.img}" class="proj-img" onclick="showLightbox('${p.img}')">
-                        <div class="proj-txt">
-                            <span class="proj-ttl">${p.title}</span>
-                            ${delBtn}
-                        </div>
-                    </div>
-                `;
-                if(i < 2) hP.innerHTML += html;
-                aP.innerHTML += html;
-            });
-
-            // Render Services
-            const aS = document.getElementById('allServ');
-            aS.innerHTML = "";
-            db.servs.forEach(s => {
-                aS.innerHTML += `
-                    <div class="serv-card">
-                        <div class="serv-icn">${s.icn}</div>
-                        <div class="serv-ttl">${s.title}</div>
-                        <div class="serv-sub">${s.sub}</div>
-                    </div>
-                `;
-            });
-
-            // Render Testimonials
-            const tG = document.getElementById('testiGrid');
-            tG.innerHTML = "";
-            db.testis.forEach(t => {
-                const delBtn = isAdminLoggedIn ? `<button class="btn btn-danger btn-sm" onclick="delT(${t.id})">حذف</button>` : '';
-                tG.innerHTML += `
-                    <div class="card" style="margin:0; padding:10px; display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <div style="font-weight:bold; font-size:0.8rem; color:var(--accent-gold);">⭐ ${t.name}</div>
-                            <div style="font-size:0.72rem; color:var(--text-sub); margin-top:2px;">"${t.text}"</div>
-                        </div>
-                        ${delBtn}
-                    </div>
-                `;
-            });
-
-            // Render Material Prices
-            const pL = document.getElementById('pricesList');
-            pL.innerHTML = "";
-            db.prices.forEach(pr => {
-                pL.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-main); padding:10px 12px; border-radius:10px;">
-                        <span style="font-size:0.8rem; font-weight:600;">${pr.item}</span>
-                        <span style="font-size:0.8rem; color:var(--accent-gold); font-weight:800;">${pr.price}</span>
-                    </div>
-                `;
-            });
-        }
-
-        function filterProjs(cat, el) {
-            document.querySelectorAll('.f-chip').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-            document.querySelectorAll('#allProj .proj-card').forEach(c => {
-                c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'block' : 'none';
-            });
-        }
-
-        function showLightbox(src) {
-            document.getElementById('lbImg').src = src;
-            document.getElementById('lbModal').style.display = 'block';
-        }
-
-        function calcCost() {
-            const typePrice = parseInt(document.getElementById('cType').value);
-            const floors = parseInt(document.getElementById('cFloors').value);
-            const area = parseFloat(document.getElementById('cArea').value);
-
-            if(!area || area <= 0) { alert("يرجى إدخال مساحة الأرض صالحة!"); return; }
-
-            let extra = 0;
-            if(document.getElementById('cPool').checked) extra += 15000000;
-            if(document.getElementById('cGarden').checked) extra += 5000000;
-            if(document.getElementById('cElevator').checked) extra += 12000000;
-            if(document.getElementById('cSolar').checked) extra += 8000000;
-            if(document.getElementById('cInsulation').checked) extra += 4000000;
-
-            const totalArea = area * floors;
-            const totalPrice = (totalArea * typePrice) + extra;
-
-            calcSummaryText = `تخمين تكلفة بناء:\n- مساحة الأرض: ${area} م² (${floors} طابق)\n- إجمالي مساحة البناء: ${totalArea} م²\n- التكلفة التقديرية الإجمالية: ${totalPrice.toLocaleString('ar-IQ')} دينار عراقي`;
-
-            document.getElementById('cTotalArea').innerText = totalArea.toLocaleString('ar-IQ');
-            document.getElementById('cPriceVal').innerText = totalPrice.toLocaleString('ar-IQ') + " د.ع";
-            document.getElementById('cResult').style.display = 'block';
-        }
-
-        function sendCalcToWa() {
-            const db = getDB();
-            window.open("https://wa.me/" + db.wa + "?text=" + encodeURIComponent(calcSummaryText), '_blank');
-        }
-
-        function exportPDF() {
-            const element = document.getElementById('pdfExportArea');
-            html2pdf().from(element).save('تخمين_بناء_FORSEASON.pdf');
-        }
-
-        function calcMaterials() {
-            const area = parseFloat(document.getElementById('mcArea').value);
-            if(!area || area <= 0) { alert("يرجى أدخال المساحة!"); return; }
-
-            document.getElementById('mcBrick').innerText = (area * 95).toLocaleString('ar-IQ');
-            document.getElementById('mcCement').innerText = (area * 1.2).toFixed(0);
-            document.getElementById('mcSteel').innerText = (area * 0.04).toFixed(1);
-            document.getElementById('mcSand').innerText = (area * 0.35).toFixed(1);
-            document.getElementById('mcResult').style.display = 'block';
-        }
-
-        function trackProject() {
-            const code = document.getElementById('trackCode').value.trim().toUpperCase();
-            if(!code) { alert("أدخل كود المتابعة!"); return; }
-
-            document.getElementById('trackResult').style.display = 'block';
-            document.getElementById('trName').innerText = "مشروع " + code;
-            document.getElementById('trStage').innerText = "المرحلة الحالية: أعمال الهيكل الإنشائي والتقطيع";
-            document.getElementById('trBar').style.width = "65%";
-            document.getElementById('trPercent').innerText = "65% مكتمل";
-        }
-
-        function sendConsultation() {
-            const name = document.getElementById('reqName').value;
-            const phone = document.getElementById('reqPhone').value;
-            const city = document.getElementById('reqCity').value;
-            const msg = document.getElementById('reqMsg').value;
-
-            if(!name || !phone) { alert("يرجى إدخال الاسم ورقم الهاتف!"); return; }
-
-            const text = `طلب استشارة جديد:\n- الاسم: ${name}\n- الهاتف: ${phone}\n- الموقع: ${city}\n- التفاصيل: ${msg}`;
-            const db = getDB();
-            window.open("https://wa.me/" + db.wa + "?text=" + encodeURIComponent(text), '_blank');
-        }
-
-        function toggleChatbot() {
-            const m = document.getElementById('chatModal');
-            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
-        }
-
-        function sendChatMsg() {
-            const input = document.getElementById('chatInput');
-            const val = input.value.trim();
-            if(!val) return;
-
-            const history = document.getElementById('chatHistory');
-            history.innerHTML += `<div style="background:var(--btn-blue); color:#fff; padding:6px 10px; border-radius:8px; align-self:flex-end;">${val}</div>`;
-            input.value = "";
-
-            setTimeout(() => {
-                let reply = "شكراً لتواصلك! يمكنك استخدام حاسبة التكلفة في المنصة أو التواصل المباشر مع المهندس لطلب المعاينة.";
-                if(val.includes("سعر") || val.includes("كلفة")) reply = "تتراوح أسعار البناء لدينا من 250,000 د.ع للهيكل الأسود وتصل لـ 850,000 د.ع للتشطيب VIP. يمكنك استخدام قسم الحاسبة لتخمين دقيق.";
-                history.innerHTML += `<div style="background:var(--card-bg); padding:6px 10px; border-radius:8px; align-self:flex-start;">${reply}</div>`;
-                history.scrollTop = history.scrollHeight;
-            }, 600);
-        }
-
-        function openAdmin() {
-            if(!isAdminLoggedIn) {
-                if(prompt("أدخل رمز المرور للوحة التحكم:") === CODE) {
-                    isAdminLoggedIn = true;
-                } else {
-                    alert("رمز المرور غير صحيح!");
-                    return;
-                }
+            const targetPage = document.getElementById(tabId);
+            if(targetPage) {
+                targetPage.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
-            const db = getDB();
-            document.getElementById('aName').value = db.name;
-            document.getElementById('aPhone').value = db.phone;
-            document.getElementById('aWa').value = db.wa;
-            document.getElementById('aTicker').value = db.ticker;
-            document.getElementById('admModal').style.display = 'block';
-            render();
+
+            // Highlight Active Nav
+            const navIndex = ['home', 'calc', 'plans', 'track'].indexOf(tabId);
+            if(navIndex !== -1) {
+                const navLinks = document.querySelectorAll('.nav-link');
+                if(navLinks[navIndex]) navLinks[navIndex].classList.add('active');
+            }
+
+            // Close FAB if open
+            const fabOpts = document.getElementById('fabOptions');
+            if(fabOpts) fabOpts.classList.remove('show');
         }
 
-        function closeAdmin() { document.getElementById('admModal').style.display = 'none'; }
-
-        function addProj() {
-            const title = document.getElementById('aPTitle').value;
-            const cat = document.getElementById('aPCat').value;
-            const img = document.getElementById('aPImgUrl').value || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600";
-
-            if(!title) { alert("أدخل عنوان المشروع!"); return; }
-
-            const db = getDB();
-            db.projs.unshift({ id: Date.now(), title, cat, img });
-            saveDB(db);
-            alert("تم نشر المشروع بنجاح!");
+        // TOGGLE DARK / LIGHT THEME
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
         }
 
-        function delP(id) {
-            const db = getDB();
-            db.projs = db.projs.filter(p => p.id !== id);
-            saveDB(db);
+        // TOGGLE FAB DIAL
+        function toggleFab() {
+            document.getElementById('fabOptions').classList.toggle('show');
         }
 
-        function addTesti() {
-            const name = document.getElementById('aTName').value;
-            const text = document.getElementById('aTText').value;
-            if(!name || !text) { alert("أدخل اسم الزبون ونص التقييم!"); return; }
+        // SLIDER COMPARISON LOGIC
+        function updateQualityCompare(val) {
+            const tag = document.getElementById('sliderQualityTag');
+            const txt = document.getElementById('qualityCompareText');
 
-            const db = getDB();
-            db.testis.unshift({ id: Date.now(), name, text });
-            saveDB(db);
-            alert("تم إضافة التقييم بنجاح!");
+            if(val == 1) {
+                tag.innerText = "بناء أسود + تقطيع";
+                txt.innerText = "يشمل هيكل الصب الإنشائي والخرسانات، التقطيع بالطابوق، والتأسيسات الأولية للماء والكهرباء بدون الأرضيات والديكورات.";
+            } else if(val == 2) {
+                tag.innerText = "تشطيب عادي / تجاري";
+                txt.innerText = "يشمل الهيكل الأسود بالإضافة إلى اللبخ والسطاح، أرضيات سيراميك ممتازة، أبواب وشبابيك ألمنيوم، وأطقم صحية وكهربائيات جاهزة للسكن.";
+            } else if(val == 3) {
+                tag.innerText = "تشطيب VIP سوبر ديلوكس";
+                txt.innerText = "تشطيب فاخر جداً: أرضيات مرمر/بورسلين إسباني، ديكورات الجبس والمغاسل الرخامية، منظومات إنارة ذكية (Smart Home)، عزل حراري ومائي كامل مع الحدائق.";
+            }
         }
 
-        function delT(id) {
-            const db = getDB();
-            db.testis = db.testis.filter(t => t.id !== id);
-            saveDB(db);
+        // CALCULATOR INPUT TOGGLE
+        function toggleCalcInputs() {
+            const type = document.getElementById('calcType').value;
+            const regBox = document.getElementById('regularInputs');
+            const irregBox = document.getElementById('irregularInputs');
+
+            if(type === 'regular') {
+                regBox.style.display = 'grid';
+                irregBox.style.display = 'none';
+            } else {
+                regBox.style.display = 'none';
+                irregBox.style.display = 'grid';
+            }
         }
 
-        function saveAdm() {
-            const db = getDB();
-            db.name = document.getElementById('aName').value || db.name;
-            db.phone = document.getElementById('aPhone').value || db.phone;
-            db.wa = document.getElementById('aWa').value || db.wa;
-            db.ticker = document.getElementById('aTicker').value || db.ticker;
-            saveDB(db);
-            closeAdmin();
-            alert("تم حفظ البيانات بنجاح!");
+        // CALCULATE TOTAL COST & CHART BREAKDOWN
+        function calculateCost() {
+            const type = document.getElementById('calcType').value;
+            let totalLandArea = 0;
+
+            if(type === 'regular') {
+                const w = parseFloat(document.getElementById('landWidth').value) || 0;
+                const d = parseFloat(document.getElementById('landDepth').value) || 0;
+                totalLandArea = w * d;
+            } else {
+                const f = parseFloat(document.getElementById('frontW').value) || 0;
+                const b = parseFloat(document.getElementById('backW').value) || 0;
+                const sl = parseFloat(document.getElementById('sideL').value) || 0;
+                const sr = parseFloat(document.getElementById('sideR').value) || 0;
+                
+                // Polygon Area Approximation
+                const avgWidth = (f + b) / 2;
+                const avgLength = (sl + sr) / 2;
+                totalLandArea = avgWidth * avgLength;
+            }
+
+            if(totalLandArea <= 0) {
+                alert("يرجى إدخال أبعاد الأرض بشكل صحيح!");
+                return;
+            }
+
+            const floors = parseInt(document.getElementById('floors').value);
+            const provinceRate = parseFloat(document.getElementById('province').value);
+            const qualityPrice = parseFloat(document.getElementById('buildQuality').value);
+
+            const totalBuildArea = totalLandArea * floors;
+            const baseCost = totalBuildArea * qualityPrice;
+            const finalCost = baseCost * provinceRate;
+
+            // Budget Segments Breakdown (35% Steel/Concrete, 30% Labor, 25% Finishing, 10% Management)
+            const costSteel = finalCost * 0.35;
+            const costLabor = finalCost * 0.30;
+            const costFinish = finalCost * 0.25;
+            const costManage = finalCost * 0.10;
+
+            // Render Results
+            document.getElementById('totalCostDisplay').innerText = finalCost.toLocaleString('ar-IQ') + " د.ع";
+            document.getElementById('areaDisplay').innerText = `المساحة السطحية للبناء: ${totalBuildArea.toLocaleString('ar-IQ')} م² (${floors} طابق)`;
+
+            document.getElementById('costSteelText').innerText = Math.round(costSteel).toLocaleString('ar-IQ') + " د.ع";
+            document.getElementById('costLaborText').innerText = Math.round(costLabor).toLocaleString('ar-IQ') + " د.ع";
+            document.getElementById('costFinishText').innerText = Math.round(costFinish).toLocaleString('ar-IQ') + " د.ع";
+            document.getElementById('costManageText').innerText = Math.round(costManage).toLocaleString('ar-IQ') + " د.ع";
+
+            document.getElementById('calcResultBox').style.display = 'block';
+            document.getElementById('calcResultBox').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function exportDataBackup() {
-            const db = getDB();
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-            const dlAnchorElem = document.createElement('a');
-            dlAnchorElem.setAttribute("href", dataStr);
-            dlAnchorElem.setAttribute("download", "forseason_backup.json");
-            dlAnchorElem.click();
+        // EXPORT PDF REPORT
+        function downloadPDF() {
+            const element = document.getElementById('calcResultBox');
+            const opt = {
+                margin:       10,
+                filename:     'كشف_تخمين_بناء_FORSEASON.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
         }
 
-        render();
+        // SMART FLOOR PLAN SUGGESTER
+        function generateFloorPlan() {
+            const area = parseFloat(document.getElementById('planArea').value);
+            const fronts = document.getElementById('planFronts').value;
+            const list = document.getElementById('planList');
+
+            if(!area || area <= 0) {
+                alert("يرجى إدخال المساحة!");
+                return;
+            }
+
+            let planHtml = "";
+
+            if(area <= 120) {
+                planHtml = `
+                    🔹 <b>الطابق الأرضي:</b> كراج سيارة + استقبال ضيوف (4×5م) + صالة معيشة مع مطبخ مفتوح (أمريكي) + حمام رئيسي + منور خلفي.<br>
+                    🔹 <b>الطابق الأول:</b> غرفتين نوم (واحدة منها ماستر مع حمام خاص) + صالة توزيع + بالكونة أمامية.
+                `;
+            } else if(area <= 200) {
+                planHtml = `
+                    🔹 <b>الطابق الأرضي:</b> كراج تسع سيارة مع حديقة أمريكية + استقبال ضيوف فاخرة مع حمام مستقل + مطبخ حار وحار/بارد + صالة معيشة واسعة + غرفة نوم أرضية للمسنّين + منورين لضمان الإضاءة.<br>
+                    🔹 <b>الطابق الأول:</b> 3 غرف نوم ماستر جناح كامل + صالة عائلية كبيرة + أوفيس خدمي مصغر.
+                `;
+            } else {
+                planHtml = `
+                    🔹 <b>الطابق الأرضي:</b> حديقة واسعة مع كراج يتسع لسيارتين + ممر جانبي (إذا كانت الأرض ${fronts == '2' ? 'ركن' : 'واجهة واحدة'}) + ديوانية ضيوف واسعة + مطبخ مفتوح ومغلق + صالة معيشة ملكية + غرفة نوم ضيوف ماستر.<br>
+                    🔹 <b>الطابق الأول:</b> 4 غرف نوم جميعها ماستر مع دريسنج روم (دواليب ملابس) + صالة توزيع مع تراس خارجي كبير.
+                `;
+            }
+
+            list.innerHTML = planHtml;
+            document.getElementById('planResultCard').style.display = 'block';
+            document.getElementById('planResultCard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // PROJECT TRACKING SEARCH
+        function trackProject() {
+            const code = document.getElementById('projectCodeInput').value.trim();
+            if(!code) {
+                alert("يرجى أدخال كود المتابعة!");
+                return;
+            }
+            document.getElementById('projClientName').innerText = "مشروع كود: " + code.toUpperCase();
+            document.getElementById('trackResultBox').style.display = 'block';
+            document.getElementById('trackResultBox').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // PWA INSTALLATION PROMPT
+        function openPwaInstaller() {
+            alert("لتثبيت المنصة كتطبيق على هاتفك:\n- على آيفون (Safari): اضغط زر المشاركة ⎘ ثم اختر 'إضافة إلى الشاشة الرئيسية'.\n- على أندرويد (Chrome): اضغط قائمة النقاط الثلاث 💬 اختر 'تثبيت التطبيق'.");
+        }
     </script>
 </body>
 </html>
