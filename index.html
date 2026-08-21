@@ -225,8 +225,7 @@
             <button class="btn btn-danger" style="width:100%;" onclick="closeAdmin()">إغلاق اللوحة</button>
         </div>
     </div>
-
-    <script>
+        <script>
         const CODE = "123789";
         let tempProjImg = "";
 
@@ -311,4 +310,153 @@
             db.servs.forEach((s, i) => {
                 const delBtnHtml = isAdminLoggedIn ? `<button class="del-btn-inline" style="position:absolute; top:6px; left:6px;" onclick="delS(${s.id})">🗑️</button>` : '';
                 const html = `
-                    <d
+                    <div class="serv-card">
+                        ${delBtnHtml}
+                        <div class="serv-icn">${s.icn}</div>
+                        <div class="serv-ttl">${s.title}</div>
+                        <div class="serv-sub">${s.sub}</div>
+                    </div>
+                `;
+                if(i < 4) hS.innerHTML += html;
+                aS.innerHTML += html;
+            });
+        }
+
+        function goto(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            
+            document.getElementById('p-' + pageId).classList.add('active');
+            document.getElementById('nl-' + pageId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function openAdmin() {
+            if(!isAdminLoggedIn) {
+                const pass = prompt("أدخل رمز المرور للوحة التحكم:");
+                if(pass === CODE) {
+                    isAdminLoggedIn = true;
+                    alert("تم تسجيل الدخول بنجاح!");
+                } else {
+                    alert("رمز المرور غير صحيح!");
+                    return;
+                }
+            }
+            
+            const db = getDB();
+            document.getElementById('aName').value = db.name;
+            document.getElementById('aTitle').value = db.title;
+            document.getElementById('aPhone').value = db.phone;
+            document.getElementById('aWa').value = db.wa;
+            document.getElementById('aMap').value = db.mapUrl;
+            
+            document.getElementById('admModal').style.display = 'block';
+            render();
+        }
+
+        function closeAdmin() {
+            document.getElementById('admModal').style.display = 'none';
+        }
+
+        function addProj() {
+            const title = document.getElementById('aPTitle').value;
+            const urlInput = document.getElementById('aPImgUrl').value;
+            const finalImg = tempProjImg || urlInput;
+
+            if(!title || !finalImg) {
+                alert("يرجى إدخال عنوان المشروع واختيار صورة من الجهاز أو وضع رابط!");
+                return;
+            }
+
+            const db = getDB();
+            db.projs.unshift({
+                id: Date.now(),
+                title: title,
+                img: finalImg
+            });
+
+            saveDB(db);
+            document.getElementById('aPTitle').value = "";
+            document.getElementById('aPImgUrl').value = "";
+            document.getElementById('aPFile').value = "";
+            document.getElementById('pImgPrev').innerText = "";
+            tempProjImg = "";
+            alert("تم إضافة المشروع بنجاح!");
+        }
+
+        function delP(id) {
+            if(confirm("هل أنت تأكد من حذف هذا المشروع؟")) {
+                const db = getDB();
+                db.projs = db.projs.filter(p => p.id !== id);
+                saveDB(db);
+            }
+        }
+
+        function addServ() {
+            const code = document.getElementById('aSCode').value || "🏗️";
+            const title = document.getElementById('aSTitle').value;
+            const sub = document.getElementById('aSSub').value;
+
+            if(!title) {
+                alert("يرجى إدخال عنوان الخدمة!");
+                return;
+            }
+
+            const db = getDB();
+            db.servs.unshift({
+                id: Date.now(),
+                icn: code,
+                title: title,
+                sub: sub
+            });
+
+            saveDB(db);
+            document.getElementById('aSCode').value = "";
+            document.getElementById('aSTitle').value = "";
+            document.getElementById('aSSub').value = "";
+            alert("تم إضافة الخدمة بنجاح!");
+        }
+
+        function delS(id) {
+            if(confirm("هل أنت تأكد من حذف هذه الخدمة؟")) {
+                const db = getDB();
+                db.servs = db.servs.filter(s => s.id !== id);
+                saveDB(db);
+            }
+        }
+
+        function saveAdm() {
+            const db = getDB();
+            db.name = document.getElementById('aName').value || db.name;
+            db.title = document.getElementById('aTitle').value || db.title;
+            db.phone = document.getElementById('aPhone').value || db.phone;
+            db.wa = document.getElementById('aWa').value || db.wa;
+            db.mapUrl = document.getElementById('aMap').value || db.mapUrl;
+
+            saveDB(db);
+            closeAdmin();
+            alert("تم حفظ التغييرات بنجاح!");
+        }
+
+        function calcCost() {
+            const typePrice = parseInt(document.getElementById('cType').value);
+            const floors = parseInt(document.getElementById('cFloors').value);
+            const area = parseFloat(document.getElementById('cArea').value);
+
+            if(!area || area <= 0) {
+                alert("يرجى إدخال مساحة أرض صالحة!");
+                return;
+            }
+
+            const totalArea = area * floors;
+            const totalPrice = totalArea * typePrice;
+
+            document.getElementById('cTotalArea').innerText = totalArea.toLocaleString('ar-IQ');
+            document.getElementById('cPriceVal').innerText = totalPrice.toLocaleString('ar-IQ') + " دينار عراقي";
+            document.getElementById('cResult').style.display = 'block';
+        }
+
+        render();
+    </script>
+</body>
+</html>
