@@ -3,221 +3,481 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FORSEASON - المنصة الهندسية المتكاملة</title>
-    <!-- مكتبة مجانية لتوليد ملفات PDF برمجياً -->
+    <title>FORSEASON - شركة المقاولات والديكور</title>
+    
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --bg-main: #0f172a;
             --card-bg: #1e293b;
-            --card-border: #334155;
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
             --accent-gold: #f59e0b;
+            --accent-gold-hover: #d97706;
             --btn-blue: #2563eb;
             --btn-blue-hover: #1d4ed8;
+            --btn-dark: #334155;
             --success-green: #10b981;
             --danger-red: #ef4444;
-            --nav-bg: rgba(15, 23, 42, 0.95);
+            --card-border: #334155;
+            --shadow-color: rgba(0,0,0,0.4);
         }
 
         .light-theme {
             --bg-main: #f1f5f9;
             --card-bg: #ffffff;
-            --card-border: #cbd5e1;
             --text-main: #0f172a;
             --text-sub: #64748b;
-            --accent-gold: #d97706;
-            --btn-blue: #2563eb;
-            --btn-blue-hover: #1d4ed8;
-            --nav-bg: rgba(255, 255, 255, 0.95);
+            --card-border: #e2e8f0;
+            --shadow-color: rgba(0,0,0,0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 75px; transition: background 0.3s, color 0.3s; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        /* HEADER & TICKER */
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--card-bg); border-bottom: 1px solid var(--card-border); sticky: top:0; z-index: 100; }
-        .brand { font-weight: 900; font-size: 1.1rem; color: var(--accent-gold); letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
-        .head-actions { display: flex; gap: 8px; }
-        .icon-btn { background: var(--card-border); border: none; color: var(--text-main); width: 34px; height: 34px; border-radius: 10px; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-bottom: 75px;
+            direction: rtl;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-        .ticker-bar { background: rgba(245, 158, 11, 0.15); color: var(--accent-gold); padding: 6px 12px; font-size: 0.75rem; white-space: nowrap; overflow: hidden; border-bottom: 1px solid rgba(245, 158, 11, 0.3); }
-        .ticker-txt { display: inline-block; animation: marquee 22s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        /* HEADER & NAVBAR */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
 
-        /* PAGES NAVIGATION CONTAINER */
-        .page { display: none; padding: 16px; animation: fadeIn 0.25s ease-in-out; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-        /* CARDS & SECTIONS */
-        .sec-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; margin-top: 8px; }
-        .sec-title { font-size: 1rem; font-weight: 800; border-right: 3px solid var(--accent-gold); padding-right: 8px; }
-        .sec-more { font-size: 0.75rem; color: var(--accent-gold); text-decoration: none; cursor: pointer; }
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--accent-gold);
+            color: #000;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
 
-        .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
+        .brand-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: var(--bg-main);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* NEWS TICKER */
+        .news-ticker {
+            background: var(--accent-gold);
+            color: #000;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            box-shadow: 0 1px 4px var(--shadow-color);
+        }
+
+        .ticker-content {
+            display: inline-block;
+            animation: ticker 18s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* PAGE SYSTEM */
+        .page {
+            display: none;
+            padding: 16px;
+            max-width: 768px;
+            margin: 0 auto;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CARDS & UI ELEMENTS */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .sec-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .sec-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-gold { background: var(--accent-gold); color: #000; }
+        .btn-gold:hover { background: var(--accent-gold-hover); }
+
+        .btn-blue { background: var(--btn-blue); color: #fff; }
+        .btn-blue:hover { background: var(--btn-blue-hover); }
+
+        .btn-dark { background: var(--btn-dark); color: #fff; }
+        .btn-success { background: var(--success-green); color: #fff; }
+        .btn-danger { background: var(--danger-red); color: #fff; }
+        .btn-sm { padding: 6px 10px; font-size: 0.75rem; }
+
+        .input-box {
+            width: 100%;
+            padding: 10px;
+            background: var(--bg-main);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .input-box:focus {
+            border-color: var(--accent-gold);
+        }
+
+        /* GRID LAYOUTS */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 
-        /* INPUTS & BUTTONS */
-        .input-box { width: 100%; padding: 10px 12px; background: var(--bg-main); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 10px; font-size: 0.8rem; margin-bottom: 10px; outline: none; }
-        .input-box:focus { border-color: var(--accent-gold); }
-        label { font-size: 0.75rem; color: var(--text-sub); display: block; margin-bottom: 4px; }
+        /* HERO & PROMOTION */
+        .hero-banner {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid var(--accent-gold);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
 
-        .btn { border: none; padding: 10px 14px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; transition: 0.2s; }
-        .btn-gold { background: var(--accent-gold); color: #000; }
-        .btn-blue { background: var(--btn-blue); color: #fff; }
-        .btn-dark { background: var(--card-border); color: var(--text-main); }
-        .btn-danger { background: var(--danger-red); color: #fff; }
-        .btn-success { background: var(--success-green); color: #fff; }
-        .btn-sm { padding: 6px 10px; font-size: 0.7rem; border-radius: 8px; }
+        .hero-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+        }
+
+        .hero-sub {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            margin-bottom: 14px;
+        }
 
         /* PROJECT CARDS */
-        .proj-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; overflow: hidden; margin-bottom: 12px; }
-        .proj-img { width: 100%; height: 160px; object-fit: cover; display: block; cursor: pointer; }
-        .proj-txt { padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; }
-        .proj-ttl { font-size: 0.85rem; font-weight: 700; }
+        .proj-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
 
-        /* CHIPS / FILTERS */
-        .chip-group { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; scrollbar-width: none; }
-        .chip-group::-webkit-scrollbar { display: none; }
-        .f-chip { padding: 6px 12px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; font-size: 0.75rem; white-space: nowrap; cursor: pointer; color: var(--text-sub); }
-        .f-chip.active { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); font-weight: 700; }
+        .proj-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            cursor: pointer;
+        }
 
-        /* SERVICES & TOOLS GRID */
-        .serv-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px; text-align: center; }
-        .serv-icn { font-size: 1.8rem; margin-bottom: 6px; }
-        .serv-ttl { font-weight: 700; font-size: 0.8rem; margin-bottom: 2px; }
-        .serv-sub { font-size: 0.68rem; color: var(--text-sub); }
+        .proj-txt {
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .proj-ttl {
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* SERVICES CARDS */
+        .serv-card {
+            background: var(--bg-main);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .serv-icn {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+        }
+
+        .serv-ttl {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .serv-sub {
+            font-size: 0.68rem;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
 
         /* BOTTOM NAV BAR */
-        .nav-bottom { position: fixed; bottom: 0; left: 0; right: 0; background: var(--nav-bg); backdrop-filter: blur(8px); border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; padding: 6px 0; z-index: 99; }
-        .nav-link { display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; color: var(--text-sub); cursor: pointer; width: 18%; text-align: center; }
-        .nav-link .icn { font-size: 1.1rem; margin-bottom: 2px; }
-        .nav-link.active { color: var(--accent-gold); font-weight: 700; }
+        .nav-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 -2px 10px var(--shadow-color);
+        }
 
-        /* MODALS & POPUPS */
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 200; padding: 16px; overflow-y: auto; backdrop-filter: blur(4px); }
-        .modal-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 18px; max-width: 500px; margin: 20px auto; position: relative; }
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            color: var(--text-sub);
+            font-size: 0.65rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 20%;
+        }
 
-        /* CHATBOT FLOATING BTN */
-        .bot-btn { position: fixed; bottom: 75px; left: 16px; background: var(--accent-gold); color: #000; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); z-index: 98; cursor: pointer; }
+        .nav-link.active {
+            color: var(--accent-gold);
+        }
+
+        .nav-link .icn {
+            font-size: 1.1rem;
+        }
+
+        /* MODALS & OVERLAYS */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        /* FILTER CHIPS */
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .f-chip {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-sub);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .f-chip.active {
+            background: var(--accent-gold);
+            color: #000;
+            font-weight: bold;
+            border-color: var(--accent-gold);
+        }
     </style>
 </head>
 <body>
-
-    <!-- HEADER -->
-    <header class="header">
-        <div class="brand"><span id="brandTitle">FORSEASON</span> 🏗️</div>
-        <div class="head-actions">
-            <button class="icon-btn" onclick="toggleTheme()" title="تغيير الثيم">🌓</button>
-            <button class="icon-btn" onclick="shareApp()" title="مشاركة التطبيق">🔗</button>
+        <!-- HEADER -->
+    <header class="app-header">
+        <div class="brand-logo">
+            <div class="brand-icon">4S</div>
+            <div class="brand-title" id="brandTitle">FORSEASON</div>
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">🌓</button>
+            <button class="icon-btn" onclick="shareApp()" title="مشاركة المنصة">🔗</button>
+            <button class="icon-btn" onclick="toggleChatbot()" title="المساعد الآلي">🤖</button>
             <button class="icon-btn" onclick="openAdmin()" title="لوحة التحكم">⚙️</button>
         </div>
     </header>
 
-    <!-- TICKER BAR -->
-    <div class="ticker-bar">
-        <span class="ticker-txt" id="tickerText">📢 مرحباً بكم في منصة FORSEASON للمقاولات - تخفيضات خاصة وشاملة لهذا الشهر!</span>
+    <!-- NEWS TICKER -->
+    <div class="news-ticker">
+        <div class="ticker-content" id="tickerText">📢 مرحباً بكم في منصة FORSEASON للمقاولات - تخفيضات خاصة وشاملة لهذا الشهر!</div>
     </div>
-
-    <!-- CHATBOT FLOATING BUTTON -->
-    <div class="bot-btn" onclick="toggleChatbot()">🤖</div>
 
     <!-- PAGE 1: HOME -->
     <div id="p-home" class="page active">
-        <div class="card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(37, 99, 235, 0.2)); text-align: center; border-color: var(--accent-gold);">
-            <h2 id="hTitle" style="font-size: 1.1rem; margin-bottom: 6px;">نبني المستقبل بثقة وجودة عالية</h2>
-            <p style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 12px;">تصاميم هندسية حديثة وتنفيذ متكامل بأعلى المعايير العراقية والعالمية</p>
+        <div class="hero-banner">
+            <div class="hero-title" id="hTitle">نبني المستقبل بثقة وجودة عالية</div>
+            <div class="hero-sub">شركة متخصصة في أعمال البناء، التشطيب والديكورات الحديثة بأعلى المعايير الهندسيّة.</div>
             <div style="display: flex; gap: 8px; justify-content: center;">
-                <a id="btnCall" href="tel:07700000000" class="btn btn-blue btn-sm">📞 اتصال مباشر</a>
-                <a id="btnWa" href="https://wa.me/9647700000000" class="btn btn-gold btn-sm">💬 واتساب المهندس</a>
+                <a id="btnCall" href="tel:07700000000" class="btn btn-gold btn-sm">📞 اتصل الآن</a>
+                <a id="btnWa" href="https://wa.me/9647700000000" class="btn btn-blue btn-sm">💬 واتساب</a>
             </div>
         </div>
 
-        <!-- STATS COUNTER -->
-        <div class="grid-3" style="margin-bottom: 14px; text-align: center;">
-            <div class="card" style="padding: 10px; margin:0;"><div style="font-size: 1rem; font-weight:800; color:var(--accent-gold);">+120</div><div style="font-size: 0.65rem; color:var(--text-sub);">مشروع منجز</div></div>
-            <div class="card" style="padding: 10px; margin:0;"><div style="font-size: 1rem; font-weight:800; color:var(--accent-gold);">100%</div><div style="font-size: 0.65rem; color:var(--text-sub);">ضمان وجودة</div></div>
-            <div class="card" style="padding: 10px; margin:0;"><div style="font-size: 1rem; font-weight:800; color:var(--accent-gold);">15 سنة</div><div style="font-size: 0.65rem; color:var(--text-sub);">خبرة ميدانية</div></div>
+        <!-- QUICK SERVICES -->
+        <div class="sec-head">
+            <div class="sec-title">🛠️ خدماتنا الرئيسية</div>
+            <button class="btn btn-dark btn-sm" onclick="goto('services')">عرض الكل</button>
         </div>
-
-        <!-- QUICK ACCESS MENU -->
-        <div class="sec-head"><div class="sec-title">أدوات هامة وحاسبات</div></div>
-        <div class="grid-2" style="margin-bottom: 14px;">
-            <div class="serv-card" onclick="goto('calc')" style="cursor: pointer;">
+        <div class="grid-2" style="margin-bottom: 16px;">
+            <div class="serv-card" onclick="goto('calc')">
                 <div class="serv-icn">📐</div>
                 <div class="serv-ttl">حاسبة البناء</div>
-                <div class="serv-sub">تخمين التكلفة الكلية</div>
+                <div class="serv-sub">تخمين التكلفة المبدئية</div>
             </div>
-            <div class="serv-card" onclick="goto('matcalc')" style="cursor: pointer;">
+            <div class="serv-card" onclick="goto('matcalc')">
                 <div class="serv-icn">🧱</div>
                 <div class="serv-ttl">كميات المواد</div>
-                <div class="serv-sub">سمنت، حديد، طابوق</div>
+                <div class="serv-sub">حساب الطابوق والسمنت</div>
             </div>
-            <div class="serv-card" onclick="goto('prices')" style="cursor: pointer;">
+            <div class="serv-card" onclick="goto('prices')">
                 <div class="serv-icn">📊</div>
                 <div class="serv-ttl">بورصة المواد</div>
                 <div class="serv-sub">أسعار السوق اليومية</div>
             </div>
-            <div class="serv-card" onclick="goto('track')" style="cursor: pointer;">
+            <div class="serv-card" onclick="goto('track')">
                 <div class="serv-icn">🔍</div>
                 <div class="serv-ttl">تتبع مشروعك</div>
                 <div class="serv-sub">متابعة نسبة الإنجاز</div>
             </div>
         </div>
 
-        <!-- FEATURED PROJECTS -->
+        <!-- RECENT PROJECTS -->
         <div class="sec-head">
-            <div class="sec-title">أحدث أعمالنا</div>
-            <span class="sec-more" onclick="goto('projects')">عرض الكل ➔</span>
+            <div class="sec-title">🏆 أحدث أعمالنا</div>
+            <button class="btn btn-dark btn-sm" onclick="goto('projects')">المعرض</button>
         </div>
         <div id="homeProj"></div>
 
-        <!-- TESTIMONIALS SECTION -->
-        <div class="sec-head"><div class="sec-title">آراء عملائنا</div></div>
+        <!-- TESTIMONIALS -->
+        <div class="sec-head" style="margin-top: 16px;">
+            <div class="sec-title">⭐ آراء العملاء</div>
+        </div>
         <div id="testiGrid" style="display: flex; flex-direction: column; gap: 8px;"></div>
     </div>
 
     <!-- PAGE 2: SERVICES -->
     <div id="p-services" class="page">
-        <div class="sec-head"><div class="sec-title">خدماتنا المتميزة</div></div>
-        <div id="allServ" class="grid-2" style="gap: 10px; margin-bottom: 14px;"></div>
-
-        <!-- HOUSE MAPS & DESIGNS LIBRARY -->
-        <div class="sec-head"><div class="sec-title">مكتبة الخرائط والمخططات</div></div>
-        <div class="card">
-            <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:10px;">استعرض ونزّل خرائط دور سكنية جاهزة ومصممة بأحدث المعايير:</p>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-main); padding:8px 12px; border-radius:10px;">
-                    <span style="font-size:0.8rem;">📐 خريطة منزل 100م² (واجهة 5م)</span>
-                    <button class="btn btn-gold btn-sm" onclick="alert('جاري تحميل ملف الخريطة...')">تنزيل PDF</button>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-main); padding:8px 12px; border-radius:10px;">
-                    <span style="font-size:0.8rem;">📐 خريطة منزل 150م² (واجهة 7.5م)</span>
-                    <button class="btn btn-gold btn-sm" onclick="alert('جاري تحميل ملف الخريطة...')">تنزيل PDF</button>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-main); padding:8px 12px; border-radius:10px;">
-                    <span style="font-size:0.8rem;">📐 خريطة فيلا 200م² (طابقين)</span>
-                    <button class="btn btn-gold btn-sm" onclick="alert('جاري تحميل ملف الخريطة...')">تنزيل PDF</button>
-                </div>
-            </div>
+        <div class="sec-head">
+            <div class="sec-title">🛠️ جميع الخدمات والتخصصات</div>
         </div>
+        <div id="allServ" class="grid-2" style="gap: 12px;"></div>
     </div>
 
     <!-- PAGE 3: PROJECTS GALLERY -->
     <div id="p-projects" class="page">
-        <div class="sec-head"><div class="sec-title">معرض المشاريع</div></div>
-        <div class="chip-group">
+        <div class="sec-head">
+            <div class="sec-title">📁 معرض المشاريع والأعمال</div>
+        </div>
+        <div class="filter-chips">
             <div class="f-chip active" onclick="filterProjs('all', this)">الكل</div>
             <div class="f-chip" onclick="filterProjs('فلل', this)">فلل ومنازل</div>
-            <div class="f-chip" onclick="filterProjs('تجاري', this)">مجمعات تجارية</div>
-            <div class="f-chip" onclick="filterProjs('ديكور', this)">ديكورات داخلية</div>
+            <div class="f-chip" onclick="filterProjs('تجاري', this)">تجاري</div>
+            <div class="f-chip" onclick="filterProjs('ديكور', this)">ديكورات</div>
         </div>
         <div id="allProj"></div>
     </div>
-        <!-- PAGE 4: ESTIMATION CALCULATOR & PDF EXPORT -->
+
+    <!-- PAGE 4: ESTIMATION CALCULATOR & PDF EXPORT -->
     <div id="p-calc" class="page">
         <div class="sec-head"><div class="sec-title">📐 حاسبة التكلفة والتخمين الشامل</div></div>
         <div class="card">
@@ -403,9 +663,8 @@
                 <button class="btn btn-danger" onclick="closeAdmin()">إغلاق اللوحة</button>
             </div>
         </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
+                        </div>
+        <!-- JAVASCRIPT LOGIC -->
     <script>
         const CODE = "123789";
         let calcSummaryText = "";
@@ -563,9 +822,169 @@
             const floors = parseInt(document.getElementById('cFloors').value);
             const area = parseFloat(document.getElementById('cArea').value);
 
-            if(!area || area <= 0) { alert("يرجى إدخال مساحة أرض صالحة!"); return; }
+            if(!area || area <= 0) { alert("يرجى إدخال مساحة الأرض صالحة!"); return; }
 
             let extra = 0;
             if(document.getElementById('cPool').checked) extra += 15000000;
             if(document.getElementById('cGarden').checked) extra += 5000000;
-      
+            if(document.getElementById('cElevator').checked) extra += 12000000;
+            if(document.getElementById('cSolar').checked) extra += 8000000;
+            if(document.getElementById('cInsulation').checked) extra += 4000000;
+
+            const totalArea = area * floors;
+            const totalPrice = (totalArea * typePrice) + extra;
+
+            calcSummaryText = `تخمين تكلفة بناء:\n- مساحة الأرض: ${area} م² (${floors} طابق)\n- إجمالي مساحة البناء: ${totalArea} م²\n- التكلفة التقديرية الإجمالية: ${totalPrice.toLocaleString('ar-IQ')} دينار عراقي`;
+
+            document.getElementById('cTotalArea').innerText = totalArea.toLocaleString('ar-IQ');
+            document.getElementById('cPriceVal').innerText = totalPrice.toLocaleString('ar-IQ') + " د.ع";
+            document.getElementById('cResult').style.display = 'block';
+        }
+
+        function sendCalcToWa() {
+            const db = getDB();
+            window.open("https://wa.me/" + db.wa + "?text=" + encodeURIComponent(calcSummaryText), '_blank');
+        }
+
+        function exportPDF() {
+            const element = document.getElementById('pdfExportArea');
+            html2pdf().from(element).save('تخمين_بناء_FORSEASON.pdf');
+        }
+
+        function calcMaterials() {
+            const area = parseFloat(document.getElementById('mcArea').value);
+            if(!area || area <= 0) { alert("يرجى أدخال المساحة!"); return; }
+
+            document.getElementById('mcBrick').innerText = (area * 95).toLocaleString('ar-IQ');
+            document.getElementById('mcCement').innerText = (area * 1.2).toFixed(0);
+            document.getElementById('mcSteel').innerText = (area * 0.04).toFixed(1);
+            document.getElementById('mcSand').innerText = (area * 0.35).toFixed(1);
+            document.getElementById('mcResult').style.display = 'block';
+        }
+
+        function trackProject() {
+            const code = document.getElementById('trackCode').value.trim().toUpperCase();
+            if(!code) { alert("أدخل كود المتابعة!"); return; }
+
+            document.getElementById('trackResult').style.display = 'block';
+            document.getElementById('trName').innerText = "مشروع " + code;
+            document.getElementById('trStage').innerText = "المرحلة الحالية: أعمال الهيكل الإنشائي والتقطيع";
+            document.getElementById('trBar').style.width = "65%";
+            document.getElementById('trPercent').innerText = "65% مكتمل";
+        }
+
+        function sendConsultation() {
+            const name = document.getElementById('reqName').value;
+            const phone = document.getElementById('reqPhone').value;
+            const city = document.getElementById('reqCity').value;
+            const msg = document.getElementById('reqMsg').value;
+
+            if(!name || !phone) { alert("يرجى إدخال الاسم ورقم الهاتف!"); return; }
+
+            const text = `طلب استشارة جديد:\n- الاسم: ${name}\n- الهاتف: ${phone}\n- الموقع: ${city}\n- التفاصيل: ${msg}`;
+            const db = getDB();
+            window.open("https://wa.me/" + db.wa + "?text=" + encodeURIComponent(text), '_blank');
+        }
+
+        function toggleChatbot() {
+            const m = document.getElementById('chatModal');
+            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function sendChatMsg() {
+            const input = document.getElementById('chatInput');
+            const val = input.value.trim();
+            if(!val) return;
+
+            const history = document.getElementById('chatHistory');
+            history.innerHTML += `<div style="background:var(--btn-blue); color:#fff; padding:6px 10px; border-radius:8px; align-self:flex-end;">${val}</div>`;
+            input.value = "";
+
+            setTimeout(() => {
+                let reply = "شكراً لتواصلك! يمكنك استخدام حاسبة التكلفة في المنصة أو التواصل المباشر مع المهندس لطلب المعاينة.";
+                if(val.includes("سعر") || val.includes("كلفة")) reply = "تتراوح أسعار البناء لدينا من 250,000 د.ع للهيكل الأسود وتصل لـ 850,000 د.ع للتشطيب VIP. يمكنك استخدام قسم الحاسبة لتخمين دقيق.";
+                history.innerHTML += `<div style="background:var(--card-bg); padding:6px 10px; border-radius:8px; align-self:flex-start;">${reply}</div>`;
+                history.scrollTop = history.scrollHeight;
+            }, 600);
+        }
+
+        function openAdmin() {
+            if(!isAdminLoggedIn) {
+                if(prompt("أدخل رمز المرور للوحة التحكم:") === CODE) {
+                    isAdminLoggedIn = true;
+                } else {
+                    alert("رمز المرور غير صحيح!");
+                    return;
+                }
+            }
+            const db = getDB();
+            document.getElementById('aName').value = db.name;
+            document.getElementById('aPhone').value = db.phone;
+            document.getElementById('aWa').value = db.wa;
+            document.getElementById('aTicker').value = db.ticker;
+            document.getElementById('admModal').style.display = 'block';
+            render();
+        }
+
+        function closeAdmin() { document.getElementById('admModal').style.display = 'none'; }
+
+        function addProj() {
+            const title = document.getElementById('aPTitle').value;
+            const cat = document.getElementById('aPCat').value;
+            const img = document.getElementById('aPImgUrl').value || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600";
+
+            if(!title) { alert("أدخل عنوان المشروع!"); return; }
+
+            const db = getDB();
+            db.projs.unshift({ id: Date.now(), title, cat, img });
+            saveDB(db);
+            alert("تم نشر المشروع بنجاح!");
+        }
+
+        function delP(id) {
+            const db = getDB();
+            db.projs = db.projs.filter(p => p.id !== id);
+            saveDB(db);
+        }
+
+        function addTesti() {
+            const name = document.getElementById('aTName').value;
+            const text = document.getElementById('aTText').value;
+            if(!name || !text) { alert("أدخل اسم الزبون ونص التقييم!"); return; }
+
+            const db = getDB();
+            db.testis.unshift({ id: Date.now(), name, text });
+            saveDB(db);
+            alert("تم إضافة التقييم بنجاح!");
+        }
+
+        function delT(id) {
+            const db = getDB();
+            db.testis = db.testis.filter(t => t.id !== id);
+            saveDB(db);
+        }
+
+        function saveAdm() {
+            const db = getDB();
+            db.name = document.getElementById('aName').value || db.name;
+            db.phone = document.getElementById('aPhone').value || db.phone;
+            db.wa = document.getElementById('aWa').value || db.wa;
+            db.ticker = document.getElementById('aTicker').value || db.ticker;
+            saveDB(db);
+            closeAdmin();
+            alert("تم حفظ البيانات بنجاح!");
+        }
+
+        function exportDataBackup() {
+            const db = getDB();
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", "forseason_backup.json");
+            dlAnchorElem.click();
+        }
+
+        render();
+    </script>
+</body>
+</html>
