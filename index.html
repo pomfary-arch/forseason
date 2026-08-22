@@ -2,225 +2,155 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DevStudio Ultra - NextGen IDE</title>
-    <!-- استدعاء Monaco Engine الأصلي من VS Code -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/editor/vscode.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DevStudio Mobile Edition</title>
     <style>
         :root {
-            --bg-main: #181818;
-            --bg-sidebar: #252526;
-            --accent: #0e639c;
-            --accent-hover: #1177bb;
+            --bg-dark: #121212;
+            --panel-bg: #1e1e1e;
+            --accent-blue: #007acc;
+            --accent-green: #28a745;
             --border: #333333;
-            --text: #cccccc;
+            --text: #ffffff;
+            --text-dim: #aaaaaa;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-main); color: var(--text); height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text); height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
 
         /* الشريط العلوي */
-        header { background: var(--bg-sidebar); height: 48px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 12px; gap: 8px; }
-        .brand { font-weight: bold; color: #007acc; font-size: 14px; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-        .header-actions { display: flex; gap: 6px; overflow-x: auto; }
+        header { background: var(--panel-bg); padding: 10px 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: bold; color: var(--accent-blue); font-size: 14px; }
+        .header-btns { display: flex; gap: 6px; }
 
-        button { background: #3c3c3c; color: #fff; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 500; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
-        button:hover { background: #454545; }
-        button.btn-primary { background: var(--accent); }
-        button.btn-primary:hover { background: var(--accent-hover); }
+        button { background: #2d2d2d; color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; }
+        button.btn-run { background: var(--accent-green); border: none; }
+        button.btn-pub { background: var(--accent-blue); border: none; }
 
-        /* واجهة العمل */
-        .app-body { display: flex; flex: 1; height: calc(100vh - 48px); position: relative; }
+        /* شريط التبديل بين الملفات والمعاينة */
+        .view-toggler { background: #181818; display: flex; border-bottom: 1px solid var(--border); }
+        .tab-btn { flex: 1; padding: 10px; text-align: center; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-dim); border-radius: 0; font-size: 13px; }
+        .tab-btn.active { color: var(--text); border-bottom-color: var(--accent-blue); background: var(--panel-bg); }
 
-        /* القائمة الجانبية */
-        .sidebar { width: 220px; background: var(--bg-sidebar); border-left: 1px solid var(--border); display: flex; flex-direction: column; transition: transform 0.3s ease; z-index: 10; }
-        .sidebar-title { padding: 10px; font-size: 11px; font-weight: bold; text-transform: uppercase; color: #858585; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .file-tree { flex: 1; overflow-y: auto; padding: 5px 0; }
-        .file-item { padding: 8px 12px; font-size: 12px; font-family: monospace; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-right: 3px solid transparent; }
-        .file-item:hover { background: #2a2d2e; }
-        .file-item.active { background: #37373d; color: #fff; border-right-color: #007acc; }
+        /* شريط اختيارات الملفات */
+        .file-bar { background: var(--panel-bg); padding: 6px 10px; display: flex; gap: 8px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+        .file-chip { background: #2a2a2a; color: var(--text-dim); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-family: monospace; cursor: pointer; border: 1px solid transparent; white-space: nowrap; }
+        .file-chip.active { background: #007acc22; color: var(--accent-blue); border-color: var(--accent-blue); }
 
-        /* منطقة التحرير والمعاينة */
-        .workspace { flex: 1; display: flex; width: 100%; position: relative; }
-        #editor-container { width: 50%; height: 100%; }
-        .preview-pane { width: 50%; background: #ffffff; border-right: 1px solid var(--border); display: flex; flex-direction: column; }
-        iframe { width: 100%; height: 100%; border: none; }
+        /* منطقة العمل الرئيسية */
+        .main-container { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; }
+        .page { width: 100%; height: 100%; display: none; }
+        .page.active { display: block; }
 
-        /* شريط الرموز الخاص بالهواتف */
-        .mobile-bar { display: none; background: #2d2d2d; padding: 4px; overflow-x: auto; gap: 6px; border-top: 1px solid var(--border); }
-        .mobile-bar button { padding: 4px 10px; font-size: 12px; }
+        /* المحرر */
+        textarea { width: 100%; height: 100%; background: var(--bg-dark); color: #00ffcc; border: none; padding: 12px; font-family: "Courier New", monospace; font-size: 14px; resize: none; outline: none; line-height: 1.5; direction: ltr; text-align: left; }
 
-        /* شاشات الهواتف */
-        @media (max-width: 768px) {
-            .sidebar { position: absolute; top: 0; right: 0; bottom: 0; transform: translateX(100%); }
-            .sidebar.open { transform: translateX(0); }
-            .workspace { flex-direction: column; }
-            #editor-container { width: 100%; height: 50%; }
-            .preview-pane { width: 100%; height: 50%; border-right: none; border-top: 1px solid var(--border); }
-            .mobile-bar { display: flex; }
-        }
+        /* المعاينة */
+        iframe { width: 100%; height: 100%; border: none; background: white; }
     </style>
 </head>
 <body>
 
+    <!-- الترويسة -->
     <header>
-        <div class="brand">⚡ DevStudio Ultra</div>
-        <div class="header-actions">
-            <button onclick="toggleSidebar()">📁 الملفات</button>
-            <button onclick="addNewFile()">➕ ملف</button>
-            <button class="btn-primary" onclick="runCode()">▶ تشغيل</button>
-            <button onclick="publishProject()">🌐 نشر مجاني</button>
-            <button onclick="exportSingleHTML()">💾 تنزيل</button>
+        <div class="logo">⚡ DevStudio Mobile</div>
+        <div class="header-btns">
+            <button class="btn-run" onclick="runAndPreview()">▶ تشغيل</button>
+            <button class="btn-pub" onclick="publishSite()">🌐 نشر</button>
         </div>
     </header>
 
-    <div class="app-body">
-        <!-- القائمة الجانبية -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-title">
-                <span>المستكشف (Explorer)</span>
-                <button onclick="toggleSidebar()" style="padding: 2px 6px;">✕</button>
-            </div>
-            <div class="file-tree" id="fileTree"></div>
+    <!-- شريط الملفات -->
+    <div class="file-bar">
+        <div class="file-chip active" id="chip-html" onclick="selectFile('html')">index.html</div>
+        <div class="file-chip" id="chip-css" onclick="selectFile('css')">style.css</div>
+        <div class="file-chip" id="chip-js" onclick="selectFile('js')">app.js</div>
+    </div>
+
+    <!-- شريط التنقل الرئيسي (كود / معاينة) -->
+    <div class="view-toggler">
+        <button class="tab-btn active" id="tab-editor" onclick="switchView('editor')">💻 المحرر</button>
+        <button class="tab-btn" id="tab-preview" onclick="switchView('preview')">👁 المعاينة المباشرة</button>
+    </div>
+
+    <!-- منطقة العرض -->
+    <div class="main-container">
+        <!-- صفحة المحرر -->
+        <div class="page active" id="page-editor">
+            <textarea id="code-html" placeholder="أكتب كود HTML هنا..."></textarea>
+            <textarea id="code-css" placeholder="أكتب كود CSS هنا..." style="display: none;"></textarea>
+            <textarea id="code-js" placeholder="أكتب كود JavaScript هنا..." style="display: none;"></textarea>
         </div>
 
-        <!-- بيئة المحرر والمعاينة -->
-        <div class="workspace">
-            <div id="editor-container"></div>
-            <div class="preview-pane">
-                <iframe id="previewFrame"></iframe>
-            </div>
+        <!-- صفحة المعاينة -->
+        <div class="page" id="page-preview">
+            <iframe id="preview-frame"></iframe>
         </div>
     </div>
 
-    <!-- شريط مساعدة الهواتف -->
-    <div class="mobile-bar">
-        <button onclick="insertSymbol('<')">&lt;</button>
-        <button onclick="insertSymbol('>')">&gt;</button>
-        <button onclick="insertSymbol('{')">{</button>
-        <button onclick="insertSymbol('}')">}</button>
-        <button onclick="insertSymbol('(')">(</button>
-        <button onclick="insertSymbol(')')">)</button>
-        <button onclick="insertSymbol(';')">;</button>
-        <button onclick="insertSymbol('=')">=</button>
-        <button onclick="insertSymbol('\"')">"</button>
-    </div>
-
-    <!-- تحميل محرك Monaco JS السحابي -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/loader.min.js"></script>
     <script>
-        let editor;
-        let activeFile = 'index.html';
+        let currentFile = 'html';
 
-        // قاعدة بيانات المشروعات بالذاكرة المحلية IndexedDB/LocalStorage
-        const defaultProject = {
-            'index.html': { lang: 'html', code: '<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n  <meta charset="UTF-8">\n  <link rel="stylesheet" href="style.css">\n</head>\n<body>\n  <div class="card">\n    <h1>تطبيق فائق السرعة!</h1>\n    <p>يعمل على الكمبيوتر والهاتف بكفاءة عالية.</p>\n    <button onclick="sayHello()">اضغط هنا</button>\n  </div>\n  <script src="app.js"><\/script>\n</body>\n</html>' },
-            'style.css': { lang: 'css', code: 'body { background: #0f172a; color: #f8fafc; font-family: system-ui; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }\n.card { background: #1e293b; padding: 2rem; border-radius: 12px; text-align: center; border: 1px solid #334155; }\nbutton { background: #38bdf8; color: #0f172a; border: none; padding: 8px 16px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; }' },
-            'app.js': { lang: 'javascript', code: 'function sayHello() {\n  alert("التطبيق يعمل بسرعة فائقة وبدون أي أخطاء!");\n}' }
-        };
+        // 1. التبديل بين ملفات الكود
+        function selectFile(fileType) {
+            currentFile = fileType;
 
-        let files = JSON.parse(localStorage.getItem('devstudio_files')) || defaultProject;
+            document.getElementById('code-html').style.display = 'none';
+            document.getElementById('code-css').style.display = 'none';
+            document.getElementById('code-js').style.display = 'none';
 
-        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs' } });
+            document.getElementById(`code-${fileType}`).style.display = 'block';
 
-        require(['vs/editor/editor.main'], function () {
-            editor = monaco.editor.create(document.getElementById('editor-container'), {
-                value: files[activeFile].code,
-                language: files[activeFile].lang,
-                theme: 'vs-dark',
-                automaticLayout: true,
-                fontSize: window.innerWidth < 768 ? 12 : 14,
-                minimap: { enabled: window.innerWidth > 768 },
-                scrollbar: { verticalScrollbarSize: 8, horizontalScrollbarSize: 8 }
-            });
-
-            // حفظ تلقائي فوري
-            editor.onDidChangeModelContent(() => {
-                files[activeFile].code = editor.getValue();
-                localStorage.setItem('devstudio_files', JSON.stringify(files));
-            });
-
-            renderSidebar();
-            runCode();
-        });
-
-        function renderSidebar() {
-            const tree = document.getElementById('fileTree');
-            tree.innerHTML = '';
-            Object.keys(files).forEach(name => {
-                const item = document.createElement('div');
-                item.className = `file-item ${name === activeFile ? 'active' : ''}`;
-                item.innerHTML = `<span>📄 ${name}</span>`;
-                item.onclick = () => switchFile(name);
-                tree.appendChild(item);
-            });
+            document.querySelectorAll('.file-chip').forEach(el => el.classList.remove('active'));
+            document.getElementById(`chip-${fileType}`).classList.add('active');
         }
 
-        function switchFile(name) {
-            files[activeFile].code = editor.getValue();
-            activeFile = name;
-            monaco.editor.setModelLanguage(editor.getModel(), files[name].lang);
-            editor.setValue(files[name].code);
-            renderSidebar();
-            if(window.innerWidth < 768) toggleSidebar();
-        }
+        // 2. التبديل بين شاشة المحرر وشاشة المعاينة
+        function switchView(view) {
+            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
 
-        function addNewFile() {
-            const name = prompt("أدخل اسم الملف الجديد (مثل: script.js أو theme.css):");
-            if (name && !files[name]) {
-                const ext = name.split('.').pop();
-                const langMap = { js: 'javascript', css: 'css', html: 'html' };
-                files[name] = { lang: langMap[ext] || 'plaintext', code: '' };
-                switchFile(name);
+            document.getElementById(`page-${view}`).classList.add('active');
+            document.getElementById(`tab-${view}`).classList.add('active');
+
+            if (view === 'preview') {
+                updatePreview();
             }
         }
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
+        // 3. تحديث المعاينة
+        function updatePreview() {
+            const html = document.getElementById('code-html').value;
+            const css = `<style>${document.getElementById('code-css').value}</style>`;
+            const js = `<script>${document.getElementById('code-js').value}<\/script>`;
 
-        function runCode() {
-            const html = files['index.html'] ? files['index.html'].code : '';
-            const css = files['style.css'] ? `<style>${files['style.css'].code}</style>` : '';
-            const js = files['app.js'] ? `<script>${files['app.js'].code}<\/script>` : '';
-
-            const frame = document.getElementById('previewFrame').contentWindow.document;
+            const frame = document.getElementById('preview-frame').contentWindow.document;
             frame.open();
             frame.write(html + css + js);
             frame.close();
         }
 
-        function publishProject() {
-            const html = files['index.html'] ? files['index.html'].code : '';
-            const css = `<style>${files['style.css'] ? files['style.css'].code : ''}</style>`;
-            const js = `<script>${files['app.js'] ? files['app.js'].code : ''}<\/script>`;
-            const fullContent = `<!DOCTYPE html>\n<html>\n<head>\n<meta charset="UTF-8">\n${css}\n</head>\n<body>\n${html}\n${js}\n</body>\n</html>`;
+        function runAndPreview() {
+            updatePreview();
+            switchView('preview');
+        }
+
+        // 4. نشر الموقع برابط مباشر
+        function publishSite() {
+            const html = document.getElementById('code-html').value;
+            const css = `<style>${document.getElementById('code-css').value}</style>`;
+            const js = `<script>${document.getElementById('code-js').value}<\/script>`;
+            const fullContent = `<!DOCTYPE html>\n<html>\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n${css}\n</head>\n<body>\n${html}\n${js}\n</body>\n</html>`;
 
             const blob = new Blob([fullContent], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             window.open(url, '_blank');
         }
 
-        function exportSingleHTML() {
-            const html = files['index.html'] ? files['index.html'].code : '';
-            const css = `<style>${files['style.css'] ? files['style.css'].code : ''}</style>`;
-            const js = `<script>${files['app.js'] ? files['app.js'].code : ''}<\/script>`;
-            const fullContent = `<!DOCTYPE html>\n<html>\n<head>\n<meta charset="UTF-8">\n${css}\n</head>\n<body>\n${html}\n${js}\n</body>\n</html>`;
-
-            const blob = new Blob([fullContent], { type: 'text/html' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'project.html';
-            a.click();
-        }
-
-        function insertSymbol(symbol) {
-            if (editor) {
-                const selection = editor.getSelection();
-                editor.executeEdits('', [{ range: selection, text: symbol, forceMoveMarkers: true }]);
-                editor.focus();
-            }
-        }
+        // قيم أولية تجريبية
+        document.getElementById('code-html').value = '<div class="card">\n  <h1>تطبيق محرر الأكواد</h1>\n  <p>الواجهة الآن مرتبة ومصممة للهاتف بشكل ممتاز!</p>\n  <button onclick="alert(\'عمل ممتاز!\')">تجربة</button>\n</div>';
+        document.getElementById('code-css').value = 'body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }\n.card { background: #1e293b; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #334155; }\nbutton { background: #38bdf8; color: #0f172a; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; margin-top: 10px; cursor: pointer; }';
+        document.getElementById('code-js').value = '// أكتب أكواد الجافاسكربت هنا';
     </script>
 </body>
 </html>
