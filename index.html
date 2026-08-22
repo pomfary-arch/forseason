@@ -7,7 +7,6 @@
     <!-- HTML2PDF CDN FOR PDF EXPORT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* BASE THEME VARIABLES */
         :root {
             --bg-dark: #0a0e17;
             --card-bg: rgba(22, 28, 45, 0.85);
@@ -43,7 +42,6 @@
             transition: background-color 0.3s ease;
         }
 
-        /* TOP PROGRESS BAR */
         .top-progress {
             position: fixed;
             top: 0;
@@ -55,7 +53,6 @@
             transition: width 0.1s;
         }
 
-        /* HEADER */
         .app-header {
             display: flex;
             justify-content: space-between;
@@ -95,10 +92,7 @@
             color: var(--gold-primary);
         }
 
-        .header-actions {
-            display: flex;
-            gap: 10px;
-        }
+        .header-actions { display: flex; gap: 8px; }
 
         .icon-btn {
             background: rgba(255, 255, 255, 0.05);
@@ -114,7 +108,6 @@
             font-size: 1.1rem;
         }
 
-        /* TICKER MARQUEE */
         .ticker-wrapper {
             background: rgba(0, 0, 0, 0.4);
             padding: 8px 0;
@@ -135,17 +128,13 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* LAYOUT & CARDS */
         main {
             padding: 20px;
             max-width: 600px;
             margin: 0 auto;
         }
 
-        .page {
-            display: none;
-        }
-
+        .page { display: none; }
         .page.active {
             display: block;
             animation: fadeIn 0.3s ease;
@@ -181,9 +170,7 @@
             gap: 8px;
         }
 
-        /* HERO BANNER */
         .hero-banner {
-            background: linear-gradient(135deg, rgba(243, 156, 18, 0.15), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=600&q=80');
             background-size: cover;
             background-position: center;
             border-radius: 20px;
@@ -207,7 +194,6 @@
             line-height: 1.5;
         }
 
-        /* FORM INPUTS & BUTTONS */
         .input-box {
             width: 100%;
             padding: 12px 15px;
@@ -220,9 +206,7 @@
             outline: none;
         }
 
-        .input-box:focus {
-            border-color: var(--gold-primary);
-        }
+        .input-box:focus { border-color: var(--gold-primary); }
 
         .grid-2 {
             display: grid;
@@ -247,10 +231,47 @@
         .btn-gold { background: var(--gold-gradient); color: #000; }
         .btn-blue { background: var(--blue-gradient); color: #fff; }
         .btn-green { background: var(--green-gradient); color: #fff; }
+        .btn-red { background: #e74c3c; color: #fff; }
         .btn-dark { background: rgba(255, 255, 255, 0.1); color: var(--text-main); border: 1px solid var(--border-card); }
         .btn-sm { padding: 6px 12px; font-size: 0.75rem; border-radius: 8px; }
 
-        /* INFOGRAPHIC CHART */
+        /* POSTS & GALLERY CARDS */
+        .post-card {
+            border: 1px solid var(--border-card);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(0,0,0,0.2);
+        }
+        .post-img {
+            width: 100%;
+            border-radius: 10px;
+            max-height: 250px;
+            object-fit: cover;
+            margin-top: 10px;
+        }
+
+        /* BEFORE / AFTER SLIDER */
+        .ba-slider {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .ba-img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+        }
+        .ba-after { width: 50%; z-index: 2; border-left: 2px solid var(--gold-primary); }
+        .ba-range {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; z-index: 3; cursor: ew-resize;
+        }
+
         .chart-box {
             height: 16px;
             background: rgba(0,0,0,0.3);
@@ -259,164 +280,130 @@
             display: flex;
             margin: 15px 0 10px 0;
         }
+        .chart-seg { height: 100%; transition: width 0.5s ease; }
 
-        .chart-seg {
-            height: 100%;
-            transition: width 0.5s ease;
-        }
-
-        /* FAB & BOTTOM NAV */
-        .fab-wrapper {
-            position: fixed;
-            bottom: 80px;
-            left: 20px;
-            z-index: 999;
-        }
-
+        .fab-wrapper { position: fixed; bottom: 80px; left: 20px; z-index: 999; }
         .fab-main {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gold-gradient);
-            color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.4);
+            width: 50px; height: 50px; border-radius: 50%;
+            background: var(--gold-gradient); color: #000;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; box-shadow: 0 4px 15px rgba(241, 196, 15, 0.4);
             cursor: pointer;
         }
-
         .fab-options {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            position: absolute;
-            bottom: 60px;
-            left: 0;
+            display: none; flex-direction: column; gap: 10px;
+            position: absolute; bottom: 60px; left: 0;
         }
-
         .fab-options.show { display: flex; }
-
         .fab-opt {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: var(--card-bg);
-            border: 1px solid var(--border-card);
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
+            width: 42px; height: 42px; border-radius: 50%;
+            background: var(--card-bg); border: 1px solid var(--border-card);
+            color: var(--text-main); display: flex; align-items: center;
+            justify-content: center; text-decoration: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .nav-bottom {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 65px;
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            border-top: 1px solid var(--border-card);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            height: 65px; background: var(--card-bg);
+            backdrop-filter: blur(15px); border-top: 1px solid var(--border-card);
+            display: flex; justify-content: space-around; align-items: center;
             z-index: 1000;
         }
-
         .nav-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            color: var(--text-sub);
-            font-size: 0.7rem;
-            cursor: pointer;
-            width: 25%;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 4px; color: var(--text-sub); font-size: 0.7rem;
+            cursor: pointer; width: 20%;
         }
-
         .nav-link.active { color: var(--gold-primary); font-weight: 700; }
         .nav-link .icn { font-size: 1.2rem; }
 
-        /* MODAL ADMIN */
         .modal {
-            display: none;
-            position: fixed;
+            display: none; position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-            backdrop-filter: blur(5px);
-            padding: 20px;
-            overflow-y: auto;
+            background: rgba(0,0,0,0.85); z-index: 2000;
+            backdrop-filter: blur(5px); padding: 20px; overflow-y: auto;
         }
-
         .modal-box {
-            background: var(--card-bg);
-            border: 1px solid var(--gold-primary);
-            border-radius: 20px;
-            padding: 20px;
-            max-width: 500px;
-            margin: 30px auto;
+            background: var(--card-bg); border: 1px solid var(--gold-primary);
+            border-radius: 20px; padding: 20px; max-width: 550px; margin: 20px auto;
         }
+        .admin-sec {
+            border: 1px solid var(--border-card);
+            padding: 12px; border-radius: 12px; margin-bottom: 12px;
+        }
+        .admin-sec-title { font-weight: 800; color: var(--gold-primary); margin-bottom: 8px; font-size: 0.9rem; }
     </style>
-</head>
-<body>
-
+    </head>
+    <body>
     <div class="top-progress" id="topProgress"></div>
 
     <!-- HEADER -->
     <header class="app-header">
         <div class="brand-logo" onclick="switchTab('home')">
-            <div class="brand-icon">4S</div>
+            <div class="brand-icon" id="brandLogoText">4S</div>
             <div>
                 <div class="brand-title" id="siteTitleDisplay">FORSEASON</div>
-                <div style="font-size: 0.65rem; color: var(--text-sub);">المقاولات والديكور العراقية</div>
+                <div style="font-size: 0.65rem; color: var(--text-sub);" id="siteSubDisplay">المقاولات والديكور العراقية</div>
             </div>
         </div>
         <div class="header-actions">
-            <button class="icon-btn" onclick="openAdmin()" title="لوحة الإدارة">⚙️</button>
+            <button class="icon-btn" onclick="openAdmin()" title="لوحة الإدارة الشاملة">⚙️</button>
             <button class="icon-btn" onclick="toggleTheme()" title="المظهر">🌙</button>
             <button class="icon-btn" onclick="openPwaInstaller()" title="تثبيت التطبيق">📲</button>
         </div>
     </header>
 
-    <!-- LIVE MARKET TICKER -->
+    <!-- TICKER -->
     <div class="ticker-wrapper">
-        <div class="ticker-inner" id="tickerDisplay">
-            🏗️ أسعار البورصة العراقية اليوم: طن حديد: 790,000 د.ع 🟢 | سمنت مقاوم: 115,000 د.ع 🔴 | طابوق وحصى: 320,000 د.ع 🟢 | الدولار التقديري: 151,500 د.ع 🔵
-        </div>
+        <div class="ticker-inner" id="tickerDisplay">...</div>
     </div>
 
-    <!-- MAIN APP PAGES -->
     <main>
         <!-- PAGE 1: HOME -->
         <section id="home" class="page active">
-            <div class="hero-banner">
-                <div class="hero-title">منصة البناء والتخمين الذكية 🏛️</div>
-                <div class="hero-sub">احسب تكلفة بناء دارك حسب أسعار المحافظات، احصل على توزيع معماري ذكي، وتابع مشروعك أونلاين.</div>
+            <div class="hero-banner" id="heroBanner">
+                <div class="hero-title" id="heroTitle">منصة البناء والتخمين الذكية 🏛️</div>
+                <div class="hero-sub" id="heroSub">احسب تكلفة بناء دارك حسب أسعار المحافظات، احصل على توزيع معماري ذكي، وتابع مشروعك أونلاين.</div>
                 <div style="display: flex; gap: 10px; justify-content: center;">
                     <button class="btn btn-gold" onclick="switchTab('calc')">⚡ التخمين الفوري</button>
-                    <button class="btn btn-dark" onclick="switchTab('plans')">📐 مقترح الخرائط</button>
+                    <button class="btn btn-dark" onclick="switchTab('posts')">📸 أحدث أعمالنا</button>
                 </div>
             </div>
 
-            <!-- QUALITY COMPARISON SLIDER -->
+            <!-- QUALITY SLIDER -->
             <div class="card">
                 <div class="sec-head">
                     <div class="sec-title"><span>⚖️</span> مقارنة درجات التشطيب</div>
                     <span id="sliderQualityTag" class="btn btn-sm btn-gold">بناء أسود + تقطيع</span>
                 </div>
                 <input type="range" id="qualityRange" min="1" max="3" value="1" style="width: 100%; margin-bottom: 12px;" oninput="updateQualityCompare(this.value)">
-                <div id="qualityCompareText" style="font-size: 0.85rem; color: var(--text-sub); line-height: 1.6;">
-                    يشمل هيكل الصب الإنشائي والخرسانات، التقطيع بالطابوق، والتأسيسات الأولية للماء والكهرباء بدون الأرضيات والديكورات.
+                <div id="qualityCompareText" style="font-size: 0.85rem; color: var(--text-sub); line-height: 1.6;">...</div>
+            </div>
+        </section>
+
+        <!-- PAGE 2: POSTS & GALLERY (NEW) -->
+        <section id="posts" class="page">
+            <div class="card">
+                <div class="sec-head">
+                    <div class="sec-title"><span>🖼️</span> معرض الأعمال والمنشورات</div>
+                </div>
+                <div id="postsContainer">
+                    <div style="text-align: center; color: var(--text-sub); padding: 20px;">لا توجد منشورات حالياً، قم بإضافتها من لوحة الإدارة.</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="sec-head">
+                    <div class="sec-title"><span>🔄</span> مشاريع قبل وبعد (مقارنة تفاعلية)</div>
+                </div>
+                <div id="baContainer">
+                    <div style="text-align: center; color: var(--text-sub); padding: 20px;">لا توجد مقارنات قبل وبعد مضافة حالياً.</div>
                 </div>
             </div>
         </section>
 
-        <!-- PAGE 2: CALCULATOR -->
+        <!-- PAGE 3: CALCULATOR -->
         <section id="calc" class="page">
             <div class="card">
                 <div class="sec-head">
@@ -496,7 +483,7 @@
             </div>
         </section>
 
-        <!-- PAGE 3: PLANS -->
+        <!-- PAGE 4: PLANS -->
         <section id="plans" class="page">
             <div class="card">
                 <div class="sec-head">
@@ -520,7 +507,7 @@
             </div>
         </section>
 
-        <!-- PAGE 4: TRACKING -->
+        <!-- PAGE 5: TRACKING -->
         <section id="track" class="page">
             <div class="card">
                 <div class="sec-head">
@@ -532,52 +519,78 @@
             </div>
 
             <div id="trackResultBox" class="card" style="display: none;">
-                <div style="font-weight: 800; color: var(--gold-primary); font-size: 1.1rem;" id="projClientName">مشروع فيلا الأستاذ أحمد</div>
-                <div style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px;" id="projProgressDetail">المرحلة الحالية: صب الهيكل والخرسانات</div>
-                <ul style="list-style: none; font-size: 0.85rem; line-height: 2;">
-                    <li>✅ صب الأساس والحفر (منجز)</li>
-                    <li>🔄 بناء الهيكل والطابوق (قيد التنفيذ - 80%)</li>
-                    <li>⏳ التأسيسات الكهربائية والسباكة (قادم)</li>
-                </ul>
+                <div style="font-weight: 800; color: var(--gold-primary); font-size: 1.1rem;" id="projClientName">...</div>
+                <div style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px;" id="projProgressDetail">...</div>
             </div>
         </section>
     </main>
 
-    <!-- ADMIN PANEL MODAL -->
+    <!-- ADMIN PANEL MODAL (FULLY ADVANCED) -->
     <div class="modal" id="adminModal">
         <div class="modal-box">
             <div class="sec-head">
-                <div class="sec-title"><span>⚙️</span> لوحة التحكم الإدارية الشاملة</div>
+                <div class="sec-title"><span>⚙️</span> لوحة التحكم والإدارة المطلقة</div>
                 <button class="btn btn-sm btn-dark" onclick="closeAdmin()">✕ إغلاق</button>
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label style="font-weight: 800; color: var(--gold-primary); display: block; margin-bottom: 6px;">1. إعدادات المنصة والهاتف:</label>
+            <!-- SECTION 1: SYSTEM SETTINGS -->
+            <div class="admin-sec">
+                <div class="admin-sec-title">1. إعدادات الهوية والعناوين والتواصل</div>
                 <input type="text" id="admSiteName" class="input-box" placeholder="اسم الشركة / المنصة">
+                <input type="text" id="admSiteSub" class="input-box" placeholder="الوصف الفرعي بالهيدر">
+                <input type="text" id="admLogoText" class="input-box" placeholder="رمز اللوجو (مثل 4S)">
                 <input type="text" id="admPhone" class="input-box" placeholder="رقم الاتصال (078...)">
                 <input type="text" id="admWhatsapp" class="input-box" placeholder="رقم الواتساب (96478...)">
-                <input type="text" id="admTicker" class="input-box" placeholder="شريط الأخبار المتحرك">
+                <input type="text" id="admTicker" class="input-box" placeholder="نص شريط الأخبار المتحرك">
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label style="font-weight: 800; color: var(--gold-primary); display: block; margin-bottom: 6px;">2. أسعار المتر للبناء (د.ع):</label>
+            <!-- SECTION 2: HERO BANNER & PRICES -->
+            <div class="admin-sec">
+                <div class="admin-sec-title">2. الواجهة الرئيسية وأسعار البناء (د.ع / م²)</div>
+                <input type="text" id="admHeroTitle" class="input-box" placeholder="عنوان الهيرو">
+                <textarea id="admHeroSub" class="input-box" placeholder="وصف الهيرو" style="height: 60px;"></textarea>
+                <label style="font-size: 0.75rem; color: var(--text-sub);">صورة خلفية الهيرو الرئيسية:</label>
+                <input type="file" id="admHeroBgInput" class="input-box" accept="image/*">
+
                 <div class="grid-2">
-                    <input type="number" id="admPriceBlack" class="input-box" placeholder="هيكل أسود">
-                    <input type="number" id="admPriceNormal" class="input-box" placeholder="تشطيب عادي">
+                    <input type="number" id="admPriceBlack" class="input-box" placeholder="أسود">
+                    <input type="number" id="admPriceNormal" class="input-box" placeholder="عادي">
                     <input type="number" id="admPriceDeluxe" class="input-box" placeholder="ديلوكس">
                     <input type="number" id="admPriceVIP" class="input-box" placeholder="VIP">
                 </div>
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label style="font-weight: 800; color: var(--gold-primary); display: block; margin-bottom: 6px;">3. تحديث كود متابعة مشروع:</label>
+            <!-- SECTION 3: PUBLISH POST / GALLERY -->
+            <div class="admin-sec">
+                <div class="admin-sec-title">3. نشر منشور / صورة جديدة للعمل 📸</div>
+                <input type="text" id="admPostTitle" class="input-box" placeholder="عنوان المنشور أو المشروع">
+                <textarea id="admPostDesc" class="input-box" placeholder="تفاصيل وتكلفة العمل..." style="height: 60px;"></textarea>
+                <label style="font-size: 0.75rem; color: var(--text-sub);">اختر صورة من الاستوديو:</label>
+                <input type="file" id="admPostImgInput" class="input-box" accept="image/*">
+                <button class="btn btn-blue btn-sm" style="width: 100%;" onclick="addNewPost()">➕ نشر العمل في المعرض</button>
+            </div>
+
+            <!-- SECTION 4: PUBLISH BEFORE / AFTER -->
+            <div class="admin-sec">
+                <div class="admin-sec-title">4. إضافة مقارنة (قبل و بعد) 🔄</div>
+                <input type="text" id="admBATitle" class="input-box" placeholder="عنوان المقارنة (مثال: تجديد مطبخ)">
+                <label style="font-size: 0.75rem; color: var(--text-sub);">صورة قبل (Before):</label>
+                <input type="file" id="admImgBeforeInput" class="input-box" accept="image/*">
+                <label style="font-size: 0.75rem; color: var(--text-sub);">صورة بعد (After):</label>
+                <input type="file" id="admImgAfterInput" class="input-box" accept="image/*">
+                <button class="btn btn-green btn-sm" style="width: 100%;" onclick="addNewBA()">🔄 نشر مقارنة قبل وبعد</button>
+            </div>
+
+            <!-- SECTION 5: MANAGE PROJECTS -->
+            <div class="admin-sec">
+                <div class="admin-sec-title">5. إضافة / تحديث كود متابعة مشروع</div>
                 <input type="text" id="admPrjCode" class="input-box" placeholder="كود المشروع (مثل FS-101)">
                 <input type="text" id="admPrjName" class="input-box" placeholder="اسم صاحب المشروع والموقع">
                 <input type="text" id="admPrjProgress" class="input-box" placeholder="تفاصيل نسبة الإنجاز">
             </div>
 
-            <button class="btn btn-gold" style="width: 100%; margin-bottom: 8px;" onclick="saveAdminData()">💾 حفظ وتحديث كل شيء فوراً</button>
-            <button class="btn btn-dark" style="width: 100%;" onclick="resetDefaultData()">🔄 استعادة البيانات الافتراضية</button>
+            <button class="btn btn-gold" style="width: 100%; margin-bottom: 8px;" onclick="saveAdminData()">💾 حفظ وتحديث المنصة بالكامل</button>
+            <button class="btn btn-red btn-sm" style="width: 100%;" onclick="resetDefaultData()">🔄 استعادة الضبط الافتراضي للموقع</button>
         </div>
     </div>
 
@@ -591,11 +604,15 @@
         <div class="fab-main" onclick="toggleFab()">⚡</div>
     </div>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- BOTTOM NAV -->
     <nav class="nav-bottom">
         <div class="nav-link active" onclick="switchTab('home')">
             <span class="icn">🏠</span>
             <span>الرئيسية</span>
+        </div>
+        <div class="nav-link" onclick="switchTab('posts')">
+            <span class="icn">🖼️</span>
+            <span>أعمالنا</span>
         </div>
         <div class="nav-link" onclick="switchTab('calc')">
             <span class="icn">🧮</span>
@@ -614,22 +631,43 @@
     <script>
         const ADMIN_PASS = "123789";
 
-        // DEFAULT DATABASE
+        // DEFAULT COMPLETE DATABASE
         const defaultDB = {
             siteName: "FORSEASON",
+            siteSub: "المقاولات والديكور العراقية",
+            logoText: "4S",
             phone: "07800000000",
             whatsapp: "9647800000000",
             ticker: "🏗️ أسعار البورصة العراقية اليوم: طن حديد: 790,000 د.ع 🟢 | سمنت مقاوم: 115,000 د.ع 🔴 | طابوق وحصى: 320,000 د.ع 🟢",
+            heroTitle: "منصة البناء والتخمين الذكية 🏛️",
+            heroSub: "احسب تكلفة بناء دارك حسب أسعار المحافظات، احصل على توزيع معماري ذكي، وتابع مشروعك أونلاين.",
+            heroBg: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=600&q=80",
             priceBlack: 280000,
             priceNormal: 480000,
             priceDeluxe: 650000,
             priceVIP: 850000,
+            posts: [
+                {
+                    id: 1,
+                    title: "إنجاز فيلا مودرن في الجادرية",
+                    desc: "تم تنفيذ العزل الحراري والتشطيب الفاخر بنظام Smart Home بالكامل.",
+                    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80"
+                }
+            ],
+            baList: [
+                {
+                    id: 1,
+                    title: "تجديد صالة معيشة بالكامل",
+                    before: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
+                    after: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=600&q=80"
+                }
+            ],
             projects: {
                 "FS-101": { name: "فيلا الأستاذ أحمد - الجادرية", progress: "مرحلة صب الهيكل والخرسانات (80%)" }
             }
         };
 
-        // INIT APP & LOAD SYSTEM DATA
+        // INIT SYSTEM
         function initApp() {
             let db = JSON.parse(localStorage.getItem('forseason_db'));
             if (!db) {
@@ -637,23 +675,85 @@
                 localStorage.setItem('forseason_db', JSON.stringify(db));
             }
 
-            // Apply DB Data to UI
-            document.getElementById('siteTitleDisplay').innerText = db.siteName;
-            document.getElementById('tickerDisplay').innerText = db.ticker;
-            document.getElementById('fabWaLink').href = "https://wa.me/" + db.whatsapp;
-            document.getElementById('fabCallLink').href = "tel:" + db.phone;
+            // Apply Texts & Dynamic Header
+            document.getElementById('siteTitleDisplay').innerText = db.siteName || defaultDB.siteName;
+            document.getElementById('siteSubDisplay').innerText = db.siteSub || defaultDB.siteSub;
+            document.getElementById('brandLogoText').innerText = db.logoText || defaultDB.logoText;
+            document.getElementById('tickerDisplay').innerText = db.ticker || defaultDB.ticker;
+            document.getElementById('heroTitle').innerText = db.heroTitle || defaultDB.heroTitle;
+            document.getElementById('heroSub').innerText = db.heroSub || defaultDB.heroSub;
+            
+            if(db.heroBg) {
+                document.getElementById('heroBanner').style.backgroundImage = `linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('${db.heroBg}')`;
+            }
 
-            // Populate Calculator Options
+            document.getElementById('fabWaLink').href = "https://wa.me/" + (db.whatsapp || defaultDB.whatsapp);
+            document.getElementById('fabCallLink').href = "tel:" + (db.phone || defaultDB.phone);
+
+            // Populate Calculator Quality
             const buildQualitySelect = document.getElementById('buildQuality');
             buildQualitySelect.innerHTML = `
-                <option value="${db.priceBlack}">بناء هيكل أسود (${db.priceBlack.toLocaleString('ar-IQ')} د.ع / م²)</option>
-                <option value="${db.priceNormal}" selected>تشطيب عادي / تجاري (${db.priceNormal.toLocaleString('ar-IQ')} د.ع / م²)</option>
-                <option value="${db.priceDeluxe}">تشطيب ديلوكس فاخر (${db.priceDeluxe.toLocaleString('ar-IQ')} د.ع / م²)</option>
-                <option value="${db.priceVIP}">VIP سوبر ديلوكس ذكي (${db.priceVIP.toLocaleString('ar-IQ')} د.ع / م²)</option>
+                <option value="${db.priceBlack}">بناء هيكل أسود (${Number(db.priceBlack).toLocaleString('ar-IQ')} د.ع / م²)</option>
+                <option value="${db.priceNormal}" selected>تشطيب عادي / تجاري (${Number(db.priceNormal).toLocaleString('ar-IQ')} د.ع / م²)</option>
+                <option value="${db.priceDeluxe}">تشطيب ديلوكس فاخر (${Number(db.priceDeluxe).toLocaleString('ar-IQ')} د.ع / م²)</option>
+                <option value="${db.priceVIP}">VIP سوبر ديلوكس ذكي (${Number(db.priceVIP).toLocaleString('ar-IQ')} د.ع / م²)</option>
             `;
+
+            renderPosts();
+            renderBA();
+            updateQualityCompare(1);
         }
 
-        // SCROLL PROGRESS BAR
+        // RENDER POSTS
+        function renderPosts() {
+            const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+            const container = document.getElementById('postsContainer');
+            if(!db.posts || db.posts.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-sub); padding: 20px;">لا توجد منشورات حالياً.</div>`;
+                return;
+            }
+
+            container.innerHTML = db.posts.map(p => `
+                <div class="post-card">
+                    <div style="font-weight: 800; color: var(--gold-primary); font-size: 1rem;">${p.title}</div>
+                    <div style="font-size: 0.85rem; color: var(--text-sub); margin-top: 5px;">${p.desc}</div>
+                    ${p.img ? `<img src="${p.img}" class="post-img" alt="صورة العمل">` : ''}
+                    <button class="btn btn-red btn-sm" style="margin-top: 8px;" onclick="deletePost(${p.id})">🗑️ حذف المنشور</button>
+                </div>
+            `).join('');
+        }
+
+        // RENDER BEFORE / AFTER SLIDERS
+        function renderBA() {
+            const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+            const container = document.getElementById('baContainer');
+            if(!db.baList || db.baList.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-sub); padding: 20px;">لا توجد مقارنات قبل وبعد مضافة.</div>`;
+                return;
+            }
+
+            container.innerHTML = db.baList.map(item => `
+                <div class="post-card">
+                    <div style="font-weight: 800; color: var(--gold-primary); margin-bottom: 8px;">${item.title}</div>
+                    <div class="ba-slider" id="ba-box-${item.id}">
+                        <img src="${item.before}" class="ba-img" style="z-index:1;">
+                        <img src="${item.after}" class="ba-img ba-after" id="ba-after-${item.id}">
+                        <input type="range" min="0" max="100" value="50" class="ba-range" oninput="moveSlider(${item.id}, this.value)">
+                    </div>
+                    <div style="display:flex; justify-between; font-size: 0.75rem; color: var(--text-sub); margin-top: 6px;">
+                        <span>⬅️ بعد (After)</span>
+                        <span>قبل (Before) ➡️</span>
+                    </div>
+                    <button class="btn btn-red btn-sm" style="margin-top: 8px;" onclick="deleteBA(${item.id})">🗑️ حذف المقارنة</button>
+                </div>
+            `).join('');
+        }
+
+        function moveSlider(id, val) {
+            document.getElementById(`ba-after-${id}`).style.width = val + "%";
+        }
+
+        // SCROLL & NAVIGATION
         window.onscroll = function() {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -661,7 +761,6 @@
             document.getElementById("topProgress").style.width = scrolled + "%";
         };
 
-        // NAVIGATION TAB SWITCHER
         function switchTab(tabId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
@@ -669,7 +768,7 @@
             const targetPage = document.getElementById(tabId);
             if(targetPage) targetPage.classList.add('active');
 
-            const navIndex = ['home', 'calc', 'plans', 'track'].indexOf(tabId);
+            const navIndex = ['home', 'posts', 'calc', 'plans', 'track'].indexOf(tabId);
             if(navIndex !== -1) document.querySelectorAll('.nav-link')[navIndex].classList.add('active');
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -679,7 +778,6 @@
         function toggleTheme() { document.body.classList.toggle('light-theme'); }
         function toggleFab() { document.getElementById('fabOptions').classList.toggle('show'); }
 
-        // SLIDER CONTROL
         function updateQualityCompare(val) {
             const tag = document.getElementById('sliderQualityTag');
             const txt = document.getElementById('qualityCompareText');
@@ -701,7 +799,7 @@
             document.getElementById('irregularInputs').style.display = (type === 'irregular') ? 'grid' : 'none';
         }
 
-        // CALCULATE BUDGET
+        // CALCULATOR LOGIC
         function calculateCost() {
             const type = document.getElementById('calcType').value;
             let totalLandArea = 0;
@@ -742,7 +840,6 @@
             document.getElementById('calcResultBox').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // PDF EXPORT
         function downloadPDF() {
             const element = document.getElementById('calcResultBox');
             html2pdf().set({
@@ -754,7 +851,7 @@
             }).from(element).save();
         }
 
-        // SMART FLOOR PLANNER
+        // ARCHITECTURAL PLANNER
         function generateFloorPlan() {
             const area = parseFloat(document.getElementById('planArea').value);
             const fronts = document.getElementById('planFronts').value;
@@ -774,7 +871,6 @@
             document.getElementById('planResultCard').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // TRACKING PROJECT
         function trackProject() {
             const code = document.getElementById('projectCodeInput').value.trim().toUpperCase();
             const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
@@ -791,7 +887,17 @@
             document.getElementById('trackResultBox').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // ADMIN CONTROL PANEL LOGIC
+        // FILE TO BASE64 HELPER
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // ADMIN PANEL & MEDIA PUBLISHING
         function openAdmin() {
             const pass = prompt("أدخل كلمة مرور لوحة التحكم الإدارية:");
             if (pass === ADMIN_PASS) {
@@ -806,28 +912,43 @@
 
         function loadAdminForm() {
             const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
-            document.getElementById('admSiteName').value = db.siteName;
-            document.getElementById('admPhone').value = db.phone;
-            document.getElementById('admWhatsapp').value = db.whatsapp;
-            document.getElementById('admTicker').value = db.ticker;
-            document.getElementById('admPriceBlack').value = db.priceBlack;
-            document.getElementById('admPriceNormal').value = db.priceNormal;
-            document.getElementById('admPriceDeluxe').value = db.priceDeluxe;
-            document.getElementById('admPriceVIP').value = db.priceVIP;
+            document.getElementById('admSiteName').value = db.siteName || '';
+            document.getElementById('admSiteSub').value = db.siteSub || '';
+            document.getElementById('admLogoText').value = db.logoText || '';
+            document.getElementById('admPhone').value = db.phone || '';
+            document.getElementById('admWhatsapp').value = db.whatsapp || '';
+            document.getElementById('admTicker').value = db.ticker || '';
+            document.getElementById('admHeroTitle').value = db.heroTitle || '';
+            document.getElementById('admHeroSub').value = db.heroSub || '';
+            document.getElementById('admPriceBlack').value = db.priceBlack || '';
+            document.getElementById('admPriceNormal').value = db.priceNormal || '';
+            document.getElementById('admPriceDeluxe').value = db.priceDeluxe || '';
+            document.getElementById('admPriceVIP').value = db.priceVIP || '';
         }
 
-        function saveAdminData() {
+        async function saveAdminData() {
             const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
             
             db.siteName = document.getElementById('admSiteName').value;
+            db.siteSub = document.getElementById('admSiteSub').value;
+            db.logoText = document.getElementById('admLogoText').value;
             db.phone = document.getElementById('admPhone').value;
             db.whatsapp = document.getElementById('admWhatsapp').value;
             db.ticker = document.getElementById('admTicker').value;
+            db.heroTitle = document.getElementById('admHeroTitle').value;
+            db.heroSub = document.getElementById('admHeroSub').value;
             db.priceBlack = parseFloat(document.getElementById('admPriceBlack').value);
             db.priceNormal = parseFloat(document.getElementById('admPriceNormal').value);
             db.priceDeluxe = parseFloat(document.getElementById('admPriceDeluxe').value);
             db.priceVIP = parseFloat(document.getElementById('admPriceVIP').value);
 
+            // Handle Hero Bg File
+            const heroBgFile = document.getElementById('admHeroBgInput').files[0];
+            if (heroBgFile) {
+                db.heroBg = await fileToBase64(heroBgFile);
+            }
+
+            // Handle Project Update
             const prjCode = document.getElementById('admPrjCode').value.trim().toUpperCase();
             if(prjCode) {
                 if(!db.projects) db.projects = {};
@@ -838,26 +959,56 @@
             }
 
             localStorage.setItem('forseason_db', JSON.stringify(db));
-            alert("✅ تم حفظ وتحديث كافة بيانات المنصة بنجاح!");
+            alert("✅ تم حفظ وتحديث المنصة بجميع عناصرها بنجاح!");
             closeAdmin();
             initApp();
         }
 
-        function resetDefaultData() {
-            if(confirm("هل أنت تأكد من استعادة الضبط الافتراضي؟")) {
-                localStorage.removeItem('forseason_db');
-                alert("تمت الإعادة بنجاح.");
-                closeAdmin();
-                initApp();
+        // ADD NEW POST
+        async function addNewPost() {
+            const title = document.getElementById('admPostTitle').value;
+            const desc = document.getElementById('admPostDesc').value;
+            const imgFile = document.getElementById('admPostImgInput').files[0];
+
+            if(!title) { alert("يرجى إدخال عنوان المنشور!"); return; }
+
+            let imgBase64 = "";
+            if (imgFile) {
+                imgBase64 = await fileToBase64(imgFile);
+            }
+
+            const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+            if(!db.posts) db.posts = [];
+
+            db.posts.unshift({
+                id: Date.now(),
+                title: title,
+                desc: desc,
+                img: imgBase64
+            });
+
+            localStorage.setItem('forseason_db', JSON.stringify(db));
+            alert("✅ تم نشر العمل بنجاح!");
+            document.getElementById('admPostTitle').value = '';
+            document.getElementById('admPostDesc').value = '';
+            document.getElementById('admPostImgInput').value = '';
+            renderPosts();
+        }
+
+        function deletePost(id) {
+            if(confirm("هل أنت متأكد من حذف هذا المنشور؟")) {
+                const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+                db.posts = db.posts.filter(p => p.id !== id);
+                localStorage.setItem('forseason_db', JSON.stringify(db));
+                renderPosts();
             }
         }
 
-        function openPwaInstaller() {
-            alert("لتثبيت المنصة كـ تطبيق:\n- آيفون: اضغط زر المشاركة (Share) ⎘ ثم اختار 'Add to Home Screen'.\n- أندرويد: اضغط القائمة (⋮) ثم اختار 'تثبيت التطبيق'.");
-        }
+        // ADD NEW BEFORE / AFTER
+        async function addNewBA() {
+            const title = document.getElementById('admBATitle').value;
+            const fileBefore = document.getElementById('admImgBeforeInput').files[0];
+            const fileAfter = document.getElementById('admImgAfterInput').files[0];
 
-        // Initialize App on Startup
-        initApp();
-    </script>
-</body>
-</html>
+            if(!title || !fileBefore || !fileAfter) {
+                alert("يرجى إ
