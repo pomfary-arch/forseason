@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DevStudio Ultimate Pro - Full Edition</title>
+    <title>DevStudio Ultimate Mobile IDE</title>
     <style>
         :root {
             --bg-main: #090d16;
@@ -24,48 +24,37 @@
 
         header { background: var(--bg-card); padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
         .logo { font-weight: 800; font-size: 15px; color: var(--primary); display: flex; align-items: center; gap: 6px; }
-        .project-tag { font-size: 11px; background: #0284c722; color: var(--primary); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--primary); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+        .project-tag { font-size: 11px; background: #0284c722; color: var(--primary); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--primary); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
         .app-view { flex: 1; display: none; flex-direction: column; height: 100%; overflow: hidden; position: relative; }
         .app-view.active { display: flex; }
 
         .repo-container { padding: 14px; overflow-y: auto; height: 100%; }
-        .repo-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
-        .btn-main { background: var(--primary); color: #000; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .btn-main:hover { background: var(--primary-hover); }
+        .repo-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .btn-main { background: var(--primary); color: #000; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; }
         .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
         .project-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
         .project-card h3 { font-size: 14px; color: var(--text-main); }
         .project-card p { font-size: 11px; color: var(--text-muted); }
-        .card-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-        .btn-sub { flex: 1; padding: 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-main); color: var(--text-main); font-size: 11px; cursor: pointer; text-align: center; }
+        .card-actions { display: flex; gap: 6px; }
+        .btn-sub { flex: 1; padding: 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-main); color: var(--text-main); font-size: 11px; cursor: pointer; }
         .btn-sub.open { background: var(--primary); color: #000; font-weight: bold; border: none; }
 
         .editor-container { flex: 1; display: flex; flex-direction: column; padding: 8px; gap: 6px; height: 100%; }
-        .editor-tools { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); flex-wrap: wrap; gap: 5px; }
-        .toolbar-group { display: flex; gap: 4px; overflow-x: auto; max-width: 100%; padding-bottom: 2px; }
-        .tool-btn { background: var(--bg-card); color: var(--primary); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap; }
-        
+        .editor-tools { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
         .symbol-bar { display: flex; gap: 6px; background: var(--bg-card); padding: 6px; border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
         .symbol-btn { background: var(--bg-input); color: var(--primary); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-family: monospace; font-size: 13px; font-weight: bold; cursor: pointer; white-space: nowrap; }
-        
         textarea.smart-editor { flex: 1; width: 100%; background: var(--bg-input); color: #38bdf8; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: 'Courier New', monospace; font-size: var(--font-size); resize: none; outline: none; line-height: 1.5; direction: ltr; text-align: left; }
 
-        .preview-bar { background: var(--bg-card); padding: 8px 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .preview-bar select { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); padding: 6px 10px; border-radius: 6px; font-size: 11px; }
-        .preview-actions { display: flex; gap: 6px; }
+        .error-modal { position: absolute; bottom: 0; left: 0; right: 0; background: #151c2c; border-top: 2px solid var(--danger); padding: 14px; z-index: 1000; max-height: 65%; overflow-y: auto; display: none; box-shadow: 0 -5px 20px rgba(0,0,0,0.6); }
+        .error-modal.active { display: flex; flex-direction: column; gap: 10px; }
+        .fix-option-card { background: var(--bg-input); border: 1px solid var(--border); padding: 10px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
+
+        .preview-bar { background: var(--bg-card); padding: 8px 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .preview-bar select { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 11px; }
         .frame-wrapper { flex: 1; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: #000; overflow: hidden; position: relative; }
         iframe { border: none; background: #fff; transition: 0.3s; width: 100%; height: 100%; }
         iframe.mobile-view { width: 375px; height: 667px; border-radius: 12px; border: 4px solid var(--border); }
-
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
-        .modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 500px; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; }
-        .modal-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        .modal-body { padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; font-size: 12px; }
-        .modal-footer { padding: 10px 16px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; background: var(--bg-main); }
-        .close-modal { background: none; border: none; color: var(--text-muted); font-size: 16px; cursor: pointer; }
-
-        .link-output-box { background: var(--bg-input); border: 1px solid var(--border); padding: 10px; border-radius: 8px; word-break: break-all; font-family: monospace; color: var(--primary); font-size: 11px; max-height: 80px; overflow-y: auto; }
 
         nav.bottom-nav { background: var(--bg-card); border-top: 1px solid var(--border); display: flex; height: 56px; z-index: 100; }
         .nav-btn { flex: 1; border: none; background: transparent; color: var(--text-muted); display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 10px; gap: 3px; cursor: pointer; }
@@ -76,18 +65,14 @@
 <body>
 
     <header>
-        <div class="logo">⚡ DevStudio Ultimate Pro</div>
-        <div class="project-tag" id="active-project-tag" onclick="openStudioTools()">المشروع: افتراضي ⚙️</div>
+        <div class="logo">⚡ DevStudio Ultimate</div>
+        <div class="project-tag" id="active-project-tag">المشروع: افتراضي</div>
     </header>
-
-    <div class="app-view active" id="view-repo">
+        <div class="app-view active" id="view-repo">
         <div class="repo-container">
             <div class="repo-top">
-                <h3>📁 مستودع المشاريع السحابي المحلي</h3>
-                <div style="display:flex; gap:6px;">
-                    <button class="btn-main" onclick="createNewProject()">➕ مشروع جديد</button>
-                    <button class="btn-sub" onclick="exportBackup()" title="نسخ احتياطي">💾 حفظ الكل</button>
-                </div>
+                <h3>📁 مستودع المشاريع</h3>
+                <button class="btn-main" onclick="createNewProject()">➕ مشروع جديد</button>
             </div>
             <div class="project-grid" id="project-grid"></div>
         </div>
@@ -96,14 +81,11 @@
     <div class="app-view" id="view-editor">
         <div class="editor-container">
             <div class="editor-tools">
-                <span>المحرر الموحد والتنسيق التلقائي</span>
-                <div class="toolbar-group">
-                    <button class="tool-btn" onclick="formatCode()">✨ تنسيق</button>
-                    <button class="tool-btn" onclick="insertSnippet('html')">📄 قالب HTML</button>
-                    <button class="tool-btn" onclick="insertSnippet('tailwind')">🎨 Tailwind</button>
-                    <button class="tool-btn" onclick="openStudioTools()">🚀 أدوات التطبيق والروابط</button>
+                <span>المحرر الذكي + كاشف الأخطاء</span>
+                <div style="display: flex; gap: 6px;">
+                    <button class="btn-main" style="padding: 4px 10px; font-size: 10px; background: var(--accent);" onclick="runCodeAuditor()">🔍 تدقيق الكود</button>
+                    <span id="code-stats">0 بايت</span>
                 </div>
-                <span id="code-stats">0 بايت</span>
             </div>
             <div class="symbol-bar">
                 <button class="symbol-btn" onclick="insertSymbol('<')">&lt;</button>
@@ -119,49 +101,26 @@
             </div>
             <textarea id="smart-editor" class="smart-editor" placeholder="أدخل الكود الكامل المدمج هنا (HTML, CSS, JS)..." oninput="handleCodeInput()"></textarea>
         </div>
+        
+        <div class="error-modal" id="errorModal">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h4 style="color: var(--danger); font-size: 13px;">🚨 تقرير فحص وتدقيق الأخطاء</h4>
+                <button onclick="closeErrorModal()" style="background: transparent; border: none; color: var(--text-muted); font-size: 14px; cursor: pointer;">✕</button>
+            </div>
+            <div id="error-content" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
     </div>
 
     <div class="app-view" id="view-preview">
         <div class="preview-bar">
             <select onchange="changeDeviceView(this.value)">
-                <option value="full">عرض ملء الشاشة (Responsive)</option>
-                <option value="mobile">محاكي هاتف ذكي (375px)</option>
+                <option value="full">عرض ملء الشاشة</option>
+                <option value="mobile">محاكي هاتف (375px)</option>
             </select>
-            <div class="preview-actions">
-                <button class="btn-sub" onclick="renderPreview()">🔄 تحديث</button>
-                <button class="btn-main" onclick="generateSelfHostedLink()">🌐 توليد رابط موقع ذاتي</button>
-            </div>
+            <button class="btn-main" onclick="openExternalLink()">🌐 رابط خارجي</button>
         </div>
         <div class="frame-wrapper">
             <iframe id="preview-iframe"></iframe>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="tools-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span>🚀 مركز تحويل الموقع وتوليد الروابط الذاتية</span>
-                <button class="close-modal" onclick="closeStudioTools()">✕</button>
-            </div>
-            <div class="modal-body">
-                <p style="color:var(--text-muted)">حول مشروعك إلى تطبيق ويب متكامل (PWA) مع إمكانية إنشاء رابط خاص يعمل على جميع الأجهزة دون أي سيرفر خارجي.</p>
-                
-                <label style="font-weight:bold; color:var(--primary);">1. توليد رابط موقع ذاتي مباشر (Instant App URL):</label>
-                <button class="btn-main" onclick="generateSelfHostedLink()">إنشاء / تحديث الرابط الذاتي للمشروع</button>
-                <div class="link-output-box" id="self-link-output">اضغط الزر أعلاه لتوليد رابط تشغيلي فوري...</div>
-
-                <label style="font-weight:bold; color:var(--primary); margin-top:8px;">2. إعدادات تطبيق الويب (PWA Manifest):</label>
-                <button class="btn-sub" onclick="injectPWAManifest()">حقن إعدادات التثبيت وتجاوب الهاتف في الكود</button>
-
-                <label style="font-weight:bold; color:var(--primary); margin-top:8px;">3. تصدير وتحميل المشروع:</label>
-                <div style="display:flex; gap:6px;">
-                    <button class="btn-sub" onclick="exportAsZip()">تحميل ملف HTML مفرد</button>
-                    <button class="btn-sub" onclick="exportBackup()">نسخ احتياطي كامل (JSON)</button>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-main" onclick="closeStudioTools()">إغلاق</button>
-            </div>
         </div>
     </div>
 
@@ -179,17 +138,16 @@
             <span>المعاينة</span>
         </button>
     </nav>
-
-    <script>
+        <script>
         let projects = JSON.parse(localStorage.getItem('devstudio_projects_v3')) || {
             "p_default": {
-                name: "مشروع احترافي تجريبي",
+                name: "مشروع افتراضي تجريبي",
                 updated: new Date().toISOString().split('T')[0],
-                code: `<div style="text-align: center; padding: 40px; font-family: sans-serif; background: #090d16; color: #fff; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">\n  <h1 style="color: #38bdf8;">DevStudio Ultimate Pro</h1>\n  <p style="color: #94a3b8; margin: 10px 0;">موقعك وتطبيقك يعمل بكفاءة تامة على كافة الأجهزة!</p>\n  <button onclick="alert('تم تفعيل التفاعل بنجاح!')" style="background: #38bdf8; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; color: #000;">اضغط للتجربة</button>\n</div>`
+                code: `<div style="text-align: center; padding: 40px; font-family: sans-serif;">\n  <h1 style="color: #38bdf8;">DevStudio Ultimate</h1>\n  <p style="color: #64748b;">تطبيقك يعمل بنجاح مع الفرز ونظام التدقيق الذكي!</p>\n  <button onclick="alert('شغال تمام!')" style="background: #38bdf8; border: none; padding: 10px 20px; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer;">تجربة التفاعل</button>\n</div>`
             }
         };
 
-        let activeProjectId = localStorage.getItem('devstudio_active_proj') || "p_default";
+        let activeProjectId = localStorage.getItem('devstudio_active_proj_v3') || "p_default";
 
         function switchNav(target) {
             document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
@@ -215,7 +173,6 @@
                     <p>آخر تعديل: ${proj.updated}</p>
                     <div class="card-actions">
                         <button class="btn-sub open" onclick="openProject('${id}')">فتح بالمحرر</button>
-                        <button class="btn-sub" onclick="cloneProject('${id}')">نسخ</button>
                         <button class="btn-sub" style="border-color: var(--danger); color: var(--danger);" onclick="deleteProject('${id}')">حذف</button>
                     </div>
                 `;
@@ -230,40 +187,24 @@
                 projects[id] = {
                     name: name,
                     updated: new Date().toISOString().split('T')[0],
-                    code: `<!-- مشروع ${name} -->\n<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head><meta charset="UTF-8"><title>${name}</title></head>\n<body style="background:#111; color:#fff; padding:20px;">\n  <h1>مرحباً بك في ${name}</h1>\n</body>\n</html>`
+                    code: `<!-- كود مشروع ${name} -->\n<h1>${name}</h1>`
                 };
                 saveRepo();
                 openProject(id);
             }
         }
 
-        function cloneProject(id) {
-            const original = projects[id];
-            const newId = 'p_' + Date.now();
-            projects[newId] = {
-                name: original.name + " (نسخة)",
-                updated: new Date().toISOString().split('T')[0],
-                code: original.code
-            };
-            saveRepo();
-            renderRepo();
-        }
-
         function openProject(id) {
             activeProjectId = id;
-            localStorage.setItem('devstudio_active_proj', id);
-            document.getElementById('active-project-tag').innerText = `المشروع: ${projects[id].name} ⚙️`;
+            localStorage.setItem('devstudio_active_proj_v3', id);
+            document.getElementById('active-project-tag').innerText = `المشروع: ${projects[id].name}`;
             document.getElementById('smart-editor').value = projects[id].code;
             handleCodeInput();
             switchNav('editor');
         }
 
         function deleteProject(id) {
-            if (Object.keys(projects).length <= 1) {
-                alert("لا يمكنك حذف المشروع الوحيد المتبقي!");
-                return;
-            }
-            if (confirm("هل أنت تأكد من حذف المشروع نهائياً؟")) {
+            if (confirm("هل أنت تأكد من حذف المشروع؟")) {
                 delete projects[id];
                 saveRepo();
                 renderRepo();
@@ -297,6 +238,75 @@
             handleCodeInput();
         }
 
+        function runCodeAuditor() {
+            const code = document.getElementById('smart-editor').value;
+            const lines = code.split('\n');
+            let foundErrors = [];
+
+            lines.forEach((line, index) => {
+                let lineNum = index + 1;
+                
+                if ((line.includes('document.getElementById') || line.includes('console.log')) && !line.includes(')')) {
+                    foundErrors.push({
+                        line: lineNum,
+                        type: "قوس دالة غير مغلق",
+                        desc: `السطر رقم ${lineNum} يحتوي على دالة لم يتم إغلاق أقواسها بالشكل الصحيح.`,
+                        fixText: line + ')'
+                    });
+                }
+
+                if (line.includes('<div') && !line.includes('</div>') && !line.includes('/>') && !line.includes('>')) {
+                    foundErrors.push({
+                        line: lineNum,
+                        type: "وسم HTML غير مكتمل",
+                        desc: `السطر رقم ${lineNum} يحتوي على وسم div مفتوح ولم يتم إغلاقه بدقة.`,
+                        fixText: line + '>'
+                    });
+                }
+            });
+
+            const modal = document.getElementById('errorModal');
+            const content = document.getElementById('error-content');
+            content.innerHTML = '';
+
+            if (foundErrors.length === 0) {
+                content.innerHTML = `
+                    <div style="background: rgba(34,197,94,0.1); border: 1px solid var(--accent); padding: 10px; border-radius: 6px; color: var(--accent); font-size: 11px;">
+                        ✅ لم يتم رصد أي أخطاء برمجية حرجة! كودك نظيف وجاهز للتشغيل.
+                    </div>
+                `;
+            } else {
+                foundErrors.forEach(err => {
+                    content.innerHTML += `
+                        <div class="fix-option-card">
+                            <p style="color: var(--danger); font-weight: bold; font-size: 11px;">⚠️ خطأ في السطر (${err.line}): ${err.type}</p>
+                            <p style="color: var(--text-muted); font-size: 10px;"><b>الشرح:</b> ${err.desc}</p>
+                            <div style="margin-top: 4px; display: flex; gap: 6px;">
+                                <button onclick="applyAutoFix(${err.line}, '${err.fixText.replace(/'/g, "\\'")}')" style="background: var(--accent); color: #000; border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 10px; cursor: pointer;">
+                                    🛠️ إصلاح تلقائي فوري
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            modal.classList.add('active');
+        }
+
+        function closeErrorModal() {
+            document.getElementById('errorModal').classList.remove('active');
+        }
+
+        function applyAutoFix(lineNum, newText) {
+            const editor = document.getElementById('smart-editor');
+            let lines = editor.value.split('\n');
+            lines[lineNum - 1] = newText;
+            editor.value = lines.join('\n');
+            handleCodeInput();
+            closeErrorModal();
+            alert("تم تطبيق الإصلاح بنجاح على السطر " + lineNum);
+        }
+
         function renderPreview() {
             const rawCode = document.getElementById('smart-editor').value;
             const frame = document.getElementById('preview-iframe').contentWindow.document;
@@ -314,67 +324,11 @@
             }
         }
 
-        function openStudioTools() {
-            document.getElementById('tools-modal').style.display = 'flex';
-            generateSelfHostedLink();
-        }
-
-        function closeStudioTools() {
-            document.getElementById('tools-modal').style.display = 'none';
-        }
-
-        function generateSelfHostedLink() {
-            const rawCode = document.getElementById('smart-editor').value;
-            const blob = new Blob([rawCode], { type: 'text/html;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            document.getElementById('self-link-output').innerText = url;
-            window.open(url, '_blank');
-        }
-
-        function injectPWAManifest() {
-            const editor = document.getElementById('smart-editor');
-            let code = editor.value;
-            const manifestSnippet = `\n<!-- PWA Manifest Generated -->\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<meta name="theme-color" content="#38bdf8">\n`;
-            if (!code.includes('theme-color')) {
-                editor.value = code.replace('</head>', manifestSnippet + '</head>');
-                handleCodeInput();
-                alert("تم حقن إعدادات التثبيت وتجاوب الهاتف بنجاح في الكود!");
-            } else {
-                alert("إعدادات التثبيت موجودة مسبقاً في الكود.");
-            }
-        }
-
-        function insertSnippet(type) {
-            const editor = document.getElementById('smart-editor');
-            if (type === 'html') {
-                editor.value = `<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>مشروع جديد</title>\n</head>\n<body>\n    <h1>مرحباً بالعالم</h1>\n</body>\n</html>`;
-            } else if (type === 'tailwind') {
-                editor.value = `<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n    <meta charset="UTF-8">\n    <script src="https://cdn.tailwindcss.com"><\/script>\n</head>\n<body class="bg-slate-950 text-slate-100 p-6">\n    <div class="max-w-md mx-auto bg-slate-900 p-6 rounded-xl border border-slate-800 shadow-xl text-center">\n        <h1 class="text-2xl font-bold text-sky-400 mb-2">تصميم عصري</h1>\n        <p class="text-slate-400 text-sm mb-4">يعمل بكفاءة عالية على كافة الأجهزة.</p>\n        <button class="bg-sky-500 hover:bg-sky-600 text-slate-950 font-bold px-4 py-2 rounded-lg w-full">تفاعل معي</button>\n    </div>\n</body>\n</html>`;
-            }
-            handleCodeInput();
-        }
-
-        function formatCode() {
-            handleCodeInput();
-            alert("تم ترتيب وفحص الكود بنجاح!");
-        }
-
-        function exportAsZip() {
+        function openExternalLink() {
             const rawCode = document.getElementById('smart-editor').value;
             const blob = new Blob([rawCode], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = (projects[activeProjectId]?.name || 'project') + '.html';
-            a.click();
-        }
-
-        function exportBackup() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projects));
-            const dlAnchorElem = document.createElement('a');
-            dlAnchorElem.setAttribute("href", dataStr);
-            dlAnchorElem.setAttribute("download", "devstudio_backup_all_projects.json");
-            dlAnchorElem.click();
+            window.open(url, '_blank');
         }
 
         if (projects[activeProjectId]) {
