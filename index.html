@@ -3,123 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DevStudio Mobile Edition</title>
+    <title>DevStudio IDE & Repository</title>
     <style>
         :root {
-            --bg-dark: #121212;
-            --panel-bg: #1e1e1e;
-            --accent-blue: #007acc;
-            --accent-green: #28a745;
-            --border: #333333;
-            --text: #ffffff;
-            --text-dim: #aaaaaa;
+            --bg-main: #090d16;
+            --bg-card: #151c2c;
+            --bg-input: #1e293b;
+            --primary: #38bdf8;
+            --primary-hover: #0284c7;
+            --danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text); height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+        body { background-color: var(--bg-main); color: var(--text-main); height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* الشريط العلوي */
-        header { background: var(--panel-bg); padding: 10px 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: bold; color: var(--accent-blue); font-size: 14px; }
-        .header-btns { display: flex; gap: 6px; }
+        /* الترويسة */
+        header { background: var(--bg-card); padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
+        .logo { font-weight: 800; font-size: 16px; color: var(--primary); display: flex; align-items: center; gap: 6px; }
+        .current-project-title { font-size: 12px; color: var(--text-muted); background: var(--bg-main); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
 
-        button { background: #2d2d2d; color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; }
-        button.btn-run { background: var(--accent-green); border: none; }
-        button.btn-pub { background: var(--accent-blue); border: none; }
+        /* الشاشات الرئيسية */
+        .app-view { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; display: none; }
+        .app-view.active { display: flex; flex-direction: column; }
 
-        /* شريط التبديل بين الملفات والمعاينة */
-        .view-toggler { background: #181818; display: flex; border-bottom: 1px solid var(--border); }
-        .tab-btn { flex: 1; padding: 10px; text-align: center; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-dim); border-radius: 0; font-size: 13px; }
-        .tab-btn.active { color: var(--text); border-bottom-color: var(--accent-blue); background: var(--panel-bg); }
+        /* --- 1. شاشة المستودع (Repository View) --- */
+        #view-repo { padding: 16px; overflow-y: auto; }
+        .repo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-new-project { background: var(--primary); color: #000; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+        .project-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; transition: 0.2s; }
+        .project-card:hover { border-color: var(--primary); }
+        .project-info h3 { font-size: 15px; color: var(--text-main); }
+        .project-info p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+        .project-actions { display: flex; gap: 8px; margin-top: 5px; }
+        .btn-action { flex: 1; padding: 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-main); color: var(--text-main); font-size: 12px; cursor: pointer; text-align: center; }
+        .btn-action.open { background: var(--primary); color: #000; font-weight: bold; border: none; }
+        .btn-action.delete { border-color: var(--danger); color: var(--danger); }
 
-        /* شريط اختيارات الملفات */
-        .file-bar { background: var(--panel-bg); padding: 6px 10px; display: flex; gap: 8px; border-bottom: 1px solid var(--border); overflow-x: auto; }
-        .file-chip { background: #2a2a2a; color: var(--text-dim); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-family: monospace; cursor: pointer; border: 1px solid transparent; white-space: nowrap; }
-        .file-chip.active { background: #007acc22; color: var(--accent-blue); border-color: var(--accent-blue); }
+        /* --- 2. شاشة المحرر (Editor View) --- */
+        .editor-tabs { display: flex; background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 6px 12px; gap: 8px; overflow-x: auto; }
+        .file-tab { padding: 6px 14px; background: var(--bg-main); color: var(--text-muted); border-radius: 6px; font-size: 12px; font-family: monospace; border: 1px solid transparent; cursor: pointer; white-space: nowrap; }
+        .file-tab.active { color: var(--primary); background: var(--bg-card); border-color: var(--primary); font-weight: bold; }
 
-        /* منطقة العمل الرئيسية */
-        .main-container { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; }
-        .page { width: 100%; height: 100%; display: none; }
-        .page.active { display: block; }
+        .code-area { flex: 1; width: 100%; height: 100%; position: relative; }
+        textarea { width: 100%; height: 100%; background: var(--bg-main); color: #38bdf8; border: none; padding: 14px; font-family: 'Courier New', monospace; font-size: 14px; resize: none; outline: none; line-height: 1.6; direction: ltr; text-align: left; }
 
-        /* المحرر */
-        textarea { width: 100%; height: 100%; background: var(--bg-dark); color: #00ffcc; border: none; padding: 12px; font-family: "Courier New", monospace; font-size: 14px; resize: none; outline: none; line-height: 1.5; direction: ltr; text-align: left; }
+        /* --- 3. شاشة المعاينة (Preview View) --- */
+        .preview-bar { background: var(--bg-card); padding: 8px 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        iframe { width: 100%; height: 100%; border: none; background: white; flex: 1; }
 
-        /* المعاينة */
-        iframe { width: 100%; height: 100%; border: none; background: white; }
+        /* الشريط السفلي الأصيل للتطبيق (Bottom Navigation) */
+        nav.bottom-nav { background: var(--bg-card); border-top: 1px solid var(--border); display: flex; height: 60px; z-index: 100; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--text-muted); border: none; background: transparent; font-size: 11px; gap: 4px; cursor: pointer; }
+        .nav-item.active { color: var(--primary); font-weight: bold; }
+        .nav-icon { font-size: 18px; }
     </style>
 </head>
 <body>
 
     <!-- الترويسة -->
     <header>
-        <div class="logo">⚡ DevStudio Mobile</div>
-        <div class="header-btns">
-            <button class="btn-run" onclick="runAndPreview()">▶ تشغيل</button>
-            <button class="btn-pub" onclick="publishSite()">🌐 نشر</button>
-        </div>
+        <div class="logo">⚡ DevStudio App</div>
+        <div class="current-project-title" id="active-project-name">المشروع الحالي: غير محدد</div>
     </header>
 
-    <!-- شريط الملفات -->
-    <div class="file-bar">
-        <div class="file-chip active" id="chip-html" onclick="selectFile('html')">index.html</div>
-        <div class="file-chip" id="chip-css" onclick="selectFile('css')">style.css</div>
-        <div class="file-chip" id="chip-js" onclick="selectFile('js')">app.js</div>
-    </div>
-
-    <!-- شريط التنقل الرئيسي (كود / معاينة) -->
-    <div class="view-toggler">
-        <button class="tab-btn active" id="tab-editor" onclick="switchView('editor')">💻 المحرر</button>
-        <button class="tab-btn" id="tab-preview" onclick="switchView('preview')">👁 المعاينة المباشرة</button>
-    </div>
-
-    <!-- منطقة العرض -->
-    <div class="main-container">
-        <!-- صفحة المحرر -->
-        <div class="page active" id="page-editor">
-            <textarea id="code-html" placeholder="أكتب كود HTML هنا..."></textarea>
-            <textarea id="code-css" placeholder="أكتب كود CSS هنا..." style="display: none;"></textarea>
-            <textarea id="code-js" placeholder="أكتب كود JavaScript هنا..." style="display: none;"></textarea>
+    <!-- 1. شاشة مستودع المشروعات -->
+    <div class="app-view active" id="view-repo">
+        <div class="repo-header">
+            <h2>📁 مستودع المشروعات</h2>
+            <button class="btn-new-project" onclick="createNewProject()">➕ مشروع جديد</button>
         </div>
+        <div class="project-grid" id="project-list"></div>
+    </div>
 
-        <!-- صفحة المعاينة -->
-        <div class="page" id="page-preview">
-            <iframe id="preview-frame"></iframe>
+    <!-- 2. شاشة المحرر -->
+    <div class="app-view" id="view-editor">
+        <div class="editor-tabs">
+            <button class="file-tab active" id="tab-html" onclick="selectEditorFile('html')">index.html</button>
+            <button class="file-tab" id="tab-css" onclick="selectEditorFile('css')">style.css</button>
+            <button class="file-tab" id="tab-js" onclick="selectEditorFile('js')">app.js</button>
+        </div>
+        <div class="code-area">
+            <textarea id="code-html" placeholder="<!-- أكتب كود HTML هنا -->" oninput="saveCurrentCode()"></textarea>
+            <textarea id="code-css" placeholder="/* أكتب كود CSS هنا */" oninput="saveCurrentCode()" style="display: none;"></textarea>
+            <textarea id="code-js" placeholder="// أكتب كود JS هنا" oninput="saveCurrentCode()" style="display: none;"></textarea>
         </div>
     </div>
+
+    <!-- 3. شاشة المعاينة المباشرة -->
+    <div class="app-view" id="view-preview">
+        <div class="preview-bar">
+            <span style="font-size: 12px; color: var(--text-muted);">الشاشة المباشرة</span>
+            <button class="btn-action open" style="padding: 4px 12px;" onclick="publishProject()">🌐 فتح برابط خارجي</button>
+        </div>
+        <iframe id="preview-frame"></iframe>
+    </div>
+
+    <!-- الشريط السفلي للتنقل بين الأقسام -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" id="nav-repo" onclick="switchNav('repo')">
+            <span class="nav-icon">📁</span>
+            <span>المستودع</span>
+        </button>
+        <button class="nav-item" id="nav-editor" onclick="switchNav('editor')">
+            <span class="nav-icon">💻</span>
+            <span>المحرر</span>
+        </button>
+        <button class="nav-item" id="nav-preview" onclick="switchNav('preview')">
+            <span class="nav-icon">👁</span>
+            <span>المعاينة</span>
+        </button>
+    </nav>
 
     <script>
-        let currentFile = 'html';
+        // إدارة المشاريع والتخزين
+        let projects = JSON.parse(localStorage.getItem('devstudio_repo')) || {
+            "proj_1": {
+                name: "تطبيق مهامي اليومية",
+                updated: "2026-08-22",
+                html: '<div class="card">\n  <h2>قائمة مهامي</h2>\n  <p>هذا المشروع محفوظ في مستودعك الخاص!</p>\n</div>',
+                css: 'body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; }\n.card { background: #1e293b; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #334155; }',
+                js: 'console.log("يعمل من المستودع!");'
+            }
+        };
 
-        // 1. التبديل بين ملفات الكود
-        function selectFile(fileType) {
-            currentFile = fileType;
+        let activeProjectId = localStorage.getItem('devstudio_active_id') || "proj_1";
+        let activeFile = 'html';
 
+        // 1. نظام التنقل الرئيسي
+        function switchNav(target) {
+            document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(`view-${target}`).classList.add('active');
+            document.getElementById(`nav-${target}`).classList.add('active');
+
+            if (target === 'preview') {
+                renderPreview();
+            }
+        }
+
+        // 2. إدارة المستودع والمشروعات
+        function renderRepo() {
+            const container = document.getElementById('project-list');
+            container.innerHTML = '';
+
+            Object.keys(projects).forEach(id => {
+                const proj = projects[id];
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.innerHTML = `
+                    <div class="project-info">
+                        <h3>${proj.name}</h3>
+                        <p>آخر تعديل: ${proj.updated}</p>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-action open" onclick="openProject('${id}')">فتح بالمحرر</button>
+                        <button class="btn-action delete" onclick="deleteProject('${id}')">حذف</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function createNewProject() {
+            const name = prompt("أدخل اسم المشروع الجديد:");
+            if (name) {
+                const id = 'proj_' + Date.now();
+                projects[id] = {
+                    name: name,
+                    updated: new Date().toISOString().split('T')[0],
+                    html: `<h1>مشروع ${name}</h1>`,
+                    css: 'body { font-family: sans-serif; padding: 20px; }',
+                    js: ''
+                };
+                saveRepo();
+                renderRepo();
+                openProject(id);
+            }
+        }
+
+        function openProject(id) {
+            activeProjectId = id;
+            localStorage.setItem('devstudio_active_id', id);
+
+            const proj = projects[id];
+            document.getElementById('active-project-name').innerText = `المشروع: ${proj.name}`;
+
+            document.getElementById('code-html').value = proj.html;
+            document.getElementById('code-css').value = proj.css;
+            document.getElementById('code-js').value = proj.js;
+
+            switchNav('editor');
+        }
+
+        function deleteProject(id) {
+            if (confirm("هل أنت تأكد من حذف هذا المشروع من المستودع؟")) {
+                delete projects[id];
+                saveRepo();
+                renderRepo();
+            }
+        }
+
+        function saveRepo() {
+            localStorage.setItem('devstudio_repo', JSON.stringify(projects));
+        }
+
+        // 3. التحرير والحفظ
+        function selectEditorFile(type) {
+            activeFile = type;
             document.getElementById('code-html').style.display = 'none';
             document.getElementById('code-css').style.display = 'none';
             document.getElementById('code-js').style.display = 'none';
 
-            document.getElementById(`code-${fileType}`).style.display = 'block';
+            document.getElementById(`code-${type}`).style.display = 'block';
 
-            document.querySelectorAll('.file-chip').forEach(el => el.classList.remove('active'));
-            document.getElementById(`chip-${fileType}`).classList.add('active');
+            document.querySelectorAll('.file-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${type}`).classList.add('active');
         }
 
-        // 2. التبديل بين شاشة المحرر وشاشة المعاينة
-        function switchView(view) {
-            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        function saveCurrentCode() {
+            if (!activeProjectId || !projects[activeProjectId]) return;
 
-            document.getElementById(`page-${view}`).classList.add('active');
-            document.getElementById(`tab-${view}`).classList.add('active');
+            projects[activeProjectId].html = document.getElementById('code-html').value;
+            projects[activeProjectId].css = document.getElementById('code-css').value;
+            projects[activeProjectId].js = document.getElementById('code-js').value;
+            projects[activeProjectId].updated = new Date().toISOString().split('T')[0];
 
-            if (view === 'preview') {
-                updatePreview();
-            }
+            saveRepo();
         }
 
-        // 3. تحديث المعاينة
-        function updatePreview() {
+        // 4. المعاينة والنشر
+        function renderPreview() {
             const html = document.getElementById('code-html').value;
             const css = `<style>${document.getElementById('code-css').value}</style>`;
             const js = `<script>${document.getElementById('code-js').value}<\/script>`;
@@ -130,13 +249,7 @@
             frame.close();
         }
 
-        function runAndPreview() {
-            updatePreview();
-            switchView('preview');
-        }
-
-        // 4. نشر الموقع برابط مباشر
-        function publishSite() {
+        function publishProject() {
             const html = document.getElementById('code-html').value;
             const css = `<style>${document.getElementById('code-css').value}</style>`;
             const js = `<script>${document.getElementById('code-js').value}<\/script>`;
@@ -147,10 +260,13 @@
             window.open(url, '_blank');
         }
 
-        // قيم أولية تجريبية
-        document.getElementById('code-html').value = '<div class="card">\n  <h1>تطبيق محرر الأكواد</h1>\n  <p>الواجهة الآن مرتبة ومصممة للهاتف بشكل ممتاز!</p>\n  <button onclick="alert(\'عمل ممتاز!\')">تجربة</button>\n</div>';
-        document.getElementById('code-css').value = 'body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }\n.card { background: #1e293b; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #334155; }\nbutton { background: #38bdf8; color: #0f172a; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; margin-top: 10px; cursor: pointer; }';
-        document.getElementById('code-js').value = '// أكتب أكواد الجافاسكربت هنا';
+        // تشغيل أولي
+        renderRepo();
+        if (projects[activeProjectId]) {
+            openProject(activeProjectId);
+        } else {
+            switchNav('repo');
+        }
     </script>
 </body>
 </html>
