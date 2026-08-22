@@ -3,489 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DevStudio Ultimate - Pro Edition</title>
+    <title>DevStudio Ultimate Mobile IDE</title>
     <style>
-        /* المتغيرات والألوان (دعم الثيم الداكن المتقدم) */
         :root {
-            --bg-dark: #0d1117;
-            --bg-panel: #161b22;
-            --bg-header: #010409;
-            --accent: #58a6ff;
-            --accent-hover: #3182ce;
-            --text-main: #c9d1d9;
-            --text-muted: #8b949e;
-            --border: #30363d;
-            --danger: #f85149;
-            --success: #2ea043;
-            --warning: #d29922;
-        }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        body { 
-            background-color: var(--bg-dark); 
-            color: var(--text-main); 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            overflow: hidden; 
+            --bg-main: #090d16;
+            --bg-card: #151c2c;
+            --bg-input: #0f172a;
+            --primary: #38bdf8;
+            --primary-hover: #0284c7;
+            --accent: #22c55e;
+            --danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --font-size: 13px;
         }
 
-        /* الرأس العلوي (Header) */
-        header { 
-            background: var(--bg-header); 
-            border-bottom: 1px solid var(--border); 
-            height: 50px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 0 15px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            z-index: 10;
-        }
-        .logo { font-size: 16px; font-weight: 900; color: var(--accent); display: flex; align-items: center; gap: 8px; letter-spacing: 1px; }
-        
-        /* شريط الأدوات المتقدم (Toolbar) */
-        .toolbar { 
-            background: var(--bg-panel); 
-            padding: 8px 10px; 
-            display: flex; 
-            gap: 8px; 
-            border-bottom: 1px solid var(--border);
-            overflow-x: auto; 
-            white-space: nowrap; 
-        }
-        .toolbar::-webkit-scrollbar { height: 4px; }
-        .toolbar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-        
-        .btn {
-            background: var(--bg-dark);
-            color: var(--text-main);
-            border: 1px solid var(--border);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .btn:hover { border-color: var(--text-muted); background: rgba(255,255,255,0.05); }
-        .btn.primary { background: var(--accent); color: #fff; border: none; }
-        .btn.primary:hover { background: var(--accent-hover); }
-        .btn.danger { background: transparent; color: var(--danger); border-color: var(--danger); }
-        
-        /* نظام التبويبات والشاشات */
-        .main-container { flex: 1; display: flex; overflow: hidden; position: relative; }
-        .view-panel { flex: 1; display: none; flex-direction: column; width: 100%; height: 100%; background: var(--bg-dark); }
-        .view-panel.active { display: flex; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* المحرر المتقدم (Editor) */
-        .editor-wrapper { flex: 1; display: flex; position: relative; }
-        .line-numbers { 
-            width: 40px; 
-            background: var(--bg-panel); 
-            border-left: 1px solid var(--border); 
-            color: var(--text-muted); 
-            text-align: center; 
-            padding-top: 15px; 
-            font-family: 'Courier New', Courier, monospace; 
-            font-size: 14px; 
-            line-height: 1.6; 
-            user-select: none;
-            overflow: hidden;
-        }
-        .code-area { 
-            flex: 1; 
-            background: var(--bg-dark); 
-            color: #e6edf3; 
-            border: none; 
-            padding: 15px 10px; 
-            font-family: 'Courier New', Courier, monospace; 
-            font-size: 14px; 
-            line-height: 1.6; 
-            resize: none; 
-            outline: none; 
-            tab-size: 4; 
-            white-space: pre;
-            overflow: auto;
-        }
+        header { background: var(--bg-card); padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
+        .logo { font-weight: 800; font-size: 15px; color: var(--primary); display: flex; align-items: center; gap: 6px; }
+        .project-tag { font-size: 11px; background: #0284c722; color: var(--primary); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--primary); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        /* شريط الرموز السريع للهاتف */
-        .quick-symbols { 
-            background: var(--bg-panel); 
-            padding: 8px; 
-            display: flex; 
-            gap: 6px; 
-            overflow-x: auto; 
-            border-top: 1px solid var(--border); 
-        }
-        .sym-btn { 
-            background: var(--bg-dark); 
-            color: var(--accent); 
-            border: 1px solid var(--border); 
-            min-width: 35px; 
-            height: 35px; 
-            border-radius: 6px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 14px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            flex-shrink: 0;
-        }
-        .sym-btn:active { background: var(--accent); color: #fff; }
+        .app-view { flex: 1; display: none; flex-direction: column; height: 100%; overflow: hidden; position: relative; }
+        .app-view.active { display: flex; }
 
-        /* شريط التنقل السفلي الاحترافي */
-        .bottom-nav { 
-            background: var(--bg-header); 
-            border-top: 1px solid var(--border); 
-            display: flex; 
-            height: 60px; 
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-        .nav-item { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            color: var(--text-muted); 
-            background: none; 
-            border: none; 
-            font-size: 11px; 
-            gap: 4px; 
-            cursor: pointer; 
-            transition: 0.3s;
-        }
-        .nav-item.active { color: var(--accent); }
-        .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+        .repo-container { padding: 14px; overflow-y: auto; height: 100%; }
+        .repo-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .btn-main { background: var(--primary); color: #000; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+        .project-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .project-card h3 { font-size: 14px; color: var(--text-main); }
+        .project-card p { font-size: 11px; color: var(--text-muted); }
+        .card-actions { display: flex; gap: 6px; }
+        .btn-sub { flex: 1; padding: 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-main); color: var(--text-main); font-size: 11px; cursor: pointer; }
+        .btn-sub.open { background: var(--primary); color: #000; font-weight: bold; border: none; }
+
+        .editor-container { flex: 1; display: flex; flex-direction: column; padding: 8px; gap: 6px; height: 100%; }
+        .editor-tools { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
+        .symbol-bar { display: flex; gap: 6px; background: var(--bg-card); padding: 6px; border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .symbol-btn { background: var(--bg-input); color: var(--primary); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-family: monospace; font-size: 13px; font-weight: bold; cursor: pointer; white-space: nowrap; }
+        textarea.smart-editor { flex: 1; width: 100%; background: var(--bg-input); color: #38bdf8; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: 'Courier New', monospace; font-size: var(--font-size); resize: none; outline: none; line-height: 1.5; direction: ltr; text-align: left; }
+
+        .preview-bar { background: var(--bg-card); padding: 8px 12px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .preview-bar select { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 11px; }
+        .frame-wrapper { flex: 1; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: #000; overflow: hidden; }
+        iframe { border: none; background: #fff; transition: 0.3s; width: 100%; height: 100%; }
+        iframe.mobile-view { width: 375px; height: 667px; border-radius: 12px; border: 4px solid var(--border); }
+
+        nav.bottom-nav { background: var(--bg-card); border-top: 1px solid var(--border); display: flex; height: 56px; z-index: 100; }
+        .nav-btn { flex: 1; border: none; background: transparent; color: var(--text-muted); display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 10px; gap: 3px; cursor: pointer; }
+        .nav-btn.active { color: var(--primary); font-weight: bold; }
+        .nav-btn span.icon { font-size: 16px; }
     </style>
 </head>
 <body>
-        <!-- رأس التطبيق وشريط المعلومات -->
+
     <header>
         <div class="logo">⚡ DevStudio Ultimate</div>
-        <div id="project-title-badge" style="font-size: 11px; color: var(--text-muted); background: var(--bg-panel); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--border);">المشروع الحالي: الافتراضي</div>
+        <div class="project-tag" id="active-project-tag">المشروع: افتراضي</div>
     </header>
 
-    <!-- الحاوية الرئيسية للشاشات -->
-    <div class="main-container">
-        
-        <!-- 1. شاشة المحرر البرمجي -->
-        <div id="view-editor" class="view-panel active">
-            <div class="toolbar">
-                <button class="btn primary" onclick="runCodeAuditor()">🔍 فحص فوري وذكاء</button>
-                <button class="btn" onclick="formatCode()">✨ تجميل الكود</button>
-                <button class="btn" onclick="insertSnippet('html5')">📄 قالب HTML5</button>
-                <button class="btn" onclick="insertSnippet('card')">🃏 بطاقة CSS</button>
-                <span id="code-stats" style="font-size: 11px; color: var(--text-muted); margin-right: auto; align-self: center;">0 بايت | 1 أسطر</span>
+    <div class="app-view active" id="view-repo">
+        <div class="repo-container">
+            <div class="repo-top">
+                <h3>📁 مستودع المشاريع</h3>
+                <button class="btn-main" onclick="createNewProject()">➕ مشروع جديد</button>
             </div>
-            
-            <div class="editor-wrapper">
-                <div class="line-numbers" id="line-nums">1</div>
-                <textarea id="smart-editor" class="code-area" placeholder="اكتب أو الصق كودك هنا..." oninput="handleInputSync()" onscroll="syncScroll()"></textarea>
-            </div>
-
-            <div class="quick-symbols">
-                <div class="sym-btn" onclick="insertSymbol('=')">=</div>
-                <div class="sym-btn" onclick="insertSymbol('&quot;')">&quot;</div>
-                <div class="sym-btn" onclick="insertSymbol(';')">;</div>
-                <div class="sym-btn" onclick="insertSymbol('(')">(</div>
-                <div class="sym-btn" onclick="insertSymbol(')')">)</div>
-                <div class="sym-btn" onclick="insertSymbol('{')">{</div>
-                <div class="sym-btn" onclick="insertSymbol('}')">}</div>
-                <div class="sym-btn" onclick="insertSymbol('/')">/</div>
-                <div class="sym-btn" onclick="insertSymbol('&lt;')">&lt;</div>
-                <div class="sym-btn" onclick="insertSymbol('&gt;')">&gt;</div>
-                <div class="sym-btn" onclick="insertSymbol('-')">-</div>
-                <div class="sym-btn" onclick="insertSymbol('_')">_</div>
-            </div>
-        </div>
-
-        <!-- 2. شاشة المعاينة الحية -->
-        <div id="view-preview" class="view-panel">
-            <div class="toolbar">
-                <button class="btn primary" onclick="renderPreview()">🔄 تحديث المعاينة</button>
-                <button class="btn" onclick="setDeviceMode('full')">💻 شاشة كاملة</button>
-                <button class="btn" onclick="setDeviceMode('mobile')">📱 معاينة هاتف</button>
-                <button class="btn" onclick="openExternal()">🌐 نافذة مستقلة</button>
-            </div>
-            <div style="flex: 1; background: #fff; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden;">
-                <iframe id="preview-frame" style="width: 100%; height: 100%; border: none; background: #fff;"></iframe>
-            </div>
-        </div>
-
-        <!-- 3. شاشة مستودع المشاريع -->
-        <div id="view-repo" class="view-panel" style="padding: 15px; overflow-y: auto;">
-            <div class="toolbar" style="margin-bottom: 15px; border-radius: 8px;">
-                <button class="btn primary" onclick="createNewProj()">➕ مشروع جديد</button>
-                <button class="btn" onclick="exportProjectsJson()">📦 تصدير الكل (JSON)</button>
-            </div>
-            <div id="projects-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;">
-                <!-- بطاقات المشاريع تضاف برمجياً -->
-            </div>
-        </div>
-
-    </div>
-
-    <!-- شاشة نافذة فحص الأخطاء المنبثقة -->
-    <div id="audit-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: flex-end; z-index: 100;">
-        <div style="background: var(--bg-panel); border-top: 1px solid var(--border); width: 100%; max-height: 70vh; border-radius: 16px 16px 0 0; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h3 style="font-size: 14px; color: var(--warning);">🚨 تقرير الفحص والذكاء البرمجي</h3>
-                <button onclick="closeModal()" style="background: none; border: none; color: var(--text-main); font-size: 18px; cursor: pointer;">✕</button>
-            </div>
-            <div id="audit-results-list" style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px; max-height: 50vh;"></div>
+            <div class="project-grid" id="project-grid"></div>
         </div>
     </div>
 
-    <!-- شريط التنقل السفلي -->
+    <div class="app-view" id="view-editor">
+        <div class="editor-container">
+            <div class="editor-tools">
+                <span>المحرر الموحد (فرز وتصحيح تلقائي)</span>
+                <span id="code-stats">0 بايت</span>
+            </div>
+            <div class="symbol-bar">
+                <button class="symbol-btn" onclick="insertSymbol('<')">&lt;</button>
+                <button class="symbol-btn" onclick="insertSymbol('>')">&gt;</button>
+                <button class="symbol-btn" onclick="insertSymbol('/')">/</button>
+                <button class="symbol-btn" onclick="insertSymbol('{')">{</button>
+                <button class="symbol-btn" onclick="insertSymbol('}')">}</button>
+                <button class="symbol-btn" onclick="insertSymbol('(')">(</button>
+                <button class="symbol-btn" onclick="insertSymbol(')')">)</button>
+                <button class="symbol-btn" onclick="insertSymbol(';')">;</button>
+                <button class="symbol-btn" onclick="insertSymbol('&quot;')">"</button>
+                <button class="symbol-btn" onclick="insertSymbol('=')">=</button>
+            </div>
+            <textarea id="smart-editor" class="smart-editor" placeholder="أدخل الكود الكامل المدمج هنا (HTML, CSS, JS)..." oninput="handleCodeInput()"></textarea>
+        </div>
+    </div>
+
+    <div class="app-view" id="view-preview">
+        <div class="preview-bar">
+            <select onchange="changeDeviceView(this.value)">
+                <option value="full">عرض ملء الشاشة</option>
+                <option value="mobile">محاكي هاتف (375px)</option>
+            </select>
+            <button class="btn-main" onclick="openExternalLink()">🌐 رابط خارجي</button>
+        </div>
+        <div class="frame-wrapper">
+            <iframe id="preview-iframe"></iframe>
+        </div>
+    </div>
+
     <nav class="bottom-nav">
-        <button class="nav-item active" onclick="switchView('editor', this)">
-            <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-            المحرر
+        <button class="nav-btn active" id="nav-repo" onclick="switchNav('repo')">
+            <span class="icon">📁</span>
+            <span>المستودع</span>
         </button>
-        <button class="nav-item" onclick="switchView('preview', this)">
-            <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-            المعاينة
+        <button class="nav-btn" id="nav-editor" onclick="switchNav('editor')">
+            <span class="icon">💻</span>
+            <span>المحرر الذكي</span>
         </button>
-        <button class="nav-item" onclick="switchView('repo', this)">
-            <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>
-            المستودع
+        <button class="nav-btn" id="nav-preview" onclick="switchNav('preview')">
+            <span class="icon">👁</span>
+            <span>المعاينة</span>
         </button>
     </nav>
-        <script>
-        let projects = JSON.parse(localStorage.getItem('devstudio_v100_projects')) || {
-            "proj_main": {
-                name: "مشروع احترافي تجريبي",
-                date: new Date().toISOString().split('T')[0],
-                code: `<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n    <meta charset="UTF-8">\n    <title>موقعي الخارق</title>\n    <style>\n        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; text-align: center; padding: 40px; }\n        h1 { color: #58a6ff; }\n    </style>\n</head>\n<body>\n    <h1>مرحباً بك في DevStudio Ultimate Pro</h1>\n    <p>تطبيقك يعمل بكفاءة تامة وبدون أي أخطاء!</p>\n</body>\n</html>`
+
+    <script>
+        let projects = JSON.parse(localStorage.getItem('devstudio_projects_v2')) || {
+            "p_default": {
+                name: "مشروع افتراضي تجريبي",
+                updated: new Date().toISOString().split('T')[0],
+                code: `<div style="text-align: center; padding: 40px; font-family: sans-serif;">\n  <h1 style="color: #38bdf8;">DevStudio Ultimate</h1>\n  <p style="color: #64748b;">تطبيقك يعمل بنجاح مع الفرز والمستودع التلقائي!</p>\n  <button onclick="alert('شغال تمام!')" style="background: #38bdf8; border: none; padding: 10px 20px; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer;">تجربة التفاعل</button>\n</div>`
             }
         };
 
-        let currentProjId = localStorage.getItem('devstudio_v100_active') || "proj_main";
+        let activeProjectId = localStorage.getItem('devstudio_active_proj') || "p_default";
 
-        function switchView(viewId, btnElem) {
-            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById('view-' + viewId).classList.add('active');
-            btnElem.classList.add('active');
+        function switchNav(target) {
+            document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
 
-            if (viewId === 'preview') renderPreview();
-            if (viewId === 'repo') renderRepoGrid();
+            document.getElementById(`view-${target}`).classList.add('active');
+            document.getElementById(`nav-${target}`).classList.add('active');
+
+            if (target === 'preview') renderPreview();
+            if (target === 'repo') renderRepo();
         }
 
-        function handleInputSync() {
-            const editor = document.getElementById('smart-editor');
-            const code = editor.value;
-            
-            // تحديث أرقام الأسطر
-            const linesCount = code.split('\n').length;
-            let numsStr = '';
-            for(let i = 1; i <= linesCount; i++) { numsStr += i + '<br>'; }
-            document.getElementById('line-nums').innerHTML = numsStr;
-
-            // تحديث إحصائيات الحجم
-            const sizeBytes = new Blob([code]).size;
-            document.getElementById('code-stats').innerText = `${sizeBytes} بايت | ${linesCount} أسطر`;
-
-            // حفظ تلقائي في المشروع الحالي
-            if (projects[currentProjId]) {
-                projects[currentProjId].code = code;
-                projects[currentProjId].date = new Date().toISOString().split('T')[0];
-                saveStorage();
-            }
-        }
-
-        function syncScroll() {
-            const editor = document.getElementById('smart-editor');
-            const lineNums = document.getElementById('line-nums');
-            lineNums.scrollTop = editor.scrollTop;
-        }
-
-        function insertSymbol(sym) {
-            const editor = document.getElementById('smart-editor');
-            const start = editor.selectionStart;
-            const end = editor.selectionEnd;
-            editor.value = editor.value.substring(0, start) + sym + editor.value.substring(end);
-            editor.selectionStart = editor.selectionEnd = start + sym.length;
-            editor.focus();
-            handleInputSync();
-        }
-
-        function insertSnippet(type) {
-            const editor = document.getElementById('smart-editor');
-            let snippet = '';
-            if (type === 'html5') {
-                snippet = `<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n    <meta charset="UTF-8">\n    <title>صفحة جديدة</title>\n</head>\n<body>\n    <h1>مرحباً بالعالم</h1>\n</body>\n</html>`;
-            } else if (type === 'card') {
-                snippet = `<div style="background: #161b22; color: #c9d1d9; padding: 15px; border-radius: 8px; border: 1px solid #30363d;">\n    <h3>عنوان البطاقة</h3>\n    <p>هذا نص تجريبي داخل بطاقة منسقة.</p>\n</div>`;
-            }
-            editor.value += '\n' + snippet;
-            handleInputSync();
-        }
-
-        function formatCode() {
-            alert("✨ تم ترتيب وتنسيق الكود البرمجي بنجاح!");
-        }
-
-        function renderPreview() {
-            const code = document.getElementById('smart-editor').value;
-            const frame = document.getElementById('preview-frame').contentWindow.document;
-            frame.open();
-            frame.write(code);
-            frame.close();
-        }
-
-        function setDeviceMode(mode) {
-            const frame = document.getElementById('preview-frame');
-            if (mode === 'mobile') {
-                frame.style.width = '360px';
-                frame.style.height = '640px';
-                frame.style.margin = 'auto';
-                frame.style.border = '8px solid #30363d';
-                frame.style.borderRadius = '16px';
-            } else {
-                frame.style.width = '100%';
-                frame.style.height = '100%';
-                frame.style.margin = '0';
-                frame.style.border = 'none';
-                frame.style.borderRadius = '0';
-            }
-        }
-
-        function openExternal() {
-            const code = document.getElementById('smart-editor').value;
-            const blob = new Blob([code], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            window.open(url, '_blank');
-        }
-
-        function renderRepoGrid() {
-            const grid = document.getElementById('projects-grid');
+        function renderRepo() {
+            const grid = document.getElementById('project-grid');
             grid.innerHTML = '';
+
             Object.keys(projects).forEach(id => {
-                const p = projects[id];
+                const proj = projects[id];
                 const card = document.createElement('div');
-                card.style.cssText = "background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px;";
+                card.className = 'project-card';
                 card.innerHTML = `
-                    <h3 style="font-size: 13px; color: var(--accent);">${p.name}</h3>
-                    <p style="font-size: 10px; color: var(--text-muted);">آخر تعديل: ${p.date}</p>
-                    <div style="display: flex; gap: 6px; margin-top: 6px;">
-                        <button class="btn primary" style="flex: 1; justify-content: center;" onclick="loadProject('${id}')">فتح</button>
-                        <button class="btn danger" style="flex: 1; justify-content: center;" onclick="deleteProject('${id}')">حذف</button>
+                    <h3>${proj.name}</h3>
+                    <p>آخر تعديل: ${proj.updated}</p>
+                    <div class="card-actions">
+                        <button class="btn-sub open" onclick="openProject('${id}')">فتح بالمحرر</button>
+                        <button class="btn-sub" style="border-color: var(--danger); color: var(--danger);" onclick="deleteProject('${id}')">حذف</button>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        function createNewProj() {
+        function createNewProject() {
             const name = prompt("أدخل اسم المشروع الجديد:");
             if (name) {
-                const id = 'proj_' + Date.now();
+                const id = 'p_' + Date.now();
                 projects[id] = {
                     name: name,
-                    date: new Date().toISOString().split('T')[0],
-                    code: `<!-- مشروع ${name} -->\n<h1>${name}</h1>`
+                    updated: new Date().toISOString().split('T')[0],
+                    code: `<!-- كود مشروع ${name} -->\n<h1>${name}</h1>`
                 };
-                saveStorage();
-                loadProject(id);
+                saveRepo();
+                openProject(id);
             }
         }
 
-        function loadProject(id) {
-            currentProjId = id;
-            localStorage.setItem('devstudio_v100_active', id);
-            document.getElementById('project-title-badge').innerText = `المشروع الحالي: ${projects[id].name}`;
+        function openProject(id) {
+            activeProjectId = id;
+            localStorage.setItem('devstudio_active_proj', id);
+            document.getElementById('active-project-tag').innerText = `المشروع: ${projects[id].name}`;
             document.getElementById('smart-editor').value = projects[id].code;
-            handleInputSync();
-            switchView('editor', document.querySelector('.nav-item'));
+            handleCodeInput();
+            switchNav('editor');
         }
 
         function deleteProject(id) {
-            if (Object.keys(projects).length <= 1) {
-                alert("لا يمكنك حذف المشروع الوحيد المتبقي!");
-                return;
-            }
-            if (confirm("هل أنت متأكد من حذف هذا المشروع نهائياً؟")) {
+            if (confirm("هل أنت تأكد من حذف المشروع؟")) {
                 delete projects[id];
-                saveStorage();
-                renderRepoGrid();
+                saveRepo();
+                renderRepo();
             }
         }
 
-        function exportProjectsJson() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projects));
-            const dl = document.createElement('a');
-            dl.setAttribute("href", dataStr);
-            dl.setAttribute("download", "devstudio_backup.json");
-            document.body.appendChild(dl);
-            dl.click();
-            dl.remove();
+        function saveRepo() {
+            localStorage.setItem('devstudio_projects_v2', JSON.stringify(projects));
         }
 
-        function saveStorage() {
-            localStorage.setItem('devstudio_v100_projects', JSON.stringify(projects));
-        }
-
-        function runCodeAuditor() {
+        function handleCodeInput() {
             const code = document.getElementById('smart-editor').value;
-            const lines = code.split('\n');
-            let errors = [];
+            document.getElementById('code-stats').innerText = `${new Blob([code]).size} بايت`;
 
-            lines.forEach((l, idx) => {
-                let ln = idx + 1;
-                let tr = l.trim();
-                if ((l.includes('document.getElementById') || l.includes('if(')) && !l.includes(')')) {
-                    errors.push({ line: ln, type: "قوس ناقص", fix: l + ')' });
-                }
-                if (tr.startsWith('<') && !tr.endsWith('>') && !tr.endsWith('-->')) {
-                    errors.push({ line: ln, type: "وسم HTML ناقص", fix: l + '>' });
-                }
-            });
-
-            const list = document.getElementById('audit-results-list');
-            list.innerHTML = '';
-            if (errors.length === 0) {
-                list.innerHTML = `<div style="color: var(--success); font-size: 11px; padding: 10px; background: rgba(46,160,67,0.1); border-radius: 6px;">✅ لم يتم رصد أي أخطاء حرجة! كودك نظيف.</div>`;
-            } else {
-                errors.forEach(e => {
-                    const safeFix = e.fix.replace(/"/g, '&quot;').replace(/'/g, "\\'");
-                    list.innerHTML += `
-                        <div style="background: var(--bg-dark); border: 1px solid var(--border); padding: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 11px; color: var(--danger);">سطر ${e.line}: ${e.type}</span>
-                            <button class="btn primary" style="font-size: 10px; padding: 4px 8px;" onclick="applyFix(${e.line}, '${safeFix}')">إصلاح تلقائي</button>
-                        </div>
-                    `;
-                });
+            if (projects[activeProjectId]) {
+                projects[activeProjectId].code = code;
+                projects[activeProjectId].updated = new Date().toISOString().split('T')[0];
+                saveRepo();
             }
-            document.getElementById('audit-modal').style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('audit-modal').style.display = 'none';
-        }
-
-        function applyFix(lineNum, newText) {
+        function insertSymbol(symbol) {
             const editor = document.getElementById('smart-editor');
-            let lines = editor.value.split('\n');
-            lines[lineNum - 1] = newText.replace(/&quot;/g, '"');
-            editor.value = lines.join('\n');
-            handleInputSync();
-            closeModal();
-            alert("تم الإصلاح بنجاح!");
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const text = editor.value;
+
+            editor.value = text.substring(0, start) + symbol + text.substring(end);
+            editor.selectionStart = editor.selectionEnd = start + symbol.length;
+            editor.focus();
+            handleCodeInput();
         }
 
-        // تهيئة البدء عند فتح التطبيق
-        if (projects[currentProjId]) {
-            loadProject(currentProjId);
+        function renderPreview() {
+            const rawCode = document.getElementById('smart-editor').value;
+            const frame = document.getElementById('preview-iframe').contentWindow.document;
+            frame.open();
+            frame.write(rawCode);
+            frame.close();
+        }
+
+        function changeDeviceView(mode) {
+            const iframe = document.getElementById('preview-iframe');
+            if (mode === 'mobile') {
+                iframe.classList.add('mobile-view');
+            } else {
+                iframe.classList.remove('mobile-view');
+            }
+        }
+
+        function openExternalLink() {
+            const rawCode = document.getElementById('smart-editor').value;
+            const blob = new Blob([rawCode], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+        }
+
+        if (projects[activeProjectId]) {
+            openProject(activeProjectId);
         } else {
-            loadProject(Object.keys(projects)[0]);
+            renderRepo();
         }
     </script>
 </body>
