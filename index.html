@@ -6,336 +6,10 @@
     <title>FORSEASON - منصة المقاولات والديكور العراقية</title>
     <!-- HTML2PDF CDN FOR PDF EXPORT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <style>
-        :root {
-            --bg-dark: #0a0e17;
-            --card-bg: rgba(22, 28, 45, 0.85);
-            --gold-primary: #f1c40f;
-            --gold-gradient: linear-gradient(135deg, #f39c12, #f1c40f);
-            --green-gradient: linear-gradient(135deg, #27ae60, #2ecc71);
-            --blue-gradient: linear-gradient(135deg, #2980b9, #3498db);
-            --text-main: #ffffff;
-            --text-sub: #a0aec0;
-            --border-card: rgba(255, 255, 255, 0.1);
-        }
-
-        .light-theme {
-            --bg-dark: #f4f6f9;
-            --card-bg: #ffffff;
-            --text-main: #1a202c;
-            --text-sub: #4a5568;
-            --border-card: rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            padding-bottom: 90px;
-            transition: background-color 0.3s ease;
-        }
-
-        .top-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: var(--gold-gradient);
-            width: 0%;
-            z-index: 1000;
-            transition: width 0.1s;
-        }
-
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-card);
-            position: sticky;
-            top: 0;
-            z-index: 900;
-        }
-
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .brand-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gold-gradient);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            color: #000;
-            font-size: 1.1rem;
-        }
-
-        .brand-title {
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: var(--gold-primary);
-        }
-
-        .header-actions { display: flex; gap: 8px; }
-
-        .icon-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-card);
-            color: var(--text-main);
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-
-        .ticker-wrapper {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-card);
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .ticker-inner {
-            display: inline-block;
-            animation: ticker 25s linear infinite;
-            font-size: 0.85rem;
-            color: var(--text-sub);
-        }
-
-        @keyframes ticker {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        main {
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .page { display: none; }
-        .page.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-card);
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .sec-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .sec-title {
-            font-weight: 800;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .hero-banner {
-            background-size: cover;
-            background-position: center;
-            border-radius: 20px;
-            padding: 25px 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            border: 1px solid var(--gold-primary);
-        }
-
-        .hero-title {
-            font-size: 1.4rem;
-            font-weight: 900;
-            color: var(--gold-primary);
-            margin-bottom: 8px;
-        }
-
-        .hero-sub {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .input-box {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border-card);
-            border-radius: 12px;
-            color: var(--text-main);
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-            outline: none;
-        }
-
-        .input-box:focus { border-color: var(--gold-primary); }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .btn {
-            border: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
-
-        .btn-gold { background: var(--gold-gradient); color: #000; }
-        .btn-blue { background: var(--blue-gradient); color: #fff; }
-        .btn-green { background: var(--green-gradient); color: #fff; }
-        .btn-red { background: #e74c3c; color: #fff; }
-        .btn-dark { background: rgba(255, 255, 255, 0.1); color: var(--text-main); border: 1px solid var(--border-card); }
-        .btn-sm { padding: 6px 12px; font-size: 0.75rem; border-radius: 8px; }
-
-        /* POSTS & GALLERY CARDS */
-        .post-card {
-            border: 1px solid var(--border-card);
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: rgba(0,0,0,0.2);
-        }
-        .post-img {
-            width: 100%;
-            border-radius: 10px;
-            max-height: 250px;
-            object-fit: cover;
-            margin-top: 10px;
-        }
-
-        /* BEFORE / AFTER SLIDER */
-        .ba-slider {
-            position: relative;
-            width: 100%;
-            height: 220px;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .ba-img {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover;
-        }
-        .ba-after { width: 50%; z-index: 2; border-left: 2px solid var(--gold-primary); }
-        .ba-range {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; z-index: 3; cursor: ew-resize;
-        }
-
-        .chart-box {
-            height: 16px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            margin: 15px 0 10px 0;
-        }
-        .chart-seg { height: 100%; transition: width 0.5s ease; }
-
-        .fab-wrapper { position: fixed; bottom: 80px; left: 20px; z-index: 999; }
-        .fab-main {
-            width: 50px; height: 50px; border-radius: 50%;
-            background: var(--gold-gradient); color: #000;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; box-shadow: 0 4px 15px rgba(241, 196, 15, 0.4);
-            cursor: pointer;
-        }
-        .fab-options {
-            display: none; flex-direction: column; gap: 10px;
-            position: absolute; bottom: 60px; left: 0;
-        }
-        .fab-options.show { display: flex; }
-        .fab-opt {
-            width: 42px; height: 42px; border-radius: 50%;
-            background: var(--card-bg); border: 1px solid var(--border-card);
-            color: var(--text-main); display: flex; align-items: center;
-            justify-content: center; text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        .nav-bottom {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            height: 65px; background: var(--card-bg);
-            backdrop-filter: blur(15px); border-top: 1px solid var(--border-card);
-            display: flex; justify-content: space-around; align-items: center;
-            z-index: 1000;
-        }
-        .nav-link {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 4px; color: var(--text-sub); font-size: 0.7rem;
-            cursor: pointer; width: 20%;
-        }
-        .nav-link.active { color: var(--gold-primary); font-weight: 700; }
-        .nav-link .icn { font-size: 1.2rem; }
-
-        .modal {
-            display: none; position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85); z-index: 2000;
-            backdrop-filter: blur(5px); padding: 20px; overflow-y: auto;
-        }
-        .modal-box {
-            background: var(--card-bg); border: 1px solid var(--gold-primary);
-            border-radius: 20px; padding: 20px; max-width: 550px; margin: 20px auto;
-        }
-        .admin-sec {
-            border: 1px solid var(--border-card);
-            padding: 12px; border-radius: 12px; margin-bottom: 12px;
-        }
-        .admin-sec-title { font-weight: 800; color: var(--gold-primary); margin-bottom: 8px; font-size: 0.9rem; }
-    </style>
-    </head>
-    <body>
+    <!-- LINK TO CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
     <div class="top-progress" id="topProgress"></div>
 
     <!-- HEADER -->
@@ -344,7 +18,7 @@
             <div class="brand-icon" id="brandLogoText">4S</div>
             <div>
                 <div class="brand-title" id="siteTitleDisplay">FORSEASON</div>
-                <div style="font-size: 0.65rem; color: var(--text-sub);" id="siteSubDisplay">المقاولات والديكور العراقية</div>
+                <div style="font-size: 0.68rem; color: var(--text-sub);" id="siteSubDisplay">المقاولات والديكور العراقية</div>
             </div>
         </div>
         <div class="header-actions">
@@ -365,7 +39,7 @@
             <div class="hero-banner" id="heroBanner">
                 <div class="hero-title" id="heroTitle">منصة البناء والتخمين الذكية 🏛️</div>
                 <div class="hero-sub" id="heroSub">احسب تكلفة بناء دارك حسب أسعار المحافظات، احصل على توزيع معماري ذكي، وتابع مشروعك أونلاين.</div>
-                <div style="display: flex; gap: 10px; justify-content: center;">
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                     <button class="btn btn-gold" onclick="switchTab('calc')">⚡ التخمين الفوري</button>
                     <button class="btn btn-dark" onclick="switchTab('posts')">📸 أحدث أعمالنا</button>
                 </div>
@@ -377,12 +51,12 @@
                     <div class="sec-title"><span>⚖️</span> مقارنة درجات التشطيب</div>
                     <span id="sliderQualityTag" class="btn btn-sm btn-gold">بناء أسود + تقطيع</span>
                 </div>
-                <input type="range" id="qualityRange" min="1" max="3" value="1" style="width: 100%; margin-bottom: 12px;" oninput="updateQualityCompare(this.value)">
-                <div id="qualityCompareText" style="font-size: 0.85rem; color: var(--text-sub); line-height: 1.6;">...</div>
+                <input type="range" id="qualityRange" min="1" max="3" value="1" style="width: 100%; margin-bottom: 14px;" oninput="updateQualityCompare(this.value)">
+                <div id="qualityCompareText" style="font-size: 0.88rem; color: var(--text-sub); line-height: 1.7;">...</div>
             </div>
         </section>
 
-        <!-- PAGE 2: POSTS & GALLERY (NEW) -->
+        <!-- PAGE 2: POSTS & GALLERY -->
         <section id="posts" class="page">
             <div class="card">
                 <div class="sec-head">
@@ -474,7 +148,7 @@
                     <div id="segFinish" class="chart-seg" style="background: #10b981; width: 25%;"></div>
                     <div id="segManage" class="chart-seg" style="background: #d4af37; width: 10%;"></div>
                 </div>
-                <div class="grid-2" style="font-size: 0.75rem; color: var(--text-sub);">
+                <div class="grid-2" style="font-size: 0.78rem; color: var(--text-sub);">
                     <div>🔴 المواد الأولية: <b id="costSteelText">0</b></div>
                     <div>🔵 أجور العمل: <b id="costLaborText">0</b></div>
                     <div>🟢 الإنهاءات والإنارة: <b id="costFinishText">0</b></div>
@@ -520,12 +194,12 @@
 
             <div id="trackResultBox" class="card" style="display: none;">
                 <div style="font-weight: 800; color: var(--gold-primary); font-size: 1.1rem;" id="projClientName">...</div>
-                <div style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px;" id="projProgressDetail">...</div>
+                <div style="font-size: 0.85rem; color: var(--text-sub); margin-top: 6px;" id="projProgressDetail">...</div>
             </div>
         </section>
     </main>
 
-    <!-- ADMIN PANEL MODAL (FULLY ADVANCED) -->
+    <!-- ADMIN PANEL MODAL -->
     <div class="modal" id="adminModal">
         <div class="modal-box">
             <div class="sec-head">
@@ -578,7 +252,7 @@
                 <input type="file" id="admImgBeforeInput" class="input-box" accept="image/*">
                 <label style="font-size: 0.75rem; color: var(--text-sub);">صورة بعد (After):</label>
                 <input type="file" id="admImgAfterInput" class="input-box" accept="image/*">
-                <button class="btn btn-green btn-sm" style="width: 100%;" onclick="addNewBA()">🔄 نشر مقارنة قبل وبعد</button>
+                <button class="btn btn-green btn-sm" style="width: 100%; margin-top: 6px;" onclick="addNewBA()">🔄 نشر مقارنة قبل وبعد</button>
             </div>
 
             <!-- SECTION 5: MANAGE PROJECTS -->
@@ -627,388 +301,824 @@
             <span>المتابعة</span>
         </div>
     </nav>
-        <!-- JAVASCRIPT ENGINE -->
-    <script>
-        const ADMIN_PASS = "123789";
 
-        // DEFAULT COMPLETE DATABASE
-        const defaultDB = {
-            siteName: "FORSEASON",
-            siteSub: "المقاولات والديكور العراقية",
-            logoText: "4S",
-            phone: "07800000000",
-            whatsapp: "9647800000000",
-            ticker: "🏗️ أسعار البورصة العراقية اليوم: طن حديد: 790,000 د.ع 🟢 | سمنت مقاوم: 115,000 د.ع 🔴 | طابوق وحصى: 320,000 د.ع 🟢",
-            heroTitle: "منصة البناء والتخمين الذكية 🏛️",
-            heroSub: "احسب تكلفة بناء دارك حسب أسعار المحافظات، احصل على توزيع معماري ذكي، وتابع مشروعك أونلاين.",
-            heroBg: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=600&q=80",
-            priceBlack: 280000,
-            priceNormal: 480000,
-            priceDeluxe: 650000,
-            priceVIP: 850000,
-            posts: [
-                {
-                    id: 1,
-                    title: "إنجاز فيلا مودرن في الجادرية",
-                    desc: "تم تنفيذ العزل الحراري والتشطيب الفاخر بنظام Smart Home بالكامل.",
-                    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80"
-                }
-            ],
-            baList: [
-                {
-                    id: 1,
-                    title: "تجديد صالة معيشة بالكامل",
-                    before: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
-                    after: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=600&q=80"
-                }
-            ],
-            projects: {
-                "FS-101": { name: "فيلا الأستاذ أحمد - الجادرية", progress: "مرحلة صب الهيكل والخرسانات (80%)" }
-            }
+    <!-- JS SCRIPTS -->
+    <script src="db.js"></script>
+    <script src="main.js"></script>
+</body>
+                    </html>
+:root {
+    --bg-dark: #0a0e17;
+    --card-bg: rgba(22, 28, 45, 0.85);
+    --gold-primary: #f1c40f;
+    --gold-gradient: linear-gradient(135deg, #f39c12, #f1c40f);
+    --green-gradient: linear-gradient(135deg, #27ae60, #2ecc71);
+    --blue-gradient: linear-gradient(135deg, #2980b9, #3498db);
+    --text-main: #ffffff;
+    --text-sub: #a0aec0;
+    --border-card: rgba(255, 255, 255, 0.12);
+    --glow-color: rgba(241, 196, 15, 0.3);
+}
+
+.light-theme {
+    --bg-dark: #f0f4f8;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --text-main: #1a202c;
+    --text-sub: #4a5568;
+    --border-card: rgba(0, 0, 0, 0.08);
+    --glow-color: rgba(241, 196, 15, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    padding-bottom: 90px;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    overflow-x: hidden;
+}
+
+.top-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: var(--gold-gradient);
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s;
+    box-shadow: 0 0 10px var(--gold-primary);
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-card);
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.brand-logo:hover {
+    transform: scale(1.02);
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--gold-gradient);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: #000;
+    font-size: 1.2rem;
+    box-shadow: 0 0 15px var(--glow-color);
+    animation: pulseGlow 3s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 5px var(--glow-color); }
+    100% { box-shadow: 0 0 20px var(--gold-primary); }
+}
+
+.brand-title {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--gold-primary);
+    letter-spacing: 0.5px;
+}
+
+.header-actions { display: flex; gap: 8px; }
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-card);
+    color: var(--text-main);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    background: var(--gold-gradient);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--glow-color);
+}
+
+.ticker-wrapper {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-card);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ticker-inner {
+    display: inline-block;
+    animation: ticker 25s linear infinite;
+    font-size: 0.88rem;
+    color: var(--gold-primary);
+    font-weight: 600;
+}
+
+@keyframes ticker {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+main {
+    padding: 20px;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.page { display: none; }
+.page.active {
+    display: block;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-card);
+    border-radius: 20px;
+    padding: 22px;
+    margin-bottom: 22px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.sec-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.sec-title {
+    font-weight: 800;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hero-banner {
+    background-size: cover;
+    background-position: center;
+    border-radius: 24px;
+    padding: 35px 20px;
+    text-align: center;
+    margin-bottom: 22px;
+    border: 1px solid var(--gold-primary);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.hero-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--gold-primary);
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.hero-sub {
+    font-size: 0.9rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.input-box {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border-card);
+    border-radius: 14px;
+    color: var(--text-main);
+    margin-bottom: 14px;
+    font-size: 0.92rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-box:focus {
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 10px var(--glow-color);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.btn {
+    border: none;
+    padding: 13px 22px;
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.92rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-gold { background: var(--gold-gradient); color: #000; }
+.btn-blue { background: var(--blue-gradient); color: #fff; }
+.btn-green { background: var(--green-gradient); color: #fff; }
+.btn-red { background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff; }
+.btn-dark { background: rgba(255, 255, 255, 0.1); color: var(--text-main); border: 1px solid var(--border-card); }
+.btn-sm { padding: 8px 14px; font-size: 0.8rem; border-radius: 10px; }
+
+/* POSTS & GALLERY CARDS */
+.post-card {
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+}
+
+.post-card:hover {
+    border-color: var(--gold-primary);
+}
+
+.post-img {
+    width: 100%;
+    border-radius: 12px;
+    max-height: 280px;
+    object-fit: cover;
+    margin-top: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* BEFORE / AFTER SLIDER */
+.ba-slider {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+.ba-img {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+}
+.ba-after { width: 50%; z-index: 2; border-left: 3px solid var(--gold-primary); }
+.ba-range {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0; z-index: 3; cursor: ew-resize;
+}
+
+.chart-box {
+    height: 18px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    margin: 18px 0 12px 0;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+.chart-seg { height: 100%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+
+.fab-wrapper { position: fixed; bottom: 85px; left: 20px; z-index: 999; }
+.fab-main {
+    width: 55px; height: 55px; border-radius: 50%;
+    background: var(--gold-gradient); color: #000;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; box-shadow: 0 6px 20px var(--glow-color);
+    cursor: pointer; transition: transform 0.3s ease;
+}
+.fab-main:hover { transform: rotate(45deg) scale(1.05); }
+.fab-options {
+    display: none; flex-direction: column; gap: 12px;
+    position: absolute; bottom: 68px; left: 0;
+}
+.fab-options.show { display: flex; animation: slideUp 0.3s ease; }
+.fab-opt {
+    width: 45px; height: 45px; border-radius: 50%;
+    background: var(--card-bg); border: 1px solid var(--border-card);
+    color: var(--text-main); display: flex; align-items: center;
+    justify-content: center; text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+}
+.fab-opt:hover { transform: scale(1.1); background: var(--gold-gradient); color: #000; }
+
+.nav-bottom {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 70px; background: var(--card-bg);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border-top: 1px solid var(--border-card);
+    display: flex; justify-space: around; align-items: center;
+    z-index: 1000; box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
+}
+.nav-link {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 4px; color: var(--text-sub); font-size: 0.75rem;
+    cursor: pointer; width: 20%; transition: all 0.3s ease;
+}
+.nav-link.active { color: var(--gold-primary); font-weight: 800; transform: translateY(-3px); }
+.nav-link .icn { font-size: 1.3rem; }
+
+.modal {
+    display: none; position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85); z-index: 2000;
+    backdrop-filter: blur(8px); padding: 20px; overflow-y: auto;
+}
+.modal-box {
+    background: var(--card-bg); border: 1px solid var(--gold-primary);
+    border-radius: 24px; padding: 24px; max-width: 600px; margin: 20px auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    animation: slideUp 0.3s ease;
+}
+.admin-sec {
+    border: 1px solid var(--border-card);
+    padding: 16px; border-radius: 16px; margin-bottom: 16px;
+    background: rgba(0,0,0,0.15);
+}
+.admin-sec-title { font-weight: 800; color: var(--gold-primary); margin-bottom: 12px; font-size: 0.95rem; }
+const ADMIN_PASS = "123789";
+
+const defaultDB = {
+    siteName: "FORSEASON",
+    siteSub: "المقاولات والديكور العراقية",
+    logoText: "4S",
+    phone: "07800000000",
+    whatsapp: "9647800000000",
+    ticker: "🏗️ أسعار البورصة العراقية اليوم: طن حديد: 790,000 د.ع 🟢 | سمنت مقاوم: 115,000 د.ع 🔴 | طابوق وحصى: 320,000 د.ع 🟢",
+    heroTitle: "منصة البناء والتخمين الذكية 🏛️",
+    heroSub: "احسب تكلفة بناء دارك حسب أسعار المحافظات، احصل على توزيع معماري ذكي، وتابع مشروعك أونلاين.",
+    heroBg: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=600&q=80",
+    priceBlack: 280000,
+    priceNormal: 480000,
+    priceDeluxe: 650000,
+    priceVIP: 850000,
+    posts: [
+        {
+            id: 1,
+            title: "إنجاز فيلا مودرن في الجادرية",
+            desc: "تم تنفيذ العزل الحراري والتشطيب الفاخر بنظام Smart Home بالكامل.",
+            img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80"
+        }
+    ],
+    baList: [
+        {
+            id: 1,
+            title: "تجديد صالة معيشة بالكامل",
+            before: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
+            after: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=600&q=80"
+        }
+    ],
+    projects: {
+        "FS-101": { name: "فيلا الأستاذ أحمد - الجادرية", progress: "مرحلة صب الهيكل والخرسانات (80%)" }
+    }
+};
+// INIT SYSTEM
+function initApp() {
+    let db = JSON.parse(localStorage.getItem('forseason_db'));
+    if (!db) {
+        db = defaultDB;
+        localStorage.setItem('forseason_db', JSON.stringify(db));
+    }
+
+    document.getElementById('siteTitleDisplay').innerText = db.siteName || defaultDB.siteName;
+    document.getElementById('siteSubDisplay').innerText = db.siteSub || defaultDB.siteSub;
+    document.getElementById('brandLogoText').innerText = db.logoText || defaultDB.logoText;
+    document.getElementById('tickerDisplay').innerText = db.ticker || defaultDB.ticker;
+    document.getElementById('heroTitle').innerText = db.heroTitle || defaultDB.heroTitle;
+    document.getElementById('heroSub').innerText = db.heroSub || defaultDB.heroSub;
+    
+    if(db.heroBg) {
+        document.getElementById('heroBanner').style.backgroundImage = `linear-gradient(135deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.8)), url('${db.heroBg}')`;
+    }
+
+    document.getElementById('fabWaLink').href = "https://wa.me/" + (db.whatsapp || defaultDB.whatsapp);
+    document.getElementById('fabCallLink').href = "tel:" + (db.phone || defaultDB.phone);
+
+    const buildQualitySelect = document.getElementById('buildQuality');
+    buildQualitySelect.innerHTML = `
+        <option value="${db.priceBlack}">بناء هيكل أسود (${Number(db.priceBlack).toLocaleString('ar-IQ')} د.ع / م²)</option>
+        <option value="${db.priceNormal}" selected>تشطيب عادي / تجاري (${Number(db.priceNormal).toLocaleString('ar-IQ')} د.ع / م²)</option>
+        <option value="${db.priceDeluxe}">تشطيب ديلوكس فاخر (${Number(db.priceDeluxe).toLocaleString('ar-IQ')} د.ع / م²)</option>
+        <option value="${db.priceVIP}">VIP سوبر ديلوكس ذكي (${Number(db.priceVIP).toLocaleString('ar-IQ')} د.ع / م²)</option>
+    `;
+
+    renderPosts();
+    renderBA();
+    updateQualityCompare(1);
+}
+
+function renderPosts() {
+    const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+    const container = document.getElementById('postsContainer');
+    if(!db.posts || db.posts.length === 0) {
+        container.innerHTML = `<div style="text-align: center; color: var(--text-sub); padding: 20px;">لا توجد منشورات حالياً.</div>`;
+        return;
+    }
+
+    container.innerHTML = db.posts.map(p => `
+        <div class="post-card">
+            <div style="font-weight: 800; color: var(--gold-primary); font-size: 1.05rem;">${p.title}</div>
+            <div style="font-size: 0.85rem; color: var(--text-sub); margin-top: 5px;">${p.desc}</div>
+            ${p.img ? `<img src="${p.img}" class="post-img" alt="صورة العمل">` : ''}
+            <button class="btn btn-red btn-sm" style="margin-top: 10px;" onclick="deletePost(${p.id})">🗑️ حذف المنشور</button>
+        </div>
+    `).join('');
+}
+
+function renderBA() {
+    const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+    const container = document.getElementById('baContainer');
+    if(!db.baList || db.baList.length === 0) {
+        container.innerHTML = `<div style="text-align: center; color: var(--text-sub); padding: 20px;">لا توجد مقارنات قبل وبعد مضافة.</div>`;
+        return;
+    }
+
+    container.innerHTML = db.baList.map(item => `
+        <div class="post-card">
+            <div style="font-weight: 800; color: var(--gold-primary); margin-bottom: 8px;">${item.title}</div>
+            <div class="ba-slider" id="ba-box-${item.id}">
+                <img src="${item.before}" class="ba-img" style="z-index:1;">
+                <img src="${item.after}" class="ba-img ba-after" id="ba-after-${item.id}">
+                <input type="range" min="0" max="100" value="50" class="ba-range" oninput="moveSlider(${item.id}, this.value)">
+            </div>
+            <div style="display:flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-sub); margin-top: 8px;">
+                <span>⬅️ بعد (After)</span>
+                <span>قبل (Before) ➡️</span>
+            </div>
+            <button class="btn btn-red btn-sm" style="margin-top: 10px;" onclick="deleteBA(${item.id})">🗑️ حذف المقارنة</button>
+        </div>
+    `).join('');
+}
+
+function moveSlider(id, val) {
+    document.getElementById(`ba-after-${id}`).style.width = val + "%";
+}
+
+window.onscroll = function() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById("topProgress").style.width = scrolled + "%";
+};
+
+function switchTab(tabId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+
+    const targetPage = document.getElementById(tabId);
+    if(targetPage) targetPage.classList.add('active');
+
+    const navIndex = ['home', 'posts', 'calc', 'plans', 'track'].indexOf(tabId);
+    if(navIndex !== -1) document.querySelectorAll('.nav-link')[navIndex].classList.add('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('fabOptions').classList.remove('show');
+}
+
+function toggleTheme() { document.body.classList.toggle('light-theme'); }
+function toggleFab() { document.getElementById('fabOptions').classList.toggle('show'); }
+
+function updateQualityCompare(val) {
+    const tag = document.getElementById('sliderQualityTag');
+    const txt = document.getElementById('qualityCompareText');
+    if(val == 1) {
+        tag.innerText = "بناء أسود + تقطيع";
+        txt.innerText = "يشمل هيكل الصب الإنشائي والخرسانات، التقطيع بالطابوق، والتأسيسات الأولية للماء والكهرباء بدون الأرضيات والديكورات.";
+    } else if(val == 2) {
+        tag.innerText = "تشطيب عادي / تجاري";
+        txt.innerText = "يشمل اللبخ والسطاح، أرضيات سيراميك ممتازة، أبواب وشبابيك ألمنيوم، وأطقم صحية وكهربائية جاهزة.";
+    } else if(val == 3) {
+        tag.innerText = "تشطيب VIP سوبر ديلوكس";
+        txt.innerText = "تشطيب فاخر جداً: بورسلين إسباني، ديكورات جبسمبورد، إنارة ذكية Smart Home، عزل حراري ومائي كامل.";
+    }
+}
+
+function toggleCalcInputs() {
+    const type = document.getElementById('calcType').value;
+    document.getElementById('regularInputs').style.display = (type === 'regular') ? 'grid' : 'none';
+    document.getElementById('irregularInputs').style.display = (type === 'irregular') ? 'grid' : 'none';
+}
+
+function calculateCost() {
+    const type = document.getElementById('calcType').value;
+    let totalLandArea = 0;
+
+    if(type === 'regular') {
+        const w = parseFloat(document.getElementById('landWidth').value) || 0;
+        const d = parseFloat(document.getElementById('landDepth').value) || 0;
+        totalLandArea = w * d;
+    } else {
+        const f = parseFloat(document.getElementById('frontW').value) || 0;
+        const b = parseFloat(document.getElementById('backW').value) || 0;
+        const sl = parseFloat(document.getElementById('sideL').value) || 0;
+        const sr = parseFloat(document.getElementById('sideR').value) || 0;
+        totalLandArea = ((f + b) / 2) * ((sl + sr) / 2);
+    }
+
+    if(totalLandArea <= 0) {
+        alert("يرجى إدخال أبعاد الأرض بشكل صحيح!");
+        return;
+    }
+
+    const floors = parseInt(document.getElementById('floors').value);
+    const provinceRate = parseFloat(document.getElementById('province').value);
+    const qualityPrice = parseFloat(document.getElementById('buildQuality').value);
+
+    const totalBuildArea = totalLandArea * floors;
+    const finalCost = (totalBuildArea * qualityPrice) * provinceRate;
+
+    document.getElementById('totalCostDisplay').innerText = finalCost.toLocaleString('ar-IQ') + " د.ع";
+    document.getElementById('areaDisplay').innerText = `المساحة البنائية الكلية: ${totalBuildArea.toLocaleString('ar-IQ')} م² (${floors} طابق)`;
+
+    document.getElementById('costSteelText').innerText = Math.round(finalCost * 0.35).toLocaleString('ar-IQ') + " د.ع";
+    document.getElementById('costLaborText').innerText = Math.round(finalCost * 0.30).toLocaleString('ar-IQ') + " د.ع";
+    document.getElementById('costFinishText').innerText = Math.round(finalCost * 0.25).toLocaleString('ar-IQ') + " د.ع";
+    document.getElementById('costManageText').innerText = Math.round(finalCost * 0.10).toLocaleString('ar-IQ') + " د.ع";
+
+    document.getElementById('calcResultBox').style.display = 'block';
+    document.getElementById('calcResultBox').scrollIntoView({ behavior: 'smooth' });
+}
+
+function downloadPDF() {
+    const element = document.getElementById('calcResultBox');
+    html2pdf().set({
+        margin: 10,
+        filename: 'تقرير_التخمين_FORSEASON.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(element).save();
+}
+
+function generateFloorPlan() {
+    const area = parseFloat(document.getElementById('planArea').value);
+    const fronts = document.getElementById('planFronts').value;
+    if(!area) return;
+
+    let planHtml = "";
+    if(area <= 120) {
+        planHtml = `🔹 <b>الأرضي:</b> كراج سيارة + استقبال (4×5م) + صالة ومطبخ مفتوح + حمام + منور.<br>🔹 <b>الأول:</b> غرفتين نوم (واحدة ماستر) + بالكونة.`;
+    } else if(area <= 200) {
+        planHtml = `🔹 <b>الأرضي:</b> كراج وحديقة + استقبال فاخر مع حمام + مطبخ حار/بارد + صالة معيشة + غرفة نوم أرضية.<br>🔹 <b>الأول:</b> 3 غرف نوم ماستر + صالة عائلية.`;
+    } else {
+        planHtml = `🔹 <b>الأرضي:</b> حديقة واسعة مع كراج سيارتين + ممر جانبي (${fronts == '2' ? 'ركن' : 'واجهة'}) + ديوانية واسعة + مطبخ مفتوح ومغلق + غرفة نوم ضيوف.<br>🔹 <b>الأول:</b> 4 غرف نوم ماستر مع دريسنج روم + تراس خارجي كبير.`;
+    }
+
+    document.getElementById('planList').innerHTML = planHtml;
+    document.getElementById('planResultCard').style.display = 'block';
+    document.getElementById('planResultCard').scrollIntoView({ behavior: 'smooth' });
+}
+
+function trackProject() {
+    const code = document.getElementById('projectCodeInput').value.trim().toUpperCase();
+    const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+
+    if (db.projects && db.projects[code]) {
+        document.getElementById('projClientName').innerText = "مشروع: " + db.projects[code].name;
+        document.getElementById('projProgressDetail').innerText = "الحالة الحالية: " + db.projects[code].progress;
+    } else {
+        document.getElementById('projClientName').innerText = "كود البحث: " + code;
+        document.getElementById('projProgressDetail').innerText = "المرحلة الحالية: قيد العمل والتوثيق الإنشائي";
+    }
+
+    document.getElementById('trackResultBox').style.display = 'block';
+    document.getElementById('trackResultBox').scrollIntoView({ behavior: 'smooth' });
+}
+
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
+function openAdmin() {
+    const pass = prompt("أدخل كلمة مرور لوحة التحكم الإدارية:");
+    if (pass === ADMIN_PASS) {
+        loadAdminForm();
+        document.getElementById('adminModal').style.display = 'block';
+    } else if (pass !== null) {
+        alert("❌ كلمة المرور غير صحيحة!");
+    }
+}
+
+function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+
+function loadAdminForm() {
+    const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+    document.getElementById('admSiteName').value = db.siteName || '';
+    document.getElementById('admSiteSub').value = db.siteSub || '';
+    document.getElementById('admLogoText').value = db.logoText || '';
+    document.getElementById('admPhone').value = db.phone || '';
+    document.getElementById('admWhatsapp').value = db.whatsapp || '';
+    document.getElementById('admTicker').value = db.ticker || '';
+    document.getElementById('admHeroTitle').value = db.heroTitle || '';
+    document.getElementById('admHeroSub').value = db.heroSub || '';
+    document.getElementById('admPriceBlack').value = db.priceBlack || '';
+    document.getElementById('admPriceNormal').value = db.priceNormal || '';
+    document.getElementById('admPriceDeluxe').value = db.priceDeluxe || '';
+    document.getElementById('admPriceVIP').value = db.priceVIP || '';
+}
+
+async function saveAdminData() {
+    const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+    
+    db.siteName = document.getElementById('admSiteName').value;
+    db.siteSub = document.getElementById('admSiteSub').value;
+    db.logoText = document.getElementById('admLogoText').value;
+    db.phone = document.getElementById('admPhone').value;
+    db.whatsapp = document.getElementById('admWhatsapp').value;
+    db.ticker = document.getElementById('admTicker').value;
+    db.heroTitle = document.getElementById('admHeroTitle').value;
+    db.heroSub = document.getElementById('admHeroSub').value;
+    db.priceBlack = parseFloat(document.getElementById('admPriceBlack').value);
+    db.priceNormal = parseFloat(document.getElementById('admPriceNormal').value);
+    db.priceDeluxe = parseFloat(document.getElementById('admPriceDeluxe').value);
+    db.priceVIP = parseFloat(document.getElementById('admPriceVIP').value);
+
+    const heroBgFile = document.getElementById('admHeroBgInput').files[0];
+    if (heroBgFile) {
+        db.heroBg = await fileToBase64(heroBgFile);
+    }
+
+    const prjCode = document.getElementById('admPrjCode').value.trim().toUpperCase();
+    if(prjCode) {
+        if(!db.projects) db.projects = {};
+        db.projects[prjCode] = {
+            name: document.getElementById('admPrjName').value || "مشروع جديد",
+            progress: document.getElementById('admPrjProgress').value || "قيد التنفيذ"
         };
+    }
 
-        // INIT SYSTEM
-        function initApp() {
-            let db = JSON.parse(localStorage.getItem('forseason_db'));
-            if (!db) {
-                db = defaultDB;
-                localStorage.setItem('forseason_db', JSON.stringify(db));
-            }
+    localStorage.setItem('forseason_db', JSON.stringify(db));
+    alert("✅ تم حفظ وتحديث المنصة بجميع عناصرها بنجاح!");
+    closeAdmin();
+    initApp();
+}
 
-            // Apply Texts & Dynamic Header
-            document.getElementById('siteTitleDisplay').innerText = db.siteName || defaultDB.siteName;
-            document.getElementById('siteSubDisplay').innerText = db.siteSub || defaultDB.siteSub;
-            document.getElementById('brandLogoText').innerText = db.logoText || defaultDB.logoText;
-            document.getElementById('tickerDisplay').innerText = db.ticker || defaultDB.ticker;
-            document.getElementById('heroTitle').innerText = db.heroTitle || defaultDB.heroTitle;
-            document.getElementById('heroSub').innerText = db.heroSub || defaultDB.heroSub;
-            
-            if(db.heroBg) {
-                document.getElementById('heroBanner').style.backgroundImage = `linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('${db.heroBg}')`;
-            }
+async function addNewPost() {
+    const title = document.getElementById('admPostTitle').value;
+    const desc = document.getElementById('admPostDesc').value;
+    const imgFile = document.getElementById('admPostImgInput').files[0];
 
-            document.getElementById('fabWaLink').href = "https://wa.me/" + (db.whatsapp || defaultDB.whatsapp);
-            document.getElementById('fabCallLink').href = "tel:" + (db.phone || defaultDB.phone);
+    if(!title) { alert("يرجى إدخال عنوان المنشور!"); return; }
 
-            // Populate Calculator Quality
-            const buildQualitySelect = document.getElementById('buildQuality');
-            buildQualitySelect.innerHTML = `
-                <option value="${db.priceBlack}">بناء هيكل أسود (${Number(db.priceBlack).toLocaleString('ar-IQ')} د.ع / م²)</option>
-                <option value="${db.priceNormal}" selected>تشطيب عادي / تجاري (${Number(db.priceNormal).toLocaleString('ar-IQ')} د.ع / م²)</option>
-                <option value="${db.priceDeluxe}">تشطيب ديلوكس فاخر (${Number(db.priceDeluxe).toLocaleString('ar-IQ')} د.ع / م²)</option>
-                <option value="${db.priceVIP}">VIP سوبر ديلوكس ذكي (${Number(db.priceVIP).toLocaleString('ar-IQ')} د.ع / م²)</option>
-            `;
+    let imgBase64 = "";
+    if (imgFile) {
+        imgBase64 = await fileToBase64(imgFile);
+    }
 
-            renderPosts();
-            renderBA();
-            updateQualityCompare(1);
-        }
+    const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+    if(!db.posts) db.posts = [];
 
-        // RENDER POSTS
-        function renderPosts() {
-            const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
-            const container = document.getElementById('postsContainer');
-            if(!db.posts || db.posts.length === 0) {
-                container.innerHTML = `<div style="text-align: center; color: var(--text-sub); padding: 20px;">لا توجد منشورات حالياً.</div>`;
-                return;
-            }
+    db.posts.unshift({
+        id: Date.now(),
+        title: title,
+        desc: desc,
+        img: imgBase64
+    });
 
-            container.innerHTML = db.posts.map(p => `
-                <div class="post-card">
-                    <div style="font-weight: 800; color: var(--gold-primary); font-size: 1rem;">${p.title}</div>
-                    <div style="font-size: 0.85rem; color: var(--text-sub); margin-top: 5px;">${p.desc}</div>
-                    ${p.img ? `<img src="${p.img}" class="post-img" alt="صورة العمل">` : ''}
-                    <button class="btn btn-red btn-sm" style="margin-top: 8px;" onclick="deletePost(${p.id})">🗑️ حذف المنشور</button>
-                </div>
-            `).join('');
-        }
+    localStorage.setItem('forseason_db', JSON.stringify(db));
+    alert("✅ تم نشر العمل بنجاح!");
+    document.getElementById('admPostTitle').value = '';
+    document.getElementById('admPostDesc').value = '';
+    document.getElementById('admPostImgInput').value = '';
+    renderPosts();
+}
 
-        // RENDER BEFORE / AFTER SLIDERS
-        function renderBA() {
-            const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
-            const container = document.getElementById('baContainer');
-            if(!db.baList || db.baList.length === 0) {
-                container.innerHTML = `<div style="text-align: center; color: var(--text-sub); padding: 20px;">لا توجد مقارنات قبل وبعد مضافة.</div>`;
-                return;
-            }
+function deletePost(id) {
+    if(confirm("هل أنت متأكد من حذف هذا المنشور؟")) {
+        const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+        db.posts = db.posts.filter(p => p.id !== id);
+        localStorage.setItem('forseason_db', JSON.stringify(db));
+        renderPosts();
+    }
+}
 
-            container.innerHTML = db.baList.map(item => `
-                <div class="post-card">
-                    <div style="font-weight: 800; color: var(--gold-primary); margin-bottom: 8px;">${item.title}</div>
-                    <div class="ba-slider" id="ba-box-${item.id}">
-                        <img src="${item.before}" class="ba-img" style="z-index:1;">
-                        <img src="${item.after}" class="ba-img ba-after" id="ba-after-${item.id}">
-                        <input type="range" min="0" max="100" value="50" class="ba-range" oninput="moveSlider(${item.id}, this.value)">
-                    </div>
-                    <div style="display:flex; justify-between; font-size: 0.75rem; color: var(--text-sub); margin-top: 6px;">
-                        <span>⬅️ بعد (After)</span>
-                        <span>قبل (Before) ➡️</span>
-                    </div>
-                    <button class="btn btn-red btn-sm" style="margin-top: 8px;" onclick="deleteBA(${item.id})">🗑️ حذف المقارنة</button>
-                </div>
-            `).join('');
-        }
+async function addNewBA() {
+    const title = document.getElementById('admBATitle').value;
+    const fileBefore = document.getElementById('admImgBeforeInput').files[0];
+    const fileAfter = document.getElementById('admImgAfterInput').files[0];
 
-        function moveSlider(id, val) {
-            document.getElementById(`ba-after-${id}`).style.width = val + "%";
-        }
+    if(!title || !fileBefore || !fileAfter) {
+        alert("يرجى إكمال عنوان المقارنة واختيار الصورتين (قبل وبعد)!");
+        return;
+    }
 
-        // SCROLL & NAVIGATION
-        window.onscroll = function() {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById("topProgress").style.width = scrolled + "%";
-        };
+    const imgBeforeBase64 = await fileToBase64(fileBefore);
+    const imgAfterBase64 = await fileToBase64(fileAfter);
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+    const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+    if(!db.baList) db.baList = [];
 
-            const targetPage = document.getElementById(tabId);
-            if(targetPage) targetPage.classList.add('active');
+    db.baList.unshift({
+        id: Date.now(),
+        title: title,
+        before: imgBeforeBase64,
+        after: imgAfterBase64
+    });
 
-            const navIndex = ['home', 'posts', 'calc', 'plans', 'track'].indexOf(tabId);
-            if(navIndex !== -1) document.querySelectorAll('.nav-link')[navIndex].classList.add('active');
+    localStorage.setItem('forseason_db', JSON.stringify(db));
+    alert("✅ تم نشر مقارنة قبل وبعد بنجاح!");
+    document.getElementById('admBATitle').value = '';
+    document.getElementById('admImgBeforeInput').value = '';
+    document.getElementById('admImgAfterInput').value = '';
+    renderBA();
+}
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            document.getElementById('fabOptions').classList.remove('show');
-        }
+function deleteBA(id) {
+    if(confirm("هل أنت متأكد من حذف هذه المقارنة؟")) {
+        const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
+        db.baList = db.baList.filter(item => item.id !== id);
+        localStorage.setItem('forseason_db', JSON.stringify(db));
+        renderBA();
+    }
+}
 
-        function toggleTheme() { document.body.classList.toggle('light-theme'); }
-        function toggleFab() { document.getElementById('fabOptions').classList.toggle('show'); }
+function resetDefaultData() {
+    if(confirm("⚠️ هل أنت متأكد من إعادة ضبط الموقع للبيانات الافتراضية؟ سيتم مسح أي تعديلات سابقة.")) {
+        localStorage.removeItem('forseason_db');
+        initApp();
+        alert("🔄 تم استعادة ضبط المصنع بنجاح!");
+        closeAdmin();
+    }
+}
 
-        function updateQualityCompare(val) {
-            const tag = document.getElementById('sliderQualityTag');
-            const txt = document.getElementById('qualityCompareText');
-            if(val == 1) {
-                tag.innerText = "بناء أسود + تقطيع";
-                txt.innerText = "يشمل هيكل الصب الإنشائي والخرسانات، التقطيع بالطابوق، والتأسيسات الأولية للماء والكهرباء بدون الأرضيات والديكورات.";
-            } else if(val == 2) {
-                tag.innerText = "تشطيب عادي / تجاري";
-                txt.innerText = "يشمل اللبخ والسطاح، أرضيات سيراميك ممتازة، أبواب وشبابيك ألمنيوم، وأطقم صحية وكهربائية جاهزة.";
-            } else if(val == 3) {
-                tag.innerText = "تشطيب VIP سوبر ديلوكس";
-                txt.innerText = "تشطيب فاخر جداً: بورسلين إسباني، ديكورات جبسمبورد، إنارة ذكية Smart Home، عزل حراري ومائي كامل.";
-            }
-        }
+function openPwaInstaller() {
+    alert("📲 لتثبيت التطبيق:\n\n• على آيفون: اضغط زر المشاركة (Share) ثم اختر 'إضافة إلى الشاشة الرئيسية'.\n• على أندرويد: اضغط القائمة (⋮) ثم اختر 'تثبيت التطبيق'.");
+}
 
-        function toggleCalcInputs() {
-            const type = document.getElementById('calcType').value;
-            document.getElementById('regularInputs').style.display = (type === 'regular') ? 'grid' : 'none';
-            document.getElementById('irregularInputs').style.display = (type === 'irregular') ? 'grid' : 'none';
-        }
-
-        // CALCULATOR LOGIC
-        function calculateCost() {
-            const type = document.getElementById('calcType').value;
-            let totalLandArea = 0;
-
-            if(type === 'regular') {
-                const w = parseFloat(document.getElementById('landWidth').value) || 0;
-                const d = parseFloat(document.getElementById('landDepth').value) || 0;
-                totalLandArea = w * d;
-            } else {
-                const f = parseFloat(document.getElementById('frontW').value) || 0;
-                const b = parseFloat(document.getElementById('backW').value) || 0;
-                const sl = parseFloat(document.getElementById('sideL').value) || 0;
-                const sr = parseFloat(document.getElementById('sideR').value) || 0;
-                totalLandArea = ((f + b) / 2) * ((sl + sr) / 2);
-            }
-
-            if(totalLandArea <= 0) {
-                alert("يرجى إدخال أبعاد الأرض بشكل صحيح!");
-                return;
-            }
-
-            const floors = parseInt(document.getElementById('floors').value);
-            const provinceRate = parseFloat(document.getElementById('province').value);
-            const qualityPrice = parseFloat(document.getElementById('buildQuality').value);
-
-            const totalBuildArea = totalLandArea * floors;
-            const finalCost = (totalBuildArea * qualityPrice) * provinceRate;
-
-            document.getElementById('totalCostDisplay').innerText = finalCost.toLocaleString('ar-IQ') + " د.ع";
-            document.getElementById('areaDisplay').innerText = `المساحة البنائية الكلية: ${totalBuildArea.toLocaleString('ar-IQ')} م² (${floors} طابق)`;
-
-            document.getElementById('costSteelText').innerText = Math.round(finalCost * 0.35).toLocaleString('ar-IQ') + " د.ع";
-            document.getElementById('costLaborText').innerText = Math.round(finalCost * 0.30).toLocaleString('ar-IQ') + " د.ع";
-            document.getElementById('costFinishText').innerText = Math.round(finalCost * 0.25).toLocaleString('ar-IQ') + " د.ع";
-            document.getElementById('costManageText').innerText = Math.round(finalCost * 0.10).toLocaleString('ar-IQ') + " د.ع";
-
-            document.getElementById('calcResultBox').style.display = 'block';
-            document.getElementById('calcResultBox').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function downloadPDF() {
-            const element = document.getElementById('calcResultBox');
-            html2pdf().set({
-                margin: 10,
-                filename: 'تقرير_التخمين_FORSEASON.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            }).from(element).save();
-        }
-
-        // ARCHITECTURAL PLANNER
-        function generateFloorPlan() {
-            const area = parseFloat(document.getElementById('planArea').value);
-            const fronts = document.getElementById('planFronts').value;
-            if(!area) return;
-
-            let planHtml = "";
-            if(area <= 120) {
-                planHtml = `🔹 <b>الأرضي:</b> كراج سيارة + استقبال (4×5م) + صالة ومطبخ مفتوح + حمام + منور.<br>🔹 <b>الأول:</b> غرفتين نوم (واحدة ماستر) + بالكونة.`;
-            } else if(area <= 200) {
-                planHtml = `🔹 <b>الأرضي:</b> كراج وحديقة + استقبال فاخر مع حمام + مطبخ حار/بارد + صالة معيشة + غرفة نوم أرضية.<br>🔹 <b>الأول:</b> 3 غرف نوم ماستر + صالة عائلية.`;
-            } else {
-                planHtml = `🔹 <b>الأرضي:</b> حديقة واسعة مع كراج سيارتين + ممر جانبي (${fronts == '2' ? 'ركن' : 'واجهة'}) + ديوانية واسعة + مطبخ مفتوح ومغلق + غرفة نوم ضيوف.<br>🔹 <b>الأول:</b> 4 غرف نوم ماستر مع دريسنج روم + تراس خارجي كبير.`;
-            }
-
-            document.getElementById('planList').innerHTML = planHtml;
-            document.getElementById('planResultCard').style.display = 'block';
-            document.getElementById('planResultCard').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function trackProject() {
-            const code = document.getElementById('projectCodeInput').value.trim().toUpperCase();
-            const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
-
-            if (db.projects && db.projects[code]) {
-                document.getElementById('projClientName').innerText = "مشروع: " + db.projects[code].name;
-                document.getElementById('projProgressDetail').innerText = "الحالة الحالية: " + db.projects[code].progress;
-            } else {
-                document.getElementById('projClientName').innerText = "كود البحث: " + code;
-                document.getElementById('projProgressDetail').innerText = "المرحلة الحالية: قيد العمل والتوثيق الإنشائي";
-            }
-
-            document.getElementById('trackResultBox').style.display = 'block';
-            document.getElementById('trackResultBox').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // FILE TO BASE64 HELPER
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        // ADMIN PANEL & MEDIA PUBLISHING
-        function openAdmin() {
-            const pass = prompt("أدخل كلمة مرور لوحة التحكم الإدارية:");
-            if (pass === ADMIN_PASS) {
-                loadAdminForm();
-                document.getElementById('adminModal').style.display = 'block';
-            } else if (pass !== null) {
-                alert("❌ كلمة المرور غير صحيحة!");
-            }
-        }
-
-        function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
-
-        function loadAdminForm() {
-            const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
-            document.getElementById('admSiteName').value = db.siteName || '';
-            document.getElementById('admSiteSub').value = db.siteSub || '';
-            document.getElementById('admLogoText').value = db.logoText || '';
-            document.getElementById('admPhone').value = db.phone || '';
-            document.getElementById('admWhatsapp').value = db.whatsapp || '';
-            document.getElementById('admTicker').value = db.ticker || '';
-            document.getElementById('admHeroTitle').value = db.heroTitle || '';
-            document.getElementById('admHeroSub').value = db.heroSub || '';
-            document.getElementById('admPriceBlack').value = db.priceBlack || '';
-            document.getElementById('admPriceNormal').value = db.priceNormal || '';
-            document.getElementById('admPriceDeluxe').value = db.priceDeluxe || '';
-            document.getElementById('admPriceVIP').value = db.priceVIP || '';
-        }
-
-        async function saveAdminData() {
-            const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
-            
-            db.siteName = document.getElementById('admSiteName').value;
-            db.siteSub = document.getElementById('admSiteSub').value;
-            db.logoText = document.getElementById('admLogoText').value;
-            db.phone = document.getElementById('admPhone').value;
-            db.whatsapp = document.getElementById('admWhatsapp').value;
-            db.ticker = document.getElementById('admTicker').value;
-            db.heroTitle = document.getElementById('admHeroTitle').value;
-            db.heroSub = document.getElementById('admHeroSub').value;
-            db.priceBlack = parseFloat(document.getElementById('admPriceBlack').value);
-            db.priceNormal = parseFloat(document.getElementById('admPriceNormal').value);
-            db.priceDeluxe = parseFloat(document.getElementById('admPriceDeluxe').value);
-            db.priceVIP = parseFloat(document.getElementById('admPriceVIP').value);
-
-            // Handle Hero Bg File
-            const heroBgFile = document.getElementById('admHeroBgInput').files[0];
-            if (heroBgFile) {
-                db.heroBg = await fileToBase64(heroBgFile);
-            }
-
-            // Handle Project Update
-            const prjCode = document.getElementById('admPrjCode').value.trim().toUpperCase();
-            if(prjCode) {
-                if(!db.projects) db.projects = {};
-                db.projects[prjCode] = {
-                    name: document.getElementById('admPrjName').value || "مشروع جديد",
-                    progress: document.getElementById('admPrjProgress').value || "قيد التنفيذ"
-                };
-            }
-
-            localStorage.setItem('forseason_db', JSON.stringify(db));
-            alert("✅ تم حفظ وتحديث المنصة بجميع عناصرها بنجاح!");
-            closeAdmin();
-            initApp();
-        }
-
-        // ADD NEW POST
-        async function addNewPost() {
-            const title = document.getElementById('admPostTitle').value;
-            const desc = document.getElementById('admPostDesc').value;
-            const imgFile = document.getElementById('admPostImgInput').files[0];
-
-            if(!title) { alert("يرجى إدخال عنوان المنشور!"); return; }
-
-            let imgBase64 = "";
-            if (imgFile) {
-                imgBase64 = await fileToBase64(imgFile);
-            }
-
-            const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
-            if(!db.posts) db.posts = [];
-
-            db.posts.unshift({
-                id: Date.now(),
-                title: title,
-                desc: desc,
-                img: imgBase64
-            });
-
-            localStorage.setItem('forseason_db', JSON.stringify(db));
-            alert("✅ تم نشر العمل بنجاح!");
-            document.getElementById('admPostTitle').value = '';
-            document.getElementById('admPostDesc').value = '';
-            document.getElementById('admPostImgInput').value = '';
-            renderPosts();
-        }
-
-        function deletePost(id) {
-            if(confirm("هل أنت متأكد من حذف هذا المنشور؟")) {
-                const db = JSON.parse(localStorage.getItem('forseason_db')) || defaultDB;
-                db.posts = db.posts.filter(p => p.id !== id);
-                localStorage.setItem('forseason_db', JSON.stringify(db));
-                renderPosts();
-            }
-        }
-
-        // ADD NEW BEFORE / AFTER
-        async function addNewBA() {
-            const title = document.getElementById('admBATitle').value;
-            const fileBefore = document.getElementById('admImgBeforeInput').files[0];
-            const fileAfter = document.getElementById('admImgAfterInput').files[0];
-
-            if(!title || !fileBefore || !fileAfter) {
-                alert("يرجى إ
+// START ON LOAD
+window.onload = initApp;
+        
